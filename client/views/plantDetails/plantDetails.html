@@ -1,0 +1,27 @@
+﻿<template name="plantDetails">
+    <h2>
+        {{getHeaderName}}
+    </h2>
+
+    {{> searchPlant}}
+</template>
+
+<template name="searchPlant">
+    <input type="text" id="searchPlant" value="Search Plant" />
+</template>
+
+<template name="plantDetailsTable">
+    <table class="table">
+    <th>
+      <td>Name</td>
+      <td>Quantity</td>
+      <td>Cost</td>
+    </th>
+    {{#each CodeBashApp.platDetails.plantArray}}
+      <tr>
+          <td>{{name}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</template>
+
