@@ -2,12 +2,12 @@
     <h2>
         {{getHeaderName}}
     </h2>
-
     {{> searchPlant}}
 </template>
 
 <template name="searchPlant">
     <input type="text" id="searchPlant" value="Search Plant" />
+    {{> plantDetailsTable}}
 </template>
 
 <template name="plantDetailsTable">
@@ -17,9 +17,11 @@
       <td>Quantity</td>
       <td>Cost</td>
     </th>
-    {{#each CodeBashApp.platDetails.plantArray}}
+    {{#each plantsList}}
       <tr>
           <td>{{name}}</td>
+          <td>{{quantity}}</td>
+          <td>{{cost}}</td>
       </tr>
     {{/each}}
   </table>

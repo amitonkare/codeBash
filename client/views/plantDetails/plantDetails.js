@@ -1,26 +1,32 @@
-﻿var plantDetailsService = CodeBashApp.plantDetailsService.getInstance();
-Templates.searchPlant.Events({
+﻿plants = CodeBashApp.plantDetailsService.getInstance().findPlant('Mango');
+
+Template.searchPlant.events({
     "click #searchPlant": function () {
         var searchKey = $("#searchPlant").val();
-        CodeBashApp.platDetails.plantArray = plantDetailsService.findTree(searchKey);
+        plants = CodeBashApp.plantDetailsService.getInstance().findPlant(searchKey);
     }
 });
 
-Templates.plantDetails.Events({
-
+Template.plantDetails.events({
 });
 
-Templates.plantDetails.helpers({
+Template.plantDetails.helpers({
     getHeaderName: function () {
         return "Plant Details";
     }
 });
 
-Templates.plantDetailsTable.events({
+Template.plantDetailsTable.events({
     "click #updatePlant": function () {
-        plantDetailsService.updatePlant();
+        CodeBashApp.plantDetailsService.getInstance().updatePlant();
     },
     "click #deletePlant": function () {
-        plantDetailsService.deletePlant();
+        CodeBashApp.plantDetailsService.getInstance().deletePlant();
     }
-    });
+});
+
+Template.plantDetailsTable.helpers({
+    plantsList : function(){
+         return plants;
+    }
+});
