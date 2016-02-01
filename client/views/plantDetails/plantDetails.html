@@ -11,7 +11,7 @@
 </template>
 
 <template name="plantDetailsTable">
-    <table class="table">
+    <table class="table" border="1">
     <th>
       <td>Name</td>
       <td>Quantity</td>
@@ -20,7 +20,7 @@
     {{#each plantsList}}
       <tr>
           <td>{{name}}</td>
-          <td>{{quantity}}</td>
+          <td>{{unit}}</td>
           <td>{{cost}}</td>
       </tr>
     {{/each}}

@@ -1,10 +1,10 @@
-﻿plants = CodeBashApp.plantDetailsService.getInstance().findPlant('Mango');
+﻿plants = CodeBashApp.plantDetailsService.getInstance().findPlant('mango');
 
 Template.searchPlant.events({
     "click #searchPlant": function () {
         var searchKey = $("#searchPlant").val();
         plants = CodeBashApp.plantDetailsService.getInstance().findPlant(searchKey);
-    }
+      }
 });
 
 Template.plantDetails.events({
