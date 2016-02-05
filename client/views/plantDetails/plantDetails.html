@@ -6,12 +6,19 @@
 </template>
 
 <template name="searchPlant">
-    <input type="text" id="searchPlant" value="Search Plant" />
+    <input type="text"  id="key" placeholder="Search Plant" />
+    Type
+    <select id="type" placeholder ="types">
+      {{#each types}}
+      <option value = "{{type}}">{{type}}</option>
+      {{/each}}
+    </select>
+    <input type = "button" value = "searchplant" id="searchPlant" >
     {{> plantDetailsTable}}
 </template>
 
 <template name="plantDetailsTable">
-    <table class="table" border="1">
+    <table class="table">
     <th>
       <td>Name</td>
       <td>Quantity</td>
