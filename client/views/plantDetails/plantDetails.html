@@ -19,18 +19,42 @@
 
 <template name="plantDetailsTable">
     <table class="table">
-    <th>
-      <td>Name</td>
-      <td>Quantity</td>
-      <td>Cost</td>
-    </th>
+    
+      <th>Name</th>
+      <th>Scientific Name</th>
+      <th>type</th>
+      <th>category</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+      <th>Update</th>
+      <th>Delete</th>
+    
     {{#each plantsList}}
       <tr>
           <td>{{name}}</td>
+          <td>{{scientificName}}</td>
+          <td>{{type}}</td>
+          <td>{{category}}</td>
           <td>{{unit}}</td>
           <td>{{cost}}</td>
+          <td><input type = "button" value = "Update" id="updateDetails">
+            
+
+      </td>
+          <td><input type = "button" value = "deletePlant" id="deletePlant"></td>
       </tr>
     {{/each}}
-  </table>
+      </table>
+      {{#if update}}
+      Enter the details to update<br>
+      Name : <input type ="text" id="plantName" placeholder="enter the new name"><br>
+      Scientific Name:<input type ="text" id="plantScientificName" placeholder="enter the new Scientific name"><br>
+      type :<input type ="text" id="plantType" placeholder="enter the new type"><br>
+      category:<input type ="text" id="plantCategory" placeholder="enter the new category"><br>
+      cost:<input type ="text" id="plantCost" placeholder="enter the new cost"><br>
+      quantity:<input type ="text" id="plantQuantity" placeholder="enter the new quantity"><br>
+         <input type="button" id="updatePlant" value="Update plant">      
+      {{/if}}
+
 </template>
 
