@@ -1,0 +1,22 @@
+﻿.in-header {
+    padding:5px;
+    margin:5px 0 10px 0;
+    background-color:#0095dd;
+    color:#fff;
+}
+.in-header span{
+    font-size:16px;
+}
+
+.tool-tip {
+    color:#fff;
+}
+.tool-tip:hover {
+ color: #ff9500;
+}
+.tool-tip + .tooltip > .tooltip-inner {background-color: #ff9500;}
+.tool-tip + .tooltip > .tooltip-arrow { border-bottom-color:#ff9500 ; }
+
+.modal-title {
+    font-size:16px;
+}
