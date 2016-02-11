@@ -1,4 +1,14 @@
-﻿
+﻿Template.plantDetailsTable.onRendered(
+    function () 
+    {
+        $(document).ready(function () {
+        $('#list-plants').DataTable();
+        $(".tool-tip").tooltip();
+        });
+
+    }
+);
+
 Template.plantDetailsTable.events({
     "click #addPlantDetails":function()
     {
@@ -67,7 +77,7 @@ Template.plantDetailsTable.helpers({
          plants = CodeBashApp.plantDetailsService.getInstance().findPlantByType(Session.get('searchType')); 
          return plants;   
         }                  
-        plants = PlantDetails.find().fetch();
+        plants = CodeBashApp.plantDetailsService.getInstance().findPlants();
         console.log("plants -- >" + plants);
         return plants;
     }
