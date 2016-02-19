@@ -1,0 +1,56 @@
+<head>
+
+</head>
+<template name = "transactionDetails">
+	<h2>Plants</h2>
+	<table class="table">
+		 <th>Name</th>
+         <th>Scientific Name</th>
+         <th>type</th>
+         <th>category</th>
+         <th>cost</th>
+         <th>Action</th>
+          {{#each plantList}}                         
+         <tr>
+         	   <td>{{name}}</td>
+               <td>{{scientificName}}</td>
+               <td>{{type}}</td>
+               <td>{{category}}</td>
+               <td>{{cost}}</td>
+               <td>
+               <form id="addToCart">
+               <input type ="text" id="quantity">
+               <input type ="submit" value="add">
+               </form>
+               </td>          
+         </tr>
+         {{/each}}
+	</table>
+
+
+	<h2>Items list</h2>
+	<table class="table">
+		 <th>Name</th>
+       <th>cost</th>
+         <th>Quantity</th>
+         <th>Remove</th>
+          {{#each itemList}}
+         <tr>
+         	<td>{{name}}</td>
+            <td>{{cost}}</td>
+            <td>{{quantity}}</td>
+            <td>
+              <form id="removeFromCart">
+              <input type= "submit"  value="remove">
+              </form>
+            </td>
+      	</tr>
+      	{{/each}}
+    </table>
+     {{bill}}
+    {{#if confirmOrder}}
+    <form id = "confirmOrder">
+      <input type="submit"  value="confirm">   
+    </form>
+    {{/if}}
+</template>
