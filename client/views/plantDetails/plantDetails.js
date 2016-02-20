@@ -2,10 +2,9 @@
     function () 
     {
         $(document).ready(function () {
-        $('#list-plants').DataTable();
-        $(".tool-tip").tooltip();
+            $('#list-plants').DataTable();
+            $(".tool-tip").tooltip();
         });
-
     }
 );
 
@@ -14,26 +13,18 @@ Template.plantDetailsTable.events({
     {
         Session.set('add','true');
     },
-    "click #addPlant":function()
+    "click #addPlant":function(event)
     {
-        var addPlantName = $("#addPlantName").val();
-        var addPlantType = $("#addPlantType").val();
-        var addPlantScientificName = $("#addPlantScientificName").val();
-        var addPlantCategory = $("#addPlantCategory").val();
-        var addPlantCost = $("#addPlantCost").val();
-        var addPlantQuantity = $("#addPlantQuantity").val();
-        var addPlantComments = $("#addPlantComments").val();
-        var obj = {};
-        obj.id = Math.random();
-        obj.name = addPlantName;
-        obj.scientificName = addPlantScientificName;
-        obj.comments = addPlantComments;
-        obj.type = addPlantType;
-        obj.category = addPlantCategory;
-        obj.cost = addPlantCost;
-        obj.unit = addPlantQuantity;
-        console.log(obj);
-        CodeBashApp.plantDetailsService.getInstance().addPlant(obj);
+        console.log(event);
+        var plantName = $("#addPlantName").val();
+        var plantType = $("#addPlantType").val();
+        var plantScientificName = $("#addPlantScientificName").val();
+        var plantCategory = $("#addPlantCategory").val();
+        var plantCost = $("#addPlantCost").val();
+        var plantQuantity = $("#addPlantQuantity").val();
+        var plantComments = $("#addPlantComments").val();
+        var plantToBeAdded = CodeBashApp.plantDetailsVO(plantName, plantType, plantScientificName, plantCategory, plantCost, plantQuantity, plantComments);
+        CodeBashApp.plantDetailsService.getInstance().addPlant(plantToBeAdded);
         Session.set('add','');  
     },
     "click #updateDetails":function()
