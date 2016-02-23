@@ -5,11 +5,14 @@
             $('#list-plants').DataTable();
             $(".tool-tip").tooltip();
         });
+<<<<<<< HEAD
 
             $("#newPlantCost,#plantCost").keydown(function(event) {
     // Allow only backspace and delete
     if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 190) {
         // let it happen, don't do anything
+=======
+>>>>>>> origin/aditya
     }
     else {
         // Ensure that it is a number and stop the keypress
@@ -110,6 +113,7 @@ Template.plantDetailsTable.events({
     "click #addPlant":function(event)
     {
         console.log(event);
+<<<<<<< HEAD
         var plantName = $("#newPlantName").val();
         var plantType = $("#newPlantType").val();
         var plantScientificName = $("#newPlantScientificName").val();
@@ -122,6 +126,18 @@ Template.plantDetailsTable.events({
         Session.set('add',''); 
         var table = $('#list-plants').DataTable();
         table.ajax.reload();
+=======
+        var plantName = $("#addPlantName").val();
+        var plantType = $("#addPlantType").val();
+        var plantScientificName = $("#addPlantScientificName").val();
+        var plantCategory = $("#addPlantCategory").val();
+        var plantCost = $("#addPlantCost").val();
+        var plantQuantity = $("#addPlantQuantity").val();
+        var plantComments = $("#addPlantComments").val();
+        var plantToBeAdded = CodeBashApp.plantDetailsVO(plantName, plantType, plantScientificName, plantCategory, plantCost, plantQuantity, plantComments);
+        CodeBashApp.plantDetailsService.getInstance().addPlant(plantToBeAdded);
+        Session.set('add','');  
+>>>>>>> origin/aditya
     },
     "click #updateDetails":function()
     {
