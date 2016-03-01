@@ -1,4 +1,6 @@
-var id  = Math.random() * 100;
+Template.transactionDetails.onRendered(function(){
+	
+});
 Template.transactionDetails.helpers({
 	plantList:function()
 	{
@@ -24,7 +26,7 @@ Template.transactionDetails.helpers({
 	confirmOrder:function()
 	{
 						
-			if( temp.find())
+			if( Session.get('temp'))
 			{
 				return true;
 			}
@@ -42,18 +44,36 @@ Template.transactionDetails.events({
 		{
 			var obj = {};
 			var array2 = CodeBashApp.plantDetailsService.getInstance().findPlantById(this._id);
+			if(qt>array2[0].quantity)
+			{
+				event.preventDefault();
+				console.log("inside validation statement");
+				$(".form-group").addClass("form-group has-error has-feedback");
+					$("#quantity").keydown(function(event){
+					console.log("jq code");
+					event.preventDefault();
+					$(".form-group").addClass('form-group has-success has-feedback');
+					});
+
+				return false;
+			}
+			else
+			{
 			obj.goodsId = array2[0]._id;
 			obj.name = array2[0].name;
 			obj.cost = array2[0].cost;
 			obj.quantity = qt;
 			temp.insert(obj);
-	    	console.log(obj);	    
+	    	console.log(obj);
+	    	Session.set('temp','order');	    
+	    	}
 		}	
 		return false;
 	},
 	'submit #removeFromCart':function()
 	{		
 		temp.remove(this._id);
+		return false;
 	},
 	'submit #confirmOrder':function()
 	{
@@ -63,12 +83,17 @@ Template.transactionDetails.events({
 		var array = temp.find().fetch();
 		for(var i=0;i<array.length;	i++)	
 		{
-			obj.id = id;
 			obj.goodsId =  array[i].goodsId;
 			obj.quantity = array[i].quantity;
 			obj.totalCost = array[i].quantity * array[i].cost;
 			CodeBashApp.transactionDetailsService.getInstance().addTransaction(obj);
 		}
-		temp.remove({});
+		/*
+		for(var i=0;i<array.length;	i++)	
+		{
+			temp.remove(array[i]._id);
+		}
+		*/
+		return false;
 	}
 });

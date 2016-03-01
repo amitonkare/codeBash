@@ -14,3 +14,8 @@ Router.route('/buyerDetails', {
 	name: 'buyerDetails',
 	template: 'buyerDetails'
 });
+
+Router.route('/invoiceDetails', {
+	name: 'invoiceDetails',
+	template: 'invoiceDetails'
+});

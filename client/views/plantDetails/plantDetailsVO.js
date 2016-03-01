@@ -1,10 +1,11 @@
 CodeBashApp.plantDetailsVO = function(name, type, scientificName, category, cost, quantity, comments){
-    this.name = name;
-    this.type = type;
-    this.scientificName = scientificName;
-    this.category = category;
-    this.cost = cost;
-    this.quantity = quantity;
-    this.comments = comments;
-    return this;
+   	var obj ={};
+    obj.name = name;
+    obj.type = type;
+    obj.scientificName = scientificName;
+    obj.category = category;
+    obj.cost = cost;
+    obj.quantity = quantity;
+    obj.comments = comments;
+    return obj;
 };

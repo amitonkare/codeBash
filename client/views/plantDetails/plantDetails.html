@@ -15,7 +15,8 @@
     <script src="Script/jquery-1.12.0.min.js"></script>
     <script src="Script/bootstrap.min.js"></script>
     <script src="Script/jquery.dataTables.min.js"></script>
-  
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    
   </head>
 <template name="plantDetails">
     {{>plantDetailsTable}}
@@ -56,6 +57,7 @@
                 <table id="list-plants" class="table table-bordered">
                     <thead>
                         <tr>
+                            
                             <th>Name</th>
                             <th>Scientific Name</th>
                             <th>type</th>
@@ -93,7 +95,6 @@
 
             <!-- Modal content-->
             <div class="modal-content">
-                <form class="form-horizontal" id="newPlantForm">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <div>
@@ -104,24 +105,23 @@
                     </div>
                     <div class="modal-body">
 
+                    <form class="form-horizontal" id="newPlantForm">
 
-                        <div class="form-group">
+                        <div id = "newPlantNameGroup" class="form-group">
                             <label class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
-<<<<<<< HEAD
+
                                 <input type="text" id = "newPlantName" class="form-control" placeholder="Name" value=""/>
-=======
-                                <input type="text" id = "addPlantName" class="form-control" placeholder="Name" value=""/>
->>>>>>> origin/aditya
+                                
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id = "newPlantScientificNameGroup"> 
                             <label class="col-sm-2 control-label">Scientific Name</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantScientificName" class="form-control" placeholder="Enter Scientific name" />
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="newPlantCommentsGroup">
                             <label class="col-sm-2 control-label">Comments</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantComments" class="form-control" placeholder="Enter comments" />
@@ -150,29 +150,30 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id ="newPlantCostGroup">
                             <label class="col-sm-2 control-label">Cost</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantCost" class="form-control" placeholder="Enter Cost" />
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id="newPlantQuantityGroup">
                             <label class="col-sm-2 control-label">Quantity</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantQuantity" class="form-control" placeholder="Enter Quantity" />
                             </div>
                         </div>
-                        
+              
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="addPlant" class="btn btn-primary" value="save" >
+                      </form>
                         
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" id="addPlant" class="btn btn-primary" data-dismiss="modal">Save</button>
+                          
                     </div>
-                </form>
-            </div>
+                </div>
 
         </div>
     </div>
@@ -185,7 +186,7 @@
 
             <!-- Modal content-->
             <div class="modal-content">
-                <form class="form-horizontal" id="editPlantForm">
+                
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                          <div>
@@ -196,7 +197,7 @@
                     <div class="modal-body">
 
 
-
+                    <form class="form-horizontal" id="editPlantForm">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
@@ -219,7 +220,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Type</label>
                             <div class="col-sm-10">
-                                <select class = "form-control" id= "plantType">
+                                <select class = "form-control" id= "plantType" selected="{{updateObject.type}}">
                                     {{#each typeList}}
                                     <option>{{type}}</option>
                                     {{/each}}
@@ -231,7 +232,7 @@
                             <label class="col-sm-2 control-label">Category</label>
                             <div class="col-sm-10">
                                 <!--<input type="text" id = "plantCategory" class="form-control" placeholder="Enter Category" />-->
-                                  <select class="form-control" id= "plantCategory">
+                                  <select class="form-control" id= "plantCategory" selected="{{updateObject.category}}">
                                     {{#each categoryList}}
                                     <option>{{category}}</option>
                                     {{/each}}
@@ -253,15 +254,18 @@
                                 <input type="text" id = "plantQuantity" class="form-control" value="{{updateObject.quantity}}" required/>
                             </div>
                         </div>
-                 
+                    
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="updatePlant" class="btn btn-primary" value="Save">
+                    
+                </form>
+
+
+
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="updatePlant" class="btn btn-primary" data-dismiss="modal">Save</button>
-                    </div>
-                </form>
-            </div>
-
+                                    </div>
+                </div>
         </div>
     </div>
 
@@ -283,9 +287,9 @@
       <div class="modal-body">
         <p>Are you sure you want to delete this plant</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal" id="deletePlant">Yes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <div class="modal-footer">       
+            <input type="submit" class="btn btn-success" data-dismiss="modal" id="deletePlant" value="Yes"> 
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
