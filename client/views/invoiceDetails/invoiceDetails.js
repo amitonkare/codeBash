@@ -166,6 +166,14 @@ Template.invoiceDetails.events({
 		obj.status='';
 		
 		var tempObj = temp.find().fetch();
+		var plantObj = '';
+		var newQuantity = '';
+		for(var i=0;i<tempObj.length;i++)
+		{
+			plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId);
+			newQuantity = Number(plantObj[0].quantity) - tempObj[i].quantity;
+			CodeBashApp.plantDetailsService.getInstance().updatePlant(plantObj[0]._id,'','','','','',newQuantity,'');
+		}
 		for(var i=0;i<tempObj.length;i++)
 		{
 			console.log('removing items from temp');

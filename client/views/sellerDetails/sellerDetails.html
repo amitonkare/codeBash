@@ -1,0 +1,275 @@
+<head>
+    <title></title>
+
+    <link rel="shortcut icon" type="image/png" href="favicon1.png" />
+
+    <!-- CSS files -->
+    <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="Content/style.css" rel="stylesheet" />
+
+
+    <!-- JS files -->
+    <script src="Script/jquery-1.12.0.min.js"></script>
+    <script src="Script/bootstrap.min.js"></script>
+    <script src="Script/jquery.dataTables.min.js"></script>
+
+</head>
+<template name="sellerDetails">
+    <div class="container-fluid">
+
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                <a class="navbar-brand" href="#">Inventory System</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="#">sellers</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="in-header row">
+            <div class="col-md-6">
+                <i class="fa fa-dot-circle-o  fa-lg"></i>
+                <span>seller</span>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="javascript:void(0)" id="addSellerDetails" data-toggle="tooltip" data-placement="bottom"
+                    title="" data-original-title="Add New seller"
+                    class="tool-tip" data-target="#myModal"><i data-toggle="modal" data-target="#new-seller" class="fa fa-plus-circle fa-2x"></i></a>
+            </div>
+        </div>
+
+
+       
+            <div class="table-responsive">
+                <table id="list-sellers" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Phone No</th>
+                            <th>Email Id</th>
+                            <th>Bank Name</th>
+                            <th>Branch</th>
+                            <th>IFSC code</th>
+                            <th>Account Number</th>    
+                            <th>Commands</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each sellerList}}
+                        <tr>
+                           <td>{{name}}</td>
+                           <td>{{address}}</td>
+                           <td>{{phoneNo}}</td>
+                           <td>{{emailId}}</td>
+                           <td>{{bankAccountDetails.bankName}}</td>
+                           <td>{{bankAccountDetails.branch}}</td>
+                           <td>{{bankAccountDetails.IFSCCode}}</td>
+                           <td>{{bankAccountDetails.accountNumber}}</td>
+                                   
+                            <td><a data-toggle="modal" data-target="#edit-seller" id= "updateDetails">Edit</a> <a id="deleteSeller">Delete</a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="new-seller" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div>
+                            <i class="fa fa-dot-circle-o  fa-lg"></i>
+                            <span class="modal-title">New seller</span>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+
+                <form id="newSellerForm" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newSellerName" class="form-control" placeholder="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newSellerAddress" class="form-control" placeholder="Enter Address" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Phone no</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newSellerPhoneNo" class="form-control" placeholder="Enter Phone No" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email Id</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newSellerEmailId" class="form-control" placeholder="Enter Email Id" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">BankName</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newBankName" class="form-control" placeholder="Enter Bank Name" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Branch</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newBranchName" class="form-control" placeholder="Enter Branch" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">IFSC Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newIFSC" class="form-control" placeholder="Enter Quantity" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Account Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newAccountNumber" class="form-control" placeholder="Enter account Number" />
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="addSeller" value="Save" class="btn btn-primary" >
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <!-- edit Modal -->
+    <div class="modal fade" id="edit-seller" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div>
+                            <i class="fa fa-dot-circle-o  fa-lg"></i>
+                            <span class="modal-title">Edit seller</span>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+
+                <form id="editSellerForm" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "sellerName" class="form-control" placeholder="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "sellerAddress" class="form-control" placeholder="Enter Address" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Phone no</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "sellerPhoneNo" class="form-control" placeholder="Enter Phone No" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email Id</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "sellerEmailId" class="form-control" placeholder="Enter Email Id" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">BankName</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "bankName" class="form-control" placeholder="Enter Bank Name" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Branch</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "branchName" class="form-control" placeholder="Enter Branch" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">IFSC Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "IFSC" class="form-control" placeholder="Enter Quantity" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Account Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "accountNumber" class="form-control" placeholder="Enter account Number" />
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" id="addSeller" value="Save" class="btn btn-primary" >
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+<!--
+<script>
+    $(document).ready(function () {
+        $('#list-sellers').DataTable();
+        $(".tool-tip").tooltip();
+    });
+</script>
+-->    
+</template>

@@ -19,3 +19,13 @@ Router.route('/invoiceDetails', {
 	name: 'invoiceDetails',
 	template: 'invoiceDetails'
 });
+
+Router.route('/sellerDetails',{
+	name:'sellerDetails',
+	template:'sellerDetails'
+});
+
+Router.route('/purchaseDetails',{
+	name:'purchaseDetails',
+	template:'purchaseDetails'
+});

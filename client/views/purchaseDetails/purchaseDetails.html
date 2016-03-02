@@ -1,0 +1,193 @@
+<head>
+    <title></title>
+
+    <link rel="shortcut icon" type="image/png" href="favicon1.png" />
+
+    <!-- CSS files -->
+    <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="Content/style.css" rel="stylesheet" />
+
+
+    <!-- JS files -->
+    <script src="Script/jquery-1.12.0.min.js"></script>
+    <script src="Script/bootstrap.min.js"></script>
+    <script src="Script/jquery.dataTables.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <style type="text/css">
+        .scrollit {
+            overflow:scroll;
+            height:250px;
+        }
+    </style>
+    
+</head>
+<template name="purchaseDetails">
+    <div class="container-fluid">
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                <a class="navbar-brand" href="#">Inventory System</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="#">Plants</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="in-header row">
+            <div class="col-md-6">
+                <i class="fa fa-dot-circle-o  fa-lg"></i>
+                <span>New Purchase Order</span>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="table-responsive">
+    <div class="scrollit">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Scientific Name</th>
+                    <th>type</th>
+                    <th>category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+          {{#each plantList}}                         
+         <tbody>
+         <tr>
+               <td>{{name}}</td>
+               <td>{{scientificName}}</td>
+               <td>{{type}}</td>
+               <td>{{category}}</td>
+               <td>
+               <form id="addToCart" class= "form-inline">
+               <div class="form-group" id="quantityGroup">
+               <input type ="text" class="form-control" id="quantity" placeholder="enter quantity" data-toggle="tooltip" data-placement="right" title=" enter quantity in decimal system" >
+               <input type ="submit" class="btn btn-success"  value="add" autocomplete="on">
+               </div>
+               </form>
+               </td>          
+         </tr>
+       </tbody>
+         {{/each}}
+        </table>
+    </div>
+</div>
+
+{{#if itemAdded}}
+<h4>items</h4>
+<div class="table-responsive" id="itemList">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+          {{#each itemList}}                         
+         <tbody>
+         <tr>
+               <td>{{plantId}}</td>
+               <td>{{quantity}}</td>               
+               <td>             
+               <input type ="text" class="form-control" id="sellingCost" placeholder="enter Selling Cost" data-toggle="tooltip" data-placement="right" title=" enter quantity in decimal system" >
+               </td>          
+                <td>
+               <form id="removeFromCart" class= "form-inline">
+               <div class="form-group">
+               <input type ="submit" class="btn btn-danger"  value="Remove" autocomplete="on">
+               </div>
+               </form>
+                
+                </td>
+         </tr>
+       </tbody>
+         {{/each}}
+        </table>
+</div>
+<form class="form-inline" id="confirm">
+  <input type="submit" class="btn btn-success" value="confirm" data-target="#purchaseModal">
+</form>
+{{/if}}
+
+
+<div id="purchaseModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">    
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Your Invoice</h4>
+      </div>
+      <div class="modal-body">
+      <div class="table-responsive">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>  
+                </tr>
+            </thead>
+          {{#each purchaseList}}                         
+         <tbody>
+         <tr>
+               <td>{{plantId}}</td>
+               <td>{{quantity}}</td>               
+               <td>{{cost}}</td>                                                     
+         </tr>
+       </tbody>
+         {{/each}}
+        </table>
+
+</div>  
+
+        <form class="form-horizontal" id="confirmInvoice">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">seller Name</label>
+                            <div class="col-sm-10">
+                                <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
+                                <select class="form-control" id= "buyerId">
+                                    {{#each sellerList}}
+                                    <option value="{{_id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label">payment options</label>
+                            <div class="col-sm-10">
+                                <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
+                                <select class="form-control" id= "paymentOptions">                                
+                                    <option value="cash">cash</option>
+                                    <option value="cheque">cheque</option>                                    
+                                </select>
+                            </div>
+                        </div>
+        <button type="submit" class="btn btn-success" data-dismiss="modal" id="purchaseAdd">Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </form>
+      </div>
+      <div class="modal-footer">       
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+</template>
