@@ -1,21 +1,16 @@
 <head>
     <title></title>
-
     <link rel="shortcut icon" type="image/png" href="favicon1.png" />
-
     <!-- CSS files -->
     <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="Content/style.css" rel="stylesheet" />
-
-
     <!-- JS files -->
     <script src="Script/jquery-1.12.0.min.js"></script>
     <script src="Script/bootstrap.min.js"></script>
     <script src="Script/jquery.dataTables.min.js"></script>
-
 </head>
 <template name="buyerDetails">
     <div class="container-fluid">
@@ -77,7 +72,7 @@
                            <td>{{bankAccountDetails.IFSCCode}}</td>
                            <td>{{bankAccountDetails.accountNumber}}</td>
                                    
-                            <td><a data-toggle="modal" data-target="#edit-buyer" id= "updateDetails">Edit</a> <a id="deleteBuyer">Delete</a></td>
+                            <td><a data-toggle="modal" data-target="#edit-buyer" id= "updateDetails">Edit</a> <a id="deleteBuyerId" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -91,7 +86,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="new-buyer" role="dialog">
+    <div class="modal fade" data-backdrop="false" id="new-buyer" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -108,55 +103,63 @@
 
                 <form id="newBuyerForm" class="form-horizontal">
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Name</label>
+                        <div class="form-group" id = "newBuyerNameGroup">
+                            <label class="col-sm-2 control-label">Name*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newBuyerName" class="form-control" placeholder="Name" />
+                                <span id = "newBuyerNameSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Address</label>
+                        <div class="form-group" id = "newBuyerAddressGroup">
+                            <label class="col-sm-2 control-label">Address*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newBuyerAddress" class="form-control" placeholder="Enter Address" />
+                                <span id = "newBuyerAddressSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Phone no</label>
+                        <div class="form-group" id = "newBuyerPhoneNoGroup">
+                            <label class="col-sm-2 control-label">Phone no*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newBuyerPhoneNo" class="form-control" placeholder="Enter Phone No" />
+                                <span id = "newBuyerPhoneNoSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Email Id</label>
+                        <div class="form-group" id = "newBuyerEmailIdGroup">
+                            <label class="col-sm-2 control-label">Email Id*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newBuyerEmailId" class="form-control" placeholder="Enter Email Id" />
+                                <span id = "newBuyerEmailIdSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">BankName</label>
+                        <div class="form-group" id = "newBankNameGroup">
+                            <label class="col-sm-2 control-label">BankName*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newBankName" class="form-control" placeholder="Enter Bank Name" />
+                                <span id = "newBankNameSpan" style="color:red"></span>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Branch</label>
+                        <div class="form-group" id = "newBranchNameGroup">
+                            <label class="col-sm-2 control-label">Branch*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newBranchName" class="form-control" placeholder="Enter Branch" />
+                                <span id = "newBranchNameSpan" style="color:red"></span>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">IFSC Code</label>
+                        <div class="form-group" id = "newIFSCGroup">
+                            <label class="col-sm-2 control-label">IFSC Code*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newIFSC" class="form-control" placeholder="Enter Quantity" />
+                                <span id = "newIFSCSpan" style="color:red"></span>
                             </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Account Number</label>
+                        <div class="form-group" id = "newAccountNumberGroup">
+                            <label class="col-sm-2 control-label">Account Number*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newAccountNumber" class="form-control" placeholder="Enter account Number" />
+                                <span id = "newAccountNumberSpan" style="color:red"></span>
                             </div>
                         </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -164,7 +167,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        
+                        <span style="color:red"> Note:fields marked with * are mandatory</span>
                     </div>
                 
             </div>
@@ -177,7 +180,7 @@
 
 
     <!-- edit Modal -->
-    <div class="modal fade" id="edit-buyer" role="dialog">
+    <div class="modal fade" data-backdrop="false" id="edit-buyer" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -194,55 +197,64 @@
 
                 <form id="editBuyerForm" class="form-horizontal">
 
-                        <div class="form-group">
+                        <div class="form-group" id = "buyerNameGroup">
                             <label class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "buyerName" class="form-control" placeholder="Name" />
+                                <input type="text" id = "buyerName" class="form-control"  value="{{updateObj.name}}"/>
+                                <span id = "buyerNameSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id = "buyerAddressGroup">
                             <label class="col-sm-2 control-label">Address</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "buyerAddress" class="form-control" placeholder="Enter Address" />
+                                <input type="text" id = "buyerAddress" class="form-control" value="{{updateObj.address}}" />
+                                <span id = "buyerAddressSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id = "buyerPhoneNoGroup">
                             <label class="col-sm-2 control-label">Phone no</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "buyerPhoneNo" class="form-control" placeholder="Enter Phone No" />
+                                <input type="text" id = "buyerPhoneNo" class="form-control" value=
+                                "{{updateObj.phoneNo}}" />
+                                <span id = "buyerPhoneNoSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id = "buyerEmailIdGroup"> 
                             <label class="col-sm-2 control-label">Email Id</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "buyerEmailId" class="form-control" placeholder="Enter Email Id" />
+                                <input type="text" id = "buyerEmailId" class="form-control" value="{{updateObj.emailId}}"/>
+                                <span id = "buyerEmailIdSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id = "bankNameGroup">
                             <label class="col-sm-2 control-label">BankName</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "bankName" class="form-control" placeholder="Enter Bank Name" />
+                                <input type="text" id = "bankName" class="form-control" value="{{updateObj.bankAccountDetails.bankName}}" />
+                                <span id = "bankNameSpan" style="color:red"></span>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id = "branchNameGroup">
                             <label class="col-sm-2 control-label">Branch</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "branchName" class="form-control" placeholder="Enter Branch" />
+                                <input type="text" id = "branchName" class="form-control" value="{{updateObj.bankAccountDetails.branch}}" />
+                                <span id = "branchNameSpan" style="color:red"></span>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id = "IFSCGroup">
                             <label class="col-sm-2 control-label">IFSC Code</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "IFSC" class="form-control" placeholder="Enter Quantity" />
+                                <input type="text" id = "IFSC" class="form-control" value="{{updateObj.bankAccountDetails.IFSCCode}}" />
+                                <span id = "IFSCSpan" style="color:red"></span>
                             </div>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" id = "accountNumberGroup">
                             <label class="col-sm-2 control-label">Account Number</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "accountNumber" class="form-control" placeholder="Enter account Number" />
+                                <input type="text" id = "accountNumber" class="form-control" value="{{updateObj.bankAccountDetails.accountNumber}}" />
+                                <span id = "accountNumberSpan" style="color:red"></span>
                             </div>
                         </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -262,6 +274,26 @@
 
 
 
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this buyer</p>
+      </div>
+      <div class="modal-footer">       
+            <input type="button" class="btn btn-success" data-dismiss="modal" id="deleteBuyer" value="Yes"> 
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
 <!--
@@ -272,4 +304,5 @@
     });
 </script>
 -->    
+
 </template>

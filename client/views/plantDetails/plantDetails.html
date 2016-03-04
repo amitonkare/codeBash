@@ -16,7 +16,14 @@
     <script src="Script/bootstrap.min.js"></script>
     <script src="Script/jquery.dataTables.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    
+    <style>
+   .modal fade-backdrop.in
+    {
+        opacity:0.5 !important;
+        position:fixed;// This makes it cover the entire scrollable page, not just browser height
+        height:100%;
+    }
+    </style>   
   </head>
 <template name="plantDetails">
     {{>plantDetailsTable}}
@@ -90,7 +97,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="new-plant" role="dialog">
+    <div class="modal fade"  data-backdrop="false" id="new-plant" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -108,23 +115,26 @@
                     <form class="form-horizontal" id="newPlantForm">
 
                         <div id = "newPlantNameGroup" class="form-group">
-                            <label class="col-sm-2 control-label">Name</label>
+                            <label class="col-sm-2 control-label">Name*</label>
                             <div class="col-sm-10">
 
                                 <input type="text" id = "newPlantName" class="form-control" placeholder="Name" value=""/>
+                                <span id="newPlantNameSpan" style="color:red"></span>
                                 
                             </div>
                         </div>
                         <div class="form-group" id = "newPlantScientificNameGroup"> 
-                            <label class="col-sm-2 control-label">Scientific Name</label>
+                            <label class="col-sm-2 control-label">Scientific Name*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantScientificName" class="form-control" placeholder="Enter Scientific name" />
+                                <span id="newPlantScientificNameSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group" id="newPlantCommentsGroup">
                             <label class="col-sm-2 control-label">Comments</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantComments" class="form-control" placeholder="Enter comments" />
+                                <span id="newPlantCommentsSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -151,26 +161,29 @@
                         </div>
 
                         <div class="form-group" id ="newPlantCostGroup">
-                            <label class="col-sm-2 control-label">Cost</label>
+                            <label class="col-sm-2 control-label">Cost*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantCost" class="form-control" placeholder="Enter Cost" />
+                                <span id="newPlantCostSpan" style="color:red"></span>
                             </div>
                         </div>
 
                         <div class="form-group" id="newPlantQuantityGroup">
-                            <label class="col-sm-2 control-label">Quantity</label>
+                            <label class="col-sm-2 control-label">Quantity*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "newPlantQuantity" class="form-control" placeholder="Enter Quantity" />
+                                <span id="newPlantQuantitySpan" style="color:red"></span>
                             </div>
                         </div>
               
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" id="addPlant" class="btn btn-primary" value="save" >
+                        <input type="submit" id="addPlant" class="btn btn-primary" value="save">
                       </form>
                         
 
                     </div>
                     <div class="modal-footer">
+                      <span style="color:red">Note: Fields marked with * are mandatory</span>
                           
                     </div>
                 </div>
@@ -181,7 +194,7 @@
 
 
     <!--Edit Modal -->
-    <div class="modal fade" id="edit-plant" role="dialog">
+    <div class="modal fade" data-backdrop="false" id="edit-plant" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -198,23 +211,25 @@
 
 
                     <form class="form-horizontal" id="editPlantForm">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Name</label>
+                        <div class="form-group" id = "PlantNameGroup">
+                            <label class="col-sm-2 control-label">Name*</label>
                             <div class="col-sm-10">
-                            
                                 <input type="text" id = "plantName" class="form-control" value="{{updateObject.name}}" required/>
+                                <span id="PlantNameSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Scientific Name</label>
+                        <div class="form-group" id = "PlantScientificNameGroup">
+                            <label class="col-sm-2 control-label">Scientific Name*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "plantScientificName" class="form-control" value = "{{updateObject.scientificName}}" required />
+                                <span id="PlantScientificNameSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="PlantCommentsGroup">
                             <label class="col-sm-2 control-label">Comments</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "plantComments" class="form-control" value="{{updateObject.comments}}" required/>
+                                <span id="PlantCommentsSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -241,17 +256,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Cost</label>
+                        <div class="form-group" id ="newPlantCostGroup">
+                            <label class="col-sm-2 control-label">Cost*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "plantCost" class="form-control" value="{{updateObject.cost}}" required/>
+                                <span id="PlantCostSpan" style="color:red"></span>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Quantity</label>
+                        <div class="form-group" id ="newPlantQuantityGroup">
+                            <label class="col-sm-2 control-label">Quantity*</label>
                             <div class="col-sm-10">
                                 <input type="text" id = "plantQuantity" class="form-control" value="{{updateObject.quantity}}" required/>
+                                <span id="PlantQuantitySpan" style="color:red"></span>
                             </div>
                         </div>
                     
