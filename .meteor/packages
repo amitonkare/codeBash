@@ -21,3 +21,5 @@ iron:router
 spacebars
 autopublish
 themeteorchef:jquery-validation
+tsega:bootstrap3-datetimepicker
+sergeyt:typeahead

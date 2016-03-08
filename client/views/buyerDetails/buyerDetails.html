@@ -14,23 +14,7 @@
 </head>
 <template name="buyerDetails">
     <div class="container-fluid">
-
-        <div class="navbar navbar-default">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                <a class="navbar-brand" href="#">Inventory System</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="#">Buyers</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
-            </div>
-        </div>
-
-
-
+        {{>navbar}}
         <div class="in-header row">
             <div class="col-md-6">
                 <i class="fa fa-dot-circle-o  fa-lg"></i>
@@ -39,11 +23,9 @@
             <div class="col-md-6 text-right">
                 <a href="javascript:void(0)" id="addbuyerDetails" data-toggle="tooltip" data-placement="bottom"
                     title="" data-original-title="Add New Buyer"
-                    class="tool-tip" data-target="#myModal"><i data-toggle="modal" data-target="#new-buyer" class="fa fa-plus-circle fa-2x"></i></a>
+                    class="tool-tip" data-target="#myModal"><i id="newbuyermodal" class="fa fa-plus-circle fa-2x"></i></a>
             </div>
         </div>
-
-
        
             <div class="table-responsive">
                 <table id="list-buyers" class="table table-bordered">
@@ -72,7 +54,7 @@
                            <td>{{bankAccountDetails.IFSCCode}}</td>
                            <td>{{bankAccountDetails.accountNumber}}</td>
                                    
-                            <td><a data-toggle="modal" data-target="#edit-buyer" id= "updateDetails">Edit</a> <a id="deleteBuyerId" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
+                            <td><a  id= "updateDetails">Edit</a> <a id="deleteBuyerId">Delete</a></td>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -261,22 +243,14 @@
                         <input type="submit" id="addBuyer" value="Save" class="btn btn-primary" >
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        
+                    <div class="modal-footer">                        
                     </div>
-                
             </div>
-
         </div>
     </div>
 
-
-
-
-
-<div id="deleteModal" class="modal fade" role="dialog">
+<div id="deleteModal" data-backdrop="false" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -291,18 +265,7 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-
   </div>
 </div>
-
-
-<!--
-<script>
-    $(document).ready(function () {
-        $('#list-buyers').DataTable();
-        $(".tool-tip").tooltip();
-    });
-</script>
--->    
 
 </template>

@@ -1,51 +1,135 @@
 <head>
     <link rel="shortcut icon" type="image/png" href="favicon1.png" />
-    <!-- CSS files -->
+     <!--CSS files-->
     <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="Content/style.css" rel="stylesheet" />
-    <!-- JS files -->
+     <!--JS files-->
     <script src="Script/jquery-1.12.0.min.js"></script>
     <script src="Script/bootstrap.min.js"></script>
     <script src="Script/jquery.dataTables.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    <style type="text/css">
-        .scrollit {
-            overflow:scroll;
-            height:250px;
-        }
-    </style>
-</head>
+    </head>
 <template name = "invoiceDetails">
 <!--main div beginning-->
-    <div class="container-fluid">
-      <!--navbar-->  
-        <div class="navbar navbar-default">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                <a class="navbar-brand" href="#">Inventory System</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="#">Plants</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
-            </div>
+<div class="container-fluid">
+      {{>navbar}}
+<div class="row">
+  <div class="col-md-6">
+  
+  <form  id="addToCart" class= "form-horizontal">
+    <div id = "invoiceNoGroup" class="form-group">
+      <label class="col-sm-2 control-label">Invoice Number</label>
+        <div class="col-sm-10">
+          <input type="text" id = "invoiceNo" class="form-control" placeholder="enter Invoice Number"/>
+          <span id="invoiceSpan" style="color:red"></span>                      
         </div>
-          <!--navbar ending-->
-
-        <div class="in-header row">
-            <div class="col-md-6">
-                <i class="fa fa-dot-circle-o  fa-lg"></i>
-                <span>New Sales Order</span>
-            </div>
+    </div>                   
+    
+    <div id = "buyerNameGroup" class="form-group">
+      <label class="col-sm-2 control-label">Buyer Name</label>
+        <div class="col-sm-10">
+          <select class="form-control" id= "buyerId">
+            {{#each buyerList}}
+            <option value="{{_id}}">{{name}}</option>
+            {{/each}}
+          </select>
         </div>
+    </div>       
 
-<!--plantTable-->
+  <div id = "paymentStatusGroup" class="form-group">
+      <label class="col-sm-2 control-label">Payment Status</label>
+        <div class="col-sm-10">
+          <input type="text" id = "paymentStatus" class="form-control" placeholder="enter Payment Status"/>
+          <span id="paymentStatusSpan" style="color:red"></span>                      
+        </div>
+    </div>                   
+    
+    <div id = "deliveryStatusGroup" class="form-group">
+      <label class="col-sm-2 control-label">Delivery Status</label>
+        <div class="col-sm-10">
+          <input type="text" id = "deliveryStatus" class="form-control" placeholder="enter Delivery Status"/>
+          <span id="deliveryStatusSpan" style="color:red"></span>                      
+        </div>
+    </div>
 
+
+
+<div id = "plantNameGroup" class="form-group">
+      <label class="col-sm-2 control-label">Plant Name</label>
+        <div class="col-sm-10">  
+    <input class="form-control typeahead" id="plantName" type="text"
+       placeholder="PlantName"
+       autocomplete="off" spellcheck="off"
+       data-source="plants"/>
+     </div>
+</div>
+
+<input type ="submit" id = "addToCart" class="btn btn-success" value="add">
+</form>
+
+
+<div class="col-md-4">
+</div>
+
+  </div><!--end of col-->
+  <div class="col-md-2">
+
+    <div class="input-group datetimepicker">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    <input class="set-due-date form-control" id="date" type="text"/>
+    </div>
+
+        </div>
+     </div><!--end of col-->   
+
+<div class="table-responsive" id="items">
+                <table id="list-plants" class="table table-bordered">
+                    <thead>
+                        <tr>                            
+                            <th>PlantName</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {{#each itemList}}
+                          <tr>
+                            <td>{{plantId}}</td>
+                            <td>
+                              <input type="text" id = "quantity" class="form-control" value="1" />          
+                            </td>
+                            <td>
+                              <input type="text" id = "cost" class="form-control" placeholder="enter cost"/>          
+                            </td>
+                            <td><a id="removeFromCart">Delete</a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+<div class="col-md-2">
+<button type ="button" class="btn btn-success" id="finalInvoice"> Create final Invoice </button>
+</div>
+{{#if saved}}
+ <div class="col-md-2">
+<button type ="button" id= "cancelInvoice" class="btn btn-danger"> Cancel Invoice </button>
+</div>
+
+<div class="col-md-2">
+<button type ="button" id="saveDraft" class="btn btn-success" > Save Draft </button>
+</div>
+{{/if}}
+ <div class="col-md-2">
+<button type ="button" class="btn btn-success"> Print </button>
+</div>
+
+</div><!--end of row-->     
+
+<!--
 <div class="table-responsive">
     <div class="scrollit">
         <table class="table table-hover">
@@ -58,7 +142,7 @@
                     <th>quantity</th>
                     <th>cost</th>
                     <th>Action</th>
-                </tr>
+             <td>{{plantId}}</td>   </tr>
             </thead>
           {{#each plantList}}                         
          <tbody>
@@ -90,7 +174,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Name</th>
+      <div class="modal-body">              <th>Name</th>
                     <th>Quantity</th>
                     <th>Selling Cost</th>
                     <th>Action</th>
@@ -116,12 +200,12 @@
        </tbody>
          {{/each}}
         </table>
-</div>
+</div><input type="text" id = "newPlantCategory" class="form-control" 
 <form class="form-inline" id="confirm">
   <input type="submit" class="btn btn-success" value="confirm" data-target="#invoiceModal">
 </form>
 {{/if}}
-
+{{/each}}
 
 <div id="invoiceModal" class="modal fade" role="dialog">
   <div class="modal-dialog">    
@@ -132,12 +216,12 @@
       </div>
       <div class="modal-body">
       <div class="table-responsive">
-
+<option value="cash">cash</option>
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Quantity</th>
+                    <th></div>Quantity</th>
                     <th>Selling Cost</th>  
                 </tr>
             </thead>
@@ -158,7 +242,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Buyer Name</label>
                             <div class="col-sm-10">
-                                <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
+                                <input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />
                                 <select class="form-control" id= "buyerId">
                                     {{#each buyerList}}
                                     <option value="{{_id}}">{{name}}</option>
@@ -169,7 +253,7 @@
             <div class="form-group">
             <label class="col-sm-2 control-label">payment options</label>
                             <div class="col-sm-10">
-                                <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
+                                <input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />
                                 <select class="form-control" id= "paymentOptions">                                
                                     <option value="cash">cash</option>
                                     <option value="cheque">cheque</option>                                    
@@ -183,14 +267,14 @@
       <div class="modal-footer">       
       </div>
     </div>
-
   </div>
 </div>
 
 
 
+
     
 
-<!--main div ending--> 
-    </div>  
+--> 
+     
 </template>

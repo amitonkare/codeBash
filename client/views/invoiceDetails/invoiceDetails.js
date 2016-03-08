@@ -1,15 +1,22 @@
+Template.invoiceDetails.onRendered(function(){
+	CodeBashApp.invoiceDetailsOnReady();
+});
 Template.invoiceDetails.helpers({
-	plantList:function()
+	plants:function() //auto-complete suggestions
 	{
-		plants = CodeBashApp.plantDetailsService.getInstance().findPlants();
-        return plants;
+		CodeBashApp.plantDetailsService.getInstance().findPlants().map(function(it){ return it.name; });
 	},
-	itemAdded:function()
+	saved:function()
 	{
-		if(Session.get('itemAdded') && (temp.find().fetch()!==null))
+		if(Session.get("saved"))
+		{
+			return false;
+		}
+		else
 		{
 			return true;
 		}
+
 	},
 	itemList:function()
 	{
@@ -18,29 +25,9 @@ Template.invoiceDetails.helpers({
 		for(var i = 0;i<obj.length;i++)
 		{
 			var plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantById(obj[i].plantId);
-		//	console.log(JSON.stringify(plantObj));
 			obj[i].plantId = plantObj[0].name;
-		//	console.log(JSON.stringify(obj[i]));
 		}
 		return obj;
-	},
-	invoiceList:function()
-	{
-		if(temp.find().fetch()!=null)
-		{
-			var obj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceId'));
-	  		for(var i=0;i<obj.length;i++)
-    		{
-    			obj[i].plantId =  CodeBashApp.plantDetailsService.getInstance().findPlantById(obj[i].plantId)[0].name;
-    		}
-    		/*var tempObj = temp.find().fetch();
-	  		for(var i=0;i<tempObj.length;i++)
-    		{
-    			temp.remove(tempObj[i]._id);
-   			}*/
- 		return obj;
-   		}
- 
 	},
 	buyerList:function()
 	{
@@ -51,46 +38,133 @@ Template.invoiceDetails.helpers({
 Template.invoiceDetails.events({
 	"submit #addToCart":function(event)
 	{
-		Session.set('itemAdded','true');
-		var quantity = event.target.quantity.value; 		
-		var newItem = CodeBashApp.plantDetailsService.getInstance().findPlantById(this._id);
-		if(!Session.get('invoiceId'))
+		event.preventDefault();
+		var name = $("#plantName").val();
+		var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
+		console.log(plant);	
+		console.log(temp.find({"plantId":plant[0]._id}).fetch())
+		if(temp.find({"plantId":plant[0]._id}).fetch()[0] == '')
 		{
-			Session.set('invoiceId',parseInt(Math.random()*100));
+			alert('item exists');
 		}
-	
-		if(quantity>newItem[0].quantity ||quantity == 0)
-			{
-				event.preventDefault();
-				console.log("inside validation statement");
-				$(".form-group").addClass("form-group has-error has-feedback");				
-			}
-			else{
+		else
+		{
 			var tempObj = {};
-			tempObj.invoiceId = Session.get('invoiceId');
-			tempObj.plantId = this._id;
-			tempObj.quantity = quantity;
+			tempObj.invoiceId = $("#invoiceNo").val();
+			Session.set("invoiceId",tempObj.invoiceId);
+			tempObj.plantId = plant[0]._id;
+			tempObj.quantity ='1' ;
 			tempObj.sellingCost = '';
-			tempObj.profit = ''; 
-		//	console.log(temp.find({"plantId":this._id}));
-			if(temp.find({"plantId":this._id}).fetch()[0]== null)
-			{
-			temp.insert(tempObj);	
-			}
-			else
-			{
-				alert('item already exists');
-			}
-			event.preventDefault();
-			return false;
-			}
+			tempObj.profit = ''; 		
+			temp.insert(tempObj);
+		}
 	},
-	"submit #removeFromCart":function(event)
+	"click #removeFromCart":function(event)
 	{
 		temp.remove(this._id);
 		event.preventDefault();
 	},
-	"submit #confirm":function(event)
+	"click #cancelInvoice":function()
+	{
+		var tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++ )
+		{	
+			temp.remove({_id:tempObj[i]._id});
+		}	
+		$("#plantName").val('');
+		$("#invoiceNo").val('');
+		$("#buyerId").val('');
+		$("#paymentStatus").val('');
+		$("#deliveryStatus").val('');
+		$("#date").val('');
+	},
+	"click #saveDraft":function()
+	{
+		Session.set("saved",'true');
+		$("#plantName").attr("disabled",true);
+		$("#invoiceNo").attr("disabled",true);
+		$("#buyerId").attr("disabled",true);
+		$("#paymentStatus").attr("disabled",true);
+		$("#deliveryStatus").attr("disabled",true);
+		$("#quantity").attr("disabled",true);
+		$("#cost").attr("disabled",true);	
+		$("#date").attr("disabled",true);
+		var Contain='';
+		$("#items :text").each(function(){
+        Contain += $(this).val() + "+";
+    	});
+    	console.log(Contain);
+		var array = Contain.split('+');
+		console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+	//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var stockQuantity;
+		tempObj = temp.find().fetch();
+		for(i=0;i<quantityArray.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+			stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+			stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
+			CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
+			tempObj[i].sellingCost = sellingCostArray[i];
+			stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+			tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
+			if(tempObj[i].profit<0)
+			{
+				tempObj.profit[i].profit = 0;
+			}			
+		}
+		for(i=0;i<quantityArray.length;i++ )
+		{	
+			temp.remove({_id:tempObj[i]._id});
+		}
+		for(i=0;i<quantityArray.length;i++)
+		{
+			temp.insert(tempObj[i]);
+		}
+
+	},
+	"click #finalInvoice":function()
+	{	
+		tempObj = temp.find().fetch();
+		console.log(temp.find().fetch());
+		for(i = 0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+		}
+		var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceId'));
+		var totalProfit = 0;
+		var totalSellingCost = 0;
+		for(var i = 0; i<invoiceDetailsObj.length;i++)
+		{
+			totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
+			totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+		}
+		var invoiceObj = {};
+		invoiceObj.invoiceId = invoiceDetailsObj[0].invoiceId;
+		invoiceObj.buyerId = $("#buyerId").val();
+		invoiceObj.date = $("#date").val();
+		invoiceObj.totalCost = totalSellingCost;
+		invoiceObj.totalProfit = totalProfit;
+		invoiceObj.paymentStatus = $("#paymentStatus").val();
+		invoiceObj.deliveryStatus = $("#deliveryStatus").val();
+		CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
+	}
+	/*"submit #confirm":function(event)
 	{
 	var Contain='';
 	console.log("submit confirm event");
@@ -201,3 +275,21 @@ Template.invoiceDetails.events({
 	}*/
 	
 });
+
+/*
+db.plantDetails.find().pretty();
+{
+        "_id" : "o88x6SPAPcBijLynp",
+        "name" : "rose",
+        "type" : "indoor",
+        "scientificName" : "mango",
+        "category" : "flowering"
+}
+{
+        "_id" : "v6B2t8fYh2AoTxT42",
+        "name" : "apple",
+        "type" : "indoor",
+        "scientificName" : "apla",
+        "category" : "flowering"
+}
+*/
