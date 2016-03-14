@@ -1,18 +1,6 @@
-﻿<head>
+<head>
     <title></title>
-    <link rel="shortcut icon" type="image/png" href="favicon1.png" />
-    <!-- CSS files -->
-    <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
-    <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="Content/style.css" rel="stylesheet" />
-    <!-- JS files -->
-    <script src="Script/jquery-1.12.0.min.js"></script>
-    <script src="Script/bootstrap.min.js"></script>
-    <script src="Script/jquery.dataTables.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-  </head>
+   </head>
 <template name="plantDetails">
     {{>plantDetailsTable}}
     </template>
@@ -32,7 +20,6 @@
         </div>
 
         <form class="form-horizontal">
-
             <div class="table-responsive">
                 <table id="list-plants" class="table table-bordered">
                     <thead>
@@ -185,7 +172,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Type</label>
                             <div class="col-sm-10">
-                                <select class = "form-control" id= "plantType" selected="{{updateObject.type}}">
+                                <select class = "form-control" id= "plantType" >
                                     {{#each typeList}}
                                     <option>{{type}}</option>
                                     {{/each}}
@@ -197,7 +184,7 @@
                             <label class="col-sm-2 control-label">Category</label>
                             <div class="col-sm-10">
                                 <!--<input type="text" id = "plantCategory" class="form-control" placeholder="Enter Category" />-->
-                                  <select class="form-control" id= "plantCategory" selected="{{updateObject.category}}">
+                                  <select class="form-control" id= "plantCategory">
                                     {{#each categoryList}}
                                     <option>{{category}}</option>
                                     {{/each}}

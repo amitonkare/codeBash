@@ -1,14 +1,49 @@
+function checkDate() {
+            var EnteredDate = $("#date").val(); // For JQuery
+            var date = EnteredDate.substring(0, 2);
+            var month = EnteredDate.substring(3, 5);
+            var year = EnteredDate.substring(6, 10);
+            var myDate = new Date(year, month - 1, date);
+            var today = new Date();
+            if (myDate >= today) {
+                return true;
+            }
+            else {
+                alert("Entered date is less than today's date ");
+                return false;
+            }
+        }
+Template.purchaseDetails.onRendered(function(){
+	CodeBashApp.purchaseDetailsOnReady();
+	Meteor.typeahead.inject();
+	this.$('.datetimepicker').datetimepicker();
+});
 Template.purchaseDetails.helpers({
-	plantList:function()
+	plants:function() //auto-complete suggestions
 	{
-		plants = CodeBashApp.plantDetailsService.getInstance().findPlants();
-        return plants;
+		return CodeBashApp.plantDetailsService.getInstance().findPlants().map(function(it){ return it.name; });
 	},
-	itemAdded:function()
+	saved:function()
 	{
-		if(Session.get('itemAdded') && (temp.find().fetch()!==null))
+		if(Session.get("saved"))
+		{
+			return false;
+		}
+		else
 		{
 			return true;
+		}
+	},
+	savedObj:function()
+	{
+		if(Session.get("saved")){
+			var obj={};
+			obj.purchaseNo = Session.get("purchaseNo");
+			obj.sellerId = Session.get("sellerId");
+			obj.paymentStatus = Session.get("paymentStatus");
+			obj.deliveryStatus = Session.get("deliveryStatus");
+			obj.date = Session.get("date");
+			return obj;
 		}
 	},
 	itemList:function()
@@ -18,200 +53,234 @@ Template.purchaseDetails.helpers({
 		for(var i = 0;i<obj.length;i++)
 		{
 			var plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantById(obj[i].plantId);
-		//	console.log(JSON.stringify(plantObj));
 			obj[i].plantId = plantObj[0].name;
-		//	console.log(JSON.stringify(obj[i]));
 		}
 		return obj;
-	},
-	purchaseList:function()
-	{
-		if(temp.find().fetch()!=null)
-		{
-			var obj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseId'));
-	  		for(var i=0;i<obj.length;i++)
-    		{
-    			obj[i].plantId =  CodeBashApp.plantDetailsService.getInstance().findPlantById(obj[i].plantId)[0].name;
-    		}
-    	return obj;
-   		}
 	},
 	sellerList:function()
 	{
 		return CodeBashApp.sellerDetailsService.getInstance().findSeller();
 	}
+
 });
 Template.purchaseDetails.events({
 	"submit #addToCart":function(event)
 	{
-		Session.set('itemAdded','true');
-		var quantity = event.target.quantity.value; 		
-		var newItem = CodeBashApp.plantDetailsService.getInstance().findPlantById(this._id);
-		if(!Session.get('purchaseId'))
+		event.preventDefault();
+		var name = $("#plantName").val();
+		var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
+		console.log(plant);	
+		console.log(temp.find({"plantId":plant[0]._id}).fetch())
+		if(temp.find({"plantId":plant[0]._id}).fetch()[0] == '')
 		{
-			Session.set('purchaseId',parseInt(Math.random()*100));
-		}	
-		if(quantity == 0)
-			{
-				event.preventDefault();
-				console.log("inside validation statement");
-				$(".form-group").addClass("form-group has-error has-feedback");				
-			}
-			else{
+			alert('item exists');
+		}
+		else
+		{
 			var tempObj = {};
-			tempObj.purchaseId = Session.get('purchaseId');
-			tempObj.plantId = this._id;
-			tempObj.quantity = quantity;
+			tempObj.purchaseId = $("#purchaseNo").val();
+			Session.set("purchaseId",tempObj.purchaseId);
+			tempObj.plantId = plant[0]._id;
+			tempObj.quantity ='1' ;
 			tempObj.cost = '';
-		//	console.log(temp.find({"plantId":this._id}));
-			if(temp.find({"plantId":this._id}).fetch()[0]== null)
-			{
-			temp.insert(tempObj);	
-			}
-			else
-			{
-				alert('item already exists');
-			}
-			event.preventDefault();
-			return false;
-			}
+			temp.insert(tempObj);
+		}
 	},
-	"submit #removeFromCart":function(event)
+	"click #removeFromCart":function(event)
 	{
 		temp.remove(this._id);
 		event.preventDefault();
 	},
-	"submit #confirm":function(event)
+	"click #cancelPurchase":function()
 	{
-	var Contain='';
-	console.log("submit confirm event");
-	$("#itemList :text").each(function(){
-        Contain += $(this).val() + "+";
-    });
-    console.log(Contain);
-    var costArray = Contain.split('+');
-    var tempObj = temp.find().fetch();
-    for(var i=0;i<tempObj.length;i++)
-    {
-    	console.log(tempObj[i]._id);
-    	console.log(costArray[i]);
-    	temp.update(tempObj[i]._id,{$set:{"cost":costArray[i]}});
-    }
-    console.log(temp.find().fetch());
-    tempObj = temp.find().fetch();
-    //console.log(CodeBashApp.purchaseDetailsService.getInstance().findpurchase()); 	
-
-    tempObj = temp.find().fetch();
-    for(var i=0;i<tempObj.length;i++)
-    {
-    	CodeBashApp.purchaseDetailsService.getInstance().addPurchaseDetails(tempObj[i]);
-    }
-    console.log(CodeBashApp.purchaseDetailsService.getInstance().findPurchaseDetails());
-    $('#purchaseModal').modal('toggle');
-  	event.preventDefault();	
+		var tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++ )
+		{	
+			temp.remove({_id:tempObj[i]._id});
+		}	
+		$("#plantName").val('');
+		$("#purchaseNo").val('');
+		$("#sellerId").val('');
+		$("#paymentStatus").val('');
+		$("#deliveryStatus").val('');
+		$("#date").val('');
 	},
-	"click #purchaseAdd":function(event)
+	"click #saveDraft":function()
 	{
-		console.log("inside submit confirmpurchase");
-		var sellerId =  $('#sellerId').val();
-		var purchaseObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseId'));
-		var totalProfit = 0;
-		var totalCost = 0;
-		for(var i = 0; i<purchaseObj.length;i++)
-		{
-			totalCost = Number(totalCost)+Number(purchaseObj[i].cost);
-		}
-		console.log(totalCost);
-		console.log(totalProfit);
-		 var today = new Date();
-    	 var dd = today.getDate();
-    	 var mm = today.getMonth()+1; //January is 0!
-    	 var yyyy = today.getFullYear();
-    	 if(dd<10){
-       	 dd='0'+dd
-    	} 
-   		 if(mm<10){
-        	mm='0'+mm
-    	} 
-    	var today = dd+'/'+mm+'/'+yyyy;
-		var obj = {};
-		obj.purchaseId = Session.get('purchaseId');
-		obj.sellerId = sellerId;
-		obj.date = today; 
-		obj.totalCost = totalCost;
-		obj.miscCost='';
-		obj.paymentMode = $('#paymentOptions').val();
-		obj.status='';
-		
-		var tempObj = temp.find().fetch();
-		var plantObj = '';
-		var newQuantity = '';
-		for(var i=0;i<tempObj.length;i++)
-		{
-			plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId);
-			newQuantity = Number(plantObj[0].quantity) + Number(tempObj[i].quantity);
-			CodeBashApp.plantDetailsService.getInstance().updatePlant(plantObj[0]._id,'','','','','',newQuantity,'');
-		}
-		for(var i=0;i<tempObj.length;i++)
-		{
-			console.log('removing items from temp');
-			temp.remove(tempObj[i]._id);
-		}
-		CodeBashApp.purchaseService.getInstance().addPurchase(obj);
-		Session.set('purchaseId','');
-		Session.set('itemAdded','');		
-	}
-	/*"submit #confirmpurchase":function(event)
-	{
-		console.log("inside submit confirmpurchase");
-		var sellerId =  $('#sellerId').val();
-		var purchaseObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseId'));
-		var totalProfit = 0;
-		var totalCost = 0;
-		for(var i = 0; i<purchaseObj.length;i++)
-		{
-			totalCost = Number(totalCost)+Number(purchaseObj[i].cost);
-		}
-		console.log(totalCost);
-		console.log(totalProfit);
-		 var today = new Date();
-    	 var dd = today.getDate();
-    	 var mm = today.getMonth()+1; //January is 0!
-    	 var yyyy = today.getFullYear();
-    	 if(dd<10){
-       	 dd='0'+dd
-    	} 
-   		 if(mm<10){
-        	mm='0'+mm
-    	} 
-    	var today = dd+'/'+mm+'/'+yyyy;
-		var obj = {};
-		obj.purchaseId = Session.get('purchaseId');
-		obj.sellerId = sellerId;
-		obj.date = today; 
-		obj.totalCost = totalCost;
-		obj.miscCost='';
-		obj.paymentMode = $('#paymentOptions').val();
-		obj.status='';
-		
-		var tempObj = temp.find().fetch();
-		var plantObj = '';
-		var newQuantity = '';
-		for(var i=0;i<tempObj.length;i++)
-		{
-			plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId);
-			newQuantity = Number(plantObj[0].quantity) + tempObj[i].quantity;
-			CodeBashApp.plantDetailsService.getInstance().updatePlant(plantObj[0]._id,'','','','','',newQuantity,'');
-		}
-		for(var i=0;i<tempObj.length;i++)
-		{
-			console.log('removing items from temp');
-			temp.remove(tempObj[i]._id);
-		}
-		CodeBashApp.purchaseService.getInstance().addpurchase(obj);
-		Session.set('purchaseId','');
-		Session.set('itemAdded','');		
-		
-	}*/
+		Session.set("saved",'true');
+		Session.set("purchaseNo",$("#purchaseNo").val());
+		Session.set("sellerId",$("#sellerId").val());
+		Session.set("paymentStatus",$("#paymentStatus").val());
+		Session.set("deliveryStatus",$("#deliveryStatus").val());
+		Session.set("date",$("#date").val());
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+			console.log(Contain);
+			var array = Contain.split('+');
+			console.log(array.length);
+			var costArray=[];
+			var quantityArray=[];
+			var j=0,i,k=0;
+			//quantityArray[0]
+			for(i=0;i<array.length-1;i++)
+			{
+				if(i % 2==0)
+				{
+					quantityArray[j] = array[i];	
+					j++;
+				}
+				else{
+					costArray[k] = array[i];
+					k++;
+				}
+			}
+			var stockQuantity;
+			var	tempObj = temp.find().fetch();
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				tempObj[i].cost = costArray[i];		
+			}
+			for(i=0;i<quantityArray.length;i++ )
+			{	
+				temp.remove({_id:tempObj[i]._id});
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				temp.insert(tempObj[i]);
+			}
 	
+	},
+	"click #finalPurchase":function()
+	{	
+		var flag = '0';
+		$("#items :text").each(function(){
+			if($(this).val() == '')
+			{
+				alert('please enter cost and quantity');
+				flag = '1';
+			}
+
+		});
+		if(checkDate()==false)
+		{
+				flag = '1';
+		}
+		
+		if(flag == '0')
+		{
+			$("#cancelPurchase").remove();
+			$("#saveDraft").remove();
+
+			$("#plantName").attr("disabled",true);
+			$("#purchaseNo").attr("disabled",true);
+			$("#sellerId").attr("disabled",true);
+			$("#paymentStatus").attr("disabled",true);
+			$("#deliveryStatus").attr("disabled",true);
+			$("#quantity").attr("disabled",true);
+			$("#cost").attr("disabled",true);	
+			$("#date").attr("disabled",true);
+
+			var Contain='';
+			$("#items :text").each(function(){
+				Contain += $(this).val() + "+";
+			});
+			$("#items :text").each(function(){
+				$(this).attr("disabled",true) ;
+			});
+			console.log(Contain);
+			var array = Contain.split('+');
+			console.log(array.length);
+			var costArray=[];
+			var quantityArray=[];
+			var j=0,i,k=0;
+			//quantityArray[0]
+			for(i=0;i<array.length-1;i++)
+			{
+				if(i % 2==0)
+				{
+					quantityArray[j] = array[i];	
+					j++;
+				}
+				else{
+					costArray[k] = array[i];
+					k++;
+				}
+			}
+			var stockQuantity;
+			var	tempObj = temp.find().fetch();
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				if(CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0] != null)
+				{
+					stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+					stockQuantity = Number(stockQuantity) + Number(tempObj[i].quantity);
+					CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
+				}
+				else
+				{
+					var obj = {};
+					obj.plantId = tempObj[i].plantId;
+					obj.quantity = tempObj[i].quantity;
+					obj.avgCost = '';
+					CodeBashApp.stockDetailsService.getInstance().addStock(obj);
+				}
+				tempObj[i].cost = costArray[i];		
+			}
+			for(i=0;i<quantityArray.length;i++ )
+			{	
+				temp.remove({_id:tempObj[i]._id});
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				temp.insert(tempObj[i]);
+			}
+			tempObj = temp.find().fetch();
+			console.log(temp.find().fetch());
+			for(i = 0;i<tempObj.length;i++)
+			{
+				CodeBashApp.purchaseDetailsService.getInstance().addPurchaseDetails(tempObj[i]);
+			}
+			var purchaseDetailsObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseId'));	
+			var totalcost = 0;
+			for(var i = 0; i<purchaseDetailsObj.length;i++)
+			{
+				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].cost);
+			}
+			var purchaseObj = {};
+			purchaseObj.purchaseId = purchaseDetailsObj[0].purchaseId;
+			purchaseObj.sellerId = $("#sellerId").val();
+			purchaseObj.date = $("#date").val();
+			purchaseObj.totalCost = totalcost;
+			purchaseObj.paymentStatus = $("#paymentStatus").val();
+			purchaseObj.deliveryStatus = $("#deliveryStatus").val();
+			CodeBashApp.purchaseService.getInstance().addPurchase(purchaseObj);
+			for(i = 0;i<tempObj.length;i++)
+			{
+				temp.remove(tempObj[i]._id);
+			}
+			Session.set("saved",'');
+		}//end of if
+	}
 });
+
+/*
+db.plantDetails.find().pretty();
+{
+        "_id" : "o88x6SPAPcBijLynp",
+        "name" : "rose",
+        "type" : "indoor",
+        "scientificName" : "mango",
+        "category" : "flowering"
+}
+{
+        "_id" : "v6B2t8fYh2AoTxT42",
+        "name" : "apple",
+        "type" : "indoor",
+        "scientificName" : "apla",
+        "category" : "flowering"
+}
+ */

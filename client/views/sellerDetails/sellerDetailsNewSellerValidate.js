@@ -76,11 +76,11 @@ CodeBashApp.sellerDetailsNewSellerValidate=function(){
                 $("#newBankNameSpan").html('please enter bank Name');
             }
             else
-            if($("#newBankName").val().length>10)
+            if($("#newBankName").val().length>50)
             {
                 event.preventDefault();
                 $("#newBankNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#newBankNameSpan").html(' bank Name must be max 10 characters');
+                $("#newBankNameSpan").html(' bank Name must be max 50 characters');
             }
             else
             if($("#newBranchName").val()=='')
@@ -90,11 +90,11 @@ CodeBashApp.sellerDetailsNewSellerValidate=function(){
                 $("#newBranchNameSpan").html('please enter BranchName');
             }
             else
-            if($("#newBranchName").val().length>10)
+            if($("#newBranchName").val().length>50)
             {
                 event.preventDefault();
                 $("#newBranchNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#newBranchNameSpan").html('BranchName must be max 10 characters');
+                $("#newBranchNameSpan").html('BranchName must be max 50 characters');
             }
             else
             if($("#newIFSC").val()=='')
@@ -104,7 +104,7 @@ CodeBashApp.sellerDetailsNewSellerValidate=function(){
                 $("#newIFSCSpan").html('please enter IFSC code');
             }
             else
-            if($("#newIFSC").val().length != 6)
+            if($("#newIFSC").val().length != 11 || $("#newIFSC").val().length > 11 ||  $("#newIFSC").val().length < 11  )
             {
                 event.preventDefault();
                 $("#newIFSCGroup").addClass('form-group has-error has-feedback');                 

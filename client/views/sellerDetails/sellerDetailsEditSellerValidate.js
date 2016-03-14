@@ -65,11 +65,11 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
                 $("#bankNameSpan").html('please enter bank Name');
             }
             else
-            if($("#bankName").val().length>10)
+            if($("#bankName").val().length > 50)
             {
                 event.preventDefault();
                 $("#bankNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#bankNameSpan").html('bank name must be max 10 characters');
+                $("#bankNameSpan").html('bank name must be max 50 characters');
             }
           
             else
@@ -80,11 +80,11 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
                 $("#branchNameSpan").html('please enter branchName');
             }
             else
-            if($("#branchName").val().length>10)
+            if($("#branchName").val().length > 50)
             {
                 event.preventDefault();
                 $("#branchNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#branchNameSpan").html('branchName must be max 10 characters');
+                $("#branchNameSpan").html('branchName must be max 50 characters');
             }
             else
             if($("#IFSC").val()=='')
@@ -94,11 +94,18 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
                 $("#IFSCSpan").html('please enter IFSC code');
             }
             else
-            if($("#IFSC").val().length!=6)
+            if($("#IFSC").val().length!=11 || $("#IFSC").val().length < 11 )
             {
                 event.preventDefault();
                 $("#IFSCGroup").addClass('form-group has-error has-feedback');                 
-                $("#IFSCSpan").html('IFSC code must be 6 characters');
+                $("#IFSCSpan").html('IFSC code must be 11 characters');
+            }
+            else
+            if($("#IFSC").val().length > 11 )
+            {
+                event.preventDefault();
+                $("#IFSCGroup").addClass('form-group has-error has-feedback');                 
+                $("#IFSCSpan").html('IFSC code must be 11 characters');
             }
             else	
             if($("#accountNumber").val()=='')

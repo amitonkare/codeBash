@@ -66,8 +66,6 @@ Template.sellerDetails.events({
 		var accountNumber = event.target.newAccountNumber.value;
 		var newseller = CodeBashApp.sellerDetailsVO(name,address,phoneNo,emailId,bankName,branch,IFSCCode,accountNumber)
 		CodeBashApp.sellerDetailsService.getInstance().addSeller(newseller);		
-		$('#new-seller').modal('hide');
-		}
 		event.target.newSellerName.value ='';
 		event.target.newSellerAddress.value ='';
 		event.target.newSellerPhoneNo.value = '';
@@ -75,6 +73,8 @@ Template.sellerDetails.events({
 		event.target.newBankName.value = '';
 		event.target.newIFSC.value = '';
 		event.target.newAccountNumber.value = '';
+		$('#new-seller').modal('hide');
+		}
 	},
 	'click #deleteSellerId':function()
 	{

@@ -94,11 +94,18 @@ CodeBashApp.buyerDetailsEditBuyerValidate=function(){
                 $("#IFSCSpan").html('please enter IFSC code');
             }
             else
-            if($("#IFSC").val().length!=6)
+            if($("#IFSC").val().length!=11)
             {
                 event.preventDefault();
                 $("#IFSCGroup").addClass('form-group has-error has-feedback');                 
-                $("#IFSCSpan").html('IFSC code must be 6 characters');
+                $("#IFSCSpan").html('IFSC code must be 11 characters');
+            }
+            else
+            if($("#IFSC").val().length < 11 || $("#IFSC").val().length > 11)
+            {
+                event.preventDefault();
+                $("#IFSCGroup").addClass('form-group has-error has-feedback');                 
+                $("#IFSCSpan").html('IFSC code must be 11 characters');
             }
             else	
             if($("#accountNumber").val()=='')

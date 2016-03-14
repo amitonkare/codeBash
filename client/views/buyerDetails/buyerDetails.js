@@ -33,18 +33,28 @@ Template.buyerDetails.events({
 		if(validate =='true')
 		{
 			console.log("inside edit submit");
-			var name = $("#buyerName").val();
-			var address = $("#buyerAddress").val();
-			var phoneNo = $("#buyerPhoneNo").val();
-			var emailId = $("#buyerEmailId").val();
-			var bankName = $("#bankName").val();
-			var branch = $("#branchName").val();
-			var IFSCCode = $("#IFSC").val();
-			var accountNumber = $("#accountNumber").val();	
+			var name =    event.target.buyerName.value;
+			var address = event.target.buyerAddress.value;
+			var phoneNo = event.target.buyerPhoneNo.value;
+			var emailId = event.target.buyerEmailId.value;
+			var bankName = event.target.bankName.value;
+			var branch = event.target.branchName.value;
+			var IFSCCode = event.target.IFSC.value;
+			var accountNumber = event.target.accountNumber.value;
 			CodeBashApp.buyerDetailsService.getInstance().updateBuyer(Session.get('bid'),name,address,phoneNo,emailId,bankName,branch,IFSCCode,accountNumber);
 			Session.set('bid','');
-		}
 			$("#edit-buyer").modal("hide");    
+			event.target.buyerName.value = '';
+		    event.target.buyerAddress.value = '';
+			event.target.buyerPhoneNo.value = '';
+			event.target.buyerEmailId.value = '';
+			event.target.bankName.value = '';
+			event.target.branchName.value = '';
+			event.target.IFSC.value = '';
+			event.target.accountNumber.value = '';
+		}
+			
+			
 	},
 	"submit #newBuyerForm": function(event)
 	{
@@ -53,18 +63,25 @@ Template.buyerDetails.events({
 		if(validate == 'true')
 		{
 			console.log("inside submit event");
-			var name = $("#newBuyerName").val();
-			var address = $("#newBuyerAddress").val();
-			var phoneNo = $("#newBuyerPhoneNo").val();
-			var emailId = $("#newBuyerEmailId").val();
-			var bankName = $("#newBankName").val();
-			var branch = $("#newBranchName").val();
-			var IFSCCode = $("#newIFSC").val();
-			var accountNumber = $("#newAccountNumber").val();
+			var name = event.target.newBuyerName.value;
+			var address = event.target.newBuyerAddress.value;
+			var phoneNo = event.target.newBuyerPhoneNo.value;
+			var emailId = event.target.newBuyerEmailId.value;
+			var bankName = event.target.newBankName.value;
+			var branch = event.target.newBranchName.value;
+			var IFSCCode = event.target.newIFSC.value;
+			var accountNumber = event.target.newAccountNumber.value;
 			var newBuyer = CodeBashApp.buyerDetailsVO(name,address,phoneNo,emailId,bankName,branch,IFSCCode,accountNumber)
 			CodeBashApp.buyerDetailsService.getInstance().addBuyer(newBuyer);		
+			event.target.newBuyerName.value = '';
+			event.target.newBuyerAddress.value = '';
+			event.target.newBuyerPhoneNo.value = '';
+			event.target.newBuyerEmailId.value = '';
+			event.target.newBankName.value = '';
+			event.target.newIFSC.value = '';
+			event.target.newAccountNumber.value = '';
+			$("#new-buyer").modal("hide");    
 		}
-		$("#new-buyer").modal("hide");    
 	},
 	'click #deleteBuyerId': function()
 	{

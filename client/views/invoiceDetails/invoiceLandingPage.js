@@ -18,6 +18,7 @@ Template.invoiceDetailsLandingPage.helpers({
 		return CodeBashApp.invoiceService.getInstance().findInvoiceById(Session.get('updateId'))[0];
 	}
 });
+
 Template.invoiceDetailsLandingPage.events({
 	"click #updateDetails":function()
 	{
@@ -28,7 +29,7 @@ Template.invoiceDetailsLandingPage.events({
 	{
 		event.preventDefault();
 		var paymentStatus = event.target.paymentStatus.value;
-		var deliveryStatus = event.target.paymentStatus.value;
+		var deliveryStatus = event.target.deliveryStatus.value;
 		CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('updateId'),paymentStatus,deliveryStatus);
 		$("#editModal").modal("hide");
 	},

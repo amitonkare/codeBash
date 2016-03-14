@@ -1,26 +1,31 @@
 <head>
-   <!-- <link rel="shortcut icon" type="image/png" href="favicon1.png" />
+    <title></title>
+
+    <link rel="shortcut icon" type="image/png" href="favicon1.png" />
+
     <!-- CSS files -->
-    <!--<link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="Content/style.css" rel="stylesheet" />
+
+
     <!-- JS files -->
- <!--   <script src="Script/jquery-1.12.0.min.js"></script>
+    <script src="Script/jquery-1.12.0.min.js"></script>
     <script src="Script/bootstrap.min.js"></script>
     <script src="Script/jquery.dataTables.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 </head>
-<template name = "invoiceDetailsLandingPage">
+<template name="purchaseDetailsLandingPage">
 <!--main div beginning-->
     <div class="container-fluid">
       {{>navbar}}
             <div class="row">
                 <div class="col-md-6">
-                    <div id="invoice-search-input">
+                    <div id="Purchase-search-input">
                         <div class="input-group col-md-8">
-                            <input type="text" class="form-control input-sm" placeholder="Search invoice" />
+                            <input type="text" class="form-control input-sm" placeholder="Search Purchase" />
                             <span class="input-group-btn">
                                 <button class="btn btn-info btn-sm" type="button">
                                     <i class="glyphicon glyphicon-search"></i>
@@ -31,19 +36,19 @@
             </div>
 
         </div>
-     <button class="btn btn-info btn-default" type="button" id="newInvoice">
-        Add New Invoice
+     <button class="btn btn-info btn-default" type="button" id="newPurchase">
+        Add New Purchase
      <i class="glyphicon glyphicon-plus"></i>
     </button>
 
 
 
     <div class="table-responsive">
-                <table id="list-invoice" class="table table-bordered">
+                <table id="list-purchase" class="table table-bordered">
                     <thead>
                         <tr>                            
-                            <th>InvoiceNumber</th>
-                            <th>Buyer Name</th>
+                            <th>purchaseNumber</th>
+                            <th>seller Name</th>
                             <th>Date</th>
                             <th>Payment Status</th>
                             <th>Delivery Status</th>
@@ -51,10 +56,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                            {{#each invoiceList}}
+                            {{#each purchaseList}}
                           <tr>
-                            <td>{{invoiceId}}</td>
-                            <td>{{buyerId}}</td>
+                            <td>{{purchaseId}}</td>
+                            <td>{{sellerId}}</td>
                             <td>{{date}}</td>
                             <td>{{paymentStatus}}</td>
                             <td>{{deliveryStatus}}</td>
@@ -75,7 +80,7 @@
         <h4 class="modal-title">Edit Details</h4>
       </div>
       <div class="modal-body">
-          <form id="editInvoiceForm" class="form-horizontal">
+          <form id="editPurchaseForm" class="form-horizontal">
             <div class="form-group" id ="paymentStatusGroup">
                 <label class="col-sm-2 control-label">Payment Status</label>
                     <div class="col-sm-10">
@@ -105,7 +110,7 @@
   </div>
 </div>
 
+</div>
 
 
-    </div>
 </template>

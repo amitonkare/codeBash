@@ -10,6 +10,11 @@ Router.route('/invoiceDetailsLandingPage', {
 	template: 'invoiceDetailsLandingPage'
 });
 
+Router.route('/purchaseDetailsLandingPage', {
+	name: 'purchaseDetailsLandingPage',
+	template: 'purchaseDetailsLandingPage'
+});
+
 Router.route('/plantTypeDetails', {
 	name: 'plantTypeDetails',
 	template: 'plantTypeDetails'

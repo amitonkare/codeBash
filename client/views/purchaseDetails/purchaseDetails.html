@@ -1,180 +1,123 @@
-<head>
-    <title></title>
-
-    <link rel="shortcut icon" type="image/png" href="favicon1.png" />
-
-    <!-- CSS files -->
-    <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="Content/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
-    <link href="Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="Content/datatable/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="Content/style.css" rel="stylesheet" />
-
-
-    <!-- JS files -->
-    <script src="Script/jquery-1.12.0.min.js"></script>
-    <script src="Script/bootstrap.min.js"></script>
-    <script src="Script/jquery.dataTables.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    <style type="text/css">
-        .scrollit {
-            overflow:scroll;
-            height:250px;
-        }
-    </style>
+<template name = "purchaseDetails">
+<!--main div beginning-->
+<div class="container-fluid">
+      {{>navbar}}
+<div class="row">
+  <div class="col-md-6">
+  
+  <form  id="addToCart" class= "form-horizontal">
+    <div id = "purchaseNoGroup" class="form-group">
+      <label class="col-sm-2 control-label">purchase Number</label>
+        <div class="col-sm-10">
+          <input type="text" id = "purchaseNo" class="form-control" placeholder="enter purchase Number" value =" {{savedObj.purchaseNo}} "/>
+          <span id="purchaseSpan" style="color:red"></span>                      
+        </div>
+    </div>                   
     
-</head>
-<template name="purchaseDetails">
-    <div class="container-fluid">
-        {{>navbar}}
-        <div class="in-header row">
-            <div class="col-md-6">
-                <i class="fa fa-dot-circle-o  fa-lg"></i>
-                <span>New Purchase Order</span>
-            </div>
+    <div id = "sellerNameGroup" class="form-group">
+      <label class="col-sm-2 control-label">seller Name</label>
+        <div class="col-sm-10">
+          <select class="form-control" id= "sellerId" selected ="{{savedObj.sellerId}}">
+            {{#each sellerList}}
+            <option value="{{_id}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
+    </div>       
+
+  <div id = "paymentStatusGroup" class="form-group">
+      <label class="col-sm-2 control-label">Payment Status</label>
+        <div class="col-sm-10">
+          <select class="form-control" id= "paymentStatus" selected ="{{savedObj.paymentStatus}}">
+            <option value=" Pending "> Pending </option>
+            <option value=" cleared "> Cleared </option>
+          </select>
+          <span id="paymentStatusSpan" style="color:red"></span>                      
+        </div>
+    </div>                   
+    
+    <div id = "deliveryStatusGroup" class="form-group">
+      <label class="col-sm-2 control-label">Delivery Status</label>
+        <div class="col-sm-10">
+          <select class="form-control" id= "deliveryStatus" selected ="{{savedObj.deliveryStatus}}">
+            <option value=" Dispatch "> Dispatch </option>
+            <option value=" Delivered ">  Delivered </option>
+          </select>
+          <span id="deliveryStatusSpan" style="color:red"></span>                      
         </div>
     </div>
 
 
-
-<div class="table-responsive">
-    <div class="scrollit">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Scientific Name</th>
-                    <th>type</th>
-                    <th>category</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-          {{#each plantList}}                         
-         <tbody>
-         <tr>
-               <td>{{name}}</td>
-               <td>{{scientificName}}</td>
-               <td>{{type}}</td>
-               <td>{{category}}</td>
-               <td>
-               <form id="addToCart" class= "form-inline">
-               <div class="form-group" id="quantityGroup">
-               <input type ="text" class="form-control" id="quantity" placeholder="enter quantity" data-toggle="tooltip" data-placement="right" title=" enter quantity in decimal system" >
-               <input type ="submit" class="btn btn-success"  value="add" autocomplete="on">
-               </div>
-               </form>
-               </td>          
-         </tr>
-       </tbody>
-         {{/each}}
-        </table>
-    </div>
+<div id = "plantNameGroup" class="form-group">
+      <label class="col-sm-2 control-label">Plant Name</label>
+        <div class="col-sm-10">  
+    <input class="form-control typeahead" id="plantName" type="text"
+       placeholder="PlantName"  autocomplete="off" spellcheck="off"
+       data-source="plants"/>
+     </div>
 </div>
 
-{{#if itemAdded}}
-<h4>items</h4>
-<div class="table-responsive" id="itemList">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Cost</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-          {{#each itemList}}                         
-         <tbody>
-         <tr>
-               <td>{{plantId}}</td>
-               <td>{{quantity}}</td>               
-               <td>             
-               <input type ="text" class="form-control" id="sellingCost" placeholder="enter Selling Cost" data-toggle="tooltip" data-placement="right" title=" enter quantity in decimal system" >
-               </td>          
-                <td>
-               <form id="removeFromCart" class= "form-inline">
-               <div class="form-group">
-               <input type ="submit" class="btn btn-danger"  value="Remove" autocomplete="on">
-               </div>
-               </form>
-                
-                </td>
-         </tr>
-       </tbody>
-         {{/each}}
-        </table>
-</div>
-<form class="form-inline" id="confirm">
-  <input type="submit" class="btn btn-success" value="confirm" data-target="#purchaseModal">
+<input type ="submit" id = "addToCart" class="btn btn-success" value="add">
 </form>
-{{/if}}
 
 
-<div id="purchaseModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">    
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Your Invoice</h4>
-      </div>
-      <div class="modal-body">
-      <div class="table-responsive">
-
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Cost</th>  
-                </tr>
-            </thead>
-          {{#each purchaseList}}                         
-         <tbody>
-         <tr>
-               <td>{{plantId}}</td>
-               <td>{{quantity}}</td>               
-               <td>{{cost}}</td>                                                     
-         </tr>
-       </tbody>
-         {{/each}}
-        </table>
-
-</div>  
-
-        <form class="form-horizontal" id="confirmInvoice">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">seller Name</label>
-                            <div class="col-sm-10">
-                                <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
-                                <select class="form-control" id= "buyerId">
-                                    {{#each sellerList}}
-                                    <option value="{{_id}}">{{name}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
-            <div class="form-group">
-            <label class="col-sm-2 control-label">payment options</label>
-                            <div class="col-sm-10">
-                                <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
-                                <select class="form-control" id= "paymentOptions">                                
-                                    <option value="cash">cash</option>
-                                    <option value="cheque">cheque</option>                                    
-                                </select>
-                            </div>
-                        </div>
-        <button type="submit" class="btn btn-success" data-dismiss="modal" id="purchaseAdd">Yes</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </form>
-      </div>
-      <div class="modal-footer">       
-      </div>
-    </div>
-
-  </div>
+<div class="col-md-4">
 </div>
 
+  </div><!--end of col-->
+  <div class="col-md-2">
 
+      <div class="input-group datetimepicker">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    <input class="set-due-date form-control" id="date" type="text" value="{{savedObj.date}}" />
+  </div>
 
+        </div>
+     </div><!--end of col-->   
 
+<div class="table-responsive" id="items">
+                <table id="list-plants" class="table table-bordered">
+                    <thead>
+                        <tr>                            
+                            <th>PlantName</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {{#each itemList}}
+                          <tr>
+                            <td>{{plantId}}</td>
+                            <td>
+                              <input type="text" id = "quantity" class="form-control" value="1" />          
+                            </td>
+                            <td>
+                              <input type="text" id = "cost" class="form-control" placeholder="enter cost"/>          
+                            </td>
+                            <td><a id="removeFromCart">Delete</a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+<div class="col-md-2">
+<button type ="button" class="btn btn-success" id="finalPurchase"> Create final purchase </button>
+</div>
+
+ <div class="col-md-2">
+<button type ="button" id= "cancelPurchase" class="btn btn-danger"> Cancel purchase </button>
+</div>
+
+{{#if saved}}
+<div class="col-md-2">
+<button type ="button" id="saveDraft" class="btn btn-success" > Save Draft </button>
+</div>
+{{/if}}
+ <div class="col-md-2">
+<button type ="button" class="btn btn-success"> Print </button>
+</div>
+</div>
+     
 </template>
