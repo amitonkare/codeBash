@@ -55,7 +55,7 @@ $("#newBuyerEmailId").keydown(function(event) {
 });    
 
 $("#newBankName").keydown(function(event) {
-    $("#newBuyerEmailIdGroup").removeClass('form-group has-error has-feedback');
+    $("#newBankNameGroup").removeClass('form-group has-error has-feedback');
     $("#newBankNameGroup").addClass('form-group');
     $("#newBankNameSpan").html('');
 });    

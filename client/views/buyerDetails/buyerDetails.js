@@ -95,6 +95,16 @@ Template.buyerDetails.events({
 	'click #newbuyermodal':function()
 	{
 		$("#new-buyer").modal("show");    
+	},
+	'click #cancelNewBuyer':function()
+	{
+		$("#newBuyerName").val('');
+		$("#newBuyerAddress").val('');
+		$("#newBuyerPhoneNo").val('');
+		$("#newBuyerEmailId").val('');
+		$("#newBankName").val('');
+		$("#newIFSC").val('');
+		$("#newAccountNumber").val('');
 	}
 
 });

@@ -11,8 +11,7 @@ Template.plantDetailsTable.helpers({
         {
             return true;
         }
-    },
-       
+    },       
     plantsList : function(){
                        
         plants = CodeBashApp.plantDetailsService.getInstance().findPlants();
@@ -33,6 +32,7 @@ Template.plantDetailsTable.helpers({
         {
          var obj = CodeBashApp.plantDetailsService.getInstance().findPlantById(Session.get('id'))[0];   
         }
+        console.log(obj);
         return obj;
     }
 });
@@ -91,7 +91,6 @@ Template.plantDetailsTable.events({
         var validate = CodeBashApp.plantDetailsEditPlantValidate();
         if(validate=='true')
         {
-            console.log('')
             var name = event.target.plantName.value;
             event.target.plantName.value = '';
             var plantType = event.target.plantType.value;
@@ -128,6 +127,14 @@ Template.plantDetailsTable.events({
     'click #newplantmodal':function()
     {
         $("#new-plant").modal("show");
+    },
+    'click #newPlantCancel':function()
+    {
+        $("#newPlantName").val('');
+        $("#newPlantType").val('');
+        $("#newPlantScientificName").val('');
+        $("#newPlantCategory").val('');
+        $("#newPlantComments").val('');
     }
 
 });

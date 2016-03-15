@@ -88,5 +88,16 @@ Template.sellerDetails.events({
 		{
 				CodeBashApp.sellerDetailsService.getInstance().deleteSeller(Session.get('deleteId'));
 		}
+	},
+	'click #newSellerCancel':function()
+	{
+		$('#newSellerName').val('');
+		$('#newSellerAddress').val('');
+		$('#newSellerPhoneNo').val('');
+		$('#newSellerEmailId').val('');
+		$('#newBankName').val('');
+		$('#newIFSC').val('');
+		$('#newAccountNumber').val('');
+		
 	}
 });

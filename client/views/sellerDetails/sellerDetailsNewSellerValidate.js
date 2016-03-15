@@ -108,7 +108,7 @@ CodeBashApp.sellerDetailsNewSellerValidate=function(){
             {
                 event.preventDefault();
                 $("#newIFSCGroup").addClass('form-group has-error has-feedback');                 
-                $("#newIFSCSpan").html('IFSC code must be 6 characters');
+                $("#newIFSCSpan").html('IFSC code must be 11 characters');
             }
             else	
             if($("#newAccountNumber").val()=='')
