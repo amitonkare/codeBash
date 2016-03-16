@@ -19,8 +19,9 @@ Template.purchaseDetailsLandingPage.helpers({
 	}
 });
 Template.purchaseDetailsLandingPage.events({
-	"click #updateDetails":function()
+	'click #updateDetails':function()
 	{
+		console.log("inside update details ");
 		$("#editModal").modal("show");
 		Session.set('updateId',this._id);	
 	},
