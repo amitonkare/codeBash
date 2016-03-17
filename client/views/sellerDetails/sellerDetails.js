@@ -72,6 +72,7 @@ Template.sellerDetails.events({
 		event.target.newSellerEmailId.value = '';
 		event.target.newBankName.value = '';
 		event.target.newIFSC.value = '';
+		event.target.newBranchName.value = '';
 		event.target.newAccountNumber.value = '';
 		$('#new-seller').modal('hide');
 		}
@@ -98,6 +99,6 @@ Template.sellerDetails.events({
 		$('#newBankName').val('');
 		$('#newIFSC').val('');
 		$('#newAccountNumber').val('');
-		
+		$('#newBranchName').val('');	
 	}
 });
