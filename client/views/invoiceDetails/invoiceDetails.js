@@ -124,13 +124,21 @@ Template.invoiceDetails.events({
 		var name = $("#plantName").val();
 		var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
 		console.log(plant);	
-		console.log(temp.find({"plantId":plant[0]._id}).fetch())
-		if(temp.find({"plantId":plant[0]._id}).fetch()[0] == '')
+		var str = Session.get('plants');
+		console.log(str.search(name));
+		var flag = 1;
+		if(Session.get('plants') != '')
 		{
-			alert('item exists');
+			if(str.search(name) !== -1)
+			{
+				flag = 0;
+				alert('plant exists in list');
+			}
 		}
-		else
-		{
+		
+			if(flag == 1)
+			{
+			Session.set('plants',Session.get('plants')+'+'+name);	
 			var tempObj = {};
 			tempObj.invoiceId = $("#invoiceNo").val();
 			Session.set("invoiceId",tempObj.invoiceId);
@@ -139,7 +147,8 @@ Template.invoiceDetails.events({
 			tempObj.sellingCost = '';
 			tempObj.profit = ''; 		
 			temp.insert(tempObj);
-		}
+			flag = 1;
+			}
 	},
 	"click #removeFromCart":function(event)
 	{
