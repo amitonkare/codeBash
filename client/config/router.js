@@ -5,6 +5,16 @@ Router.route('/', {
 	template: 'plantDetails'
 });
 
+Router.route('/invoiceEdit', {
+	name: 'invoiceEdit',
+	template: 'invoiceEdit'
+});
+
+Router.route('/purchaseEdit', {
+	name: 'purchaseEdit',
+	template: 'purchaseEdit'
+})
+
 Router.route('/invoiceDetailsLandingPage', {
 	name: 'invoiceDetailsLandingPage',
 	template: 'invoiceDetailsLandingPage'

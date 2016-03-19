@@ -105,6 +105,57 @@ Template.buyerDetails.events({
 		$("#newBankName").val('');
 		$("#newIFSC").val('');
 		$("#newAccountNumber").val('');
+	    $("#newBuyerNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#newBuyerNameGroup").addClass('form-group');
+    	$("#newBuyerNameSpan").html('');
+	    $("#newBuyerAddressGroup").removeClass('form-group has-error has-feedback');
+    	$("#newBuyerAddressGroup").addClass('form-group');
+    	$("#newBuyerAddressSpan").html('');
+	    $("#newBuyerPhoneNoGroup").removeClass('form-group has-error has-feedback');
+    	$("#newBuyerPhoneNoGroup").addClass('form-group');
+    	$("#newBuyerPhoneNoSpan").html('');
+   	    $("#newBuyerEmailIdGroup").removeClass('form-group has-error has-feedback');
+	    $("#newBuyerEmailIdGroup").addClass('form-group');
+    	$("#newBuyerEmailIdSpan").html('');
+	    $("#newBankNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#newBankNameGroup").addClass('form-group');
+    	$("#newBankNameSpan").html('');
+	    $("#newBranchNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#newBranchNameGroup").addClass('form-group');
+    	$("#newBranchNameSpan").html('');
+	    $("#newIFSCGroup").removeClass('form-group has-error has-feedback');
+    	$("#newIFSCGroup").addClass('form-group');
+    	$("#newIFSCSpan").html('');
+	    $("#newAccountNumberGroup").removeClass('form-group has-error has-feedback');
+    	$("#newAccountNumberGroup").addClass('form-group');
+    	$("#newAccountNumberSpan").html('');
+	},
+	'click #editBuyerCancel':function()
+	{
+	    $("#buyerNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#buyerNameGroup").addClass('form-group');
+    	$("#buyerNameSpan").html('');
+	    $("#buyerAddressGroup").removeClass('form-group has-error has-feedback');
+    	$("#buyerAddressGroup").addClass('form-group');
+    	$("#buyerAddressSpan").html('');
+	    $("#buyerPhoneNoGroup").removeClass('form-group has-error has-feedback');
+    	$("#buyerPhoneNoGroup").addClass('form-group');
+    	$("#buyerPhoneNoSpan").html('');
+   	    $("#buyerEmailIdGroup").removeClass('form-group has-error has-feedback');
+	    $("#buyerEmailIdGroup").addClass('form-group');
+    	$("#buyerEmailIdSpan").html('');
+	    $("#bankNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#bankNameGroup").addClass('form-group');
+    	$("#bankNameSpan").html('');
+	    $("#BranchNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#BranchNameGroup").addClass('form-group');
+    	$("#BranchNameSpan").html('');
+	    $("#IFSCGroup").removeClass('form-group has-error has-feedback');
+    	$("#IFSCGroup").addClass('form-group');
+    	$("#IFSCSpan").html('');
+	    $("#AccountNumberGroup").removeClass('form-group has-error has-feedback');
+    	$("#AccountNumberGroup").addClass('form-group');
+    	$("#AccountNumberSpan").html('');
 	}
 
 });

@@ -22,16 +22,16 @@ Template.invoiceDetailsLandingPage.helpers({
 Template.invoiceDetailsLandingPage.events({
 	"click #updateDetails":function()
 	{
-		$("#editModal").modal("show");
+		//$("#editModal").modal("show");
 		Session.set('updateId',this._id);	
+		Session.set('editInvoiceId',Session.get('updateId'));
+		Router.go('/invoiceEdit');
+	
 	},
 	"submit #editInvoiceForm":function(event)
 	{
 		event.preventDefault();
-		var paymentStatus = event.target.paymentStatus.value;
-		var deliveryStatus = event.target.deliveryStatus.value;
-		CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('updateId'),paymentStatus,deliveryStatus);
-		$("#editModal").modal("hide");
+		//$("#editModal").modal("hide");
 	},
 	"click #newInvoice":function()
 	{

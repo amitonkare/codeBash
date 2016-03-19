@@ -1,24 +1,24 @@
-<template name="invoiceDetails"> <!--main div beginning-->
+<template name="purchaseEdit"> <!--main div beginning-->
 <div class="container-fluid">
   {{>navbar}}
   <div class="row">
     <div class="col-md-6">
 
       <form id="addToCart" class="form-horizontal">
-        <div id="invoiceNoGroup" class="form-group">
-          <label class="col-sm-2 control-label">Invoice Number</label>
+        <div id="purchaseNoGroup" class="form-group">
+          <label class="col-sm-2 control-label">Purchase Number</label>
           <div class="col-sm-10">
-            <input type="text" id="invoiceNo" class="form-control"
-              placeholder="Enter Invoice Number" value =" {{invoiceSavedObj.invoiceNo}} "/> <span id="invoiceSpan"
+            <input type="text" id="purchaseNo" class="form-control"
+              placeholder="Enter  Number" value =" {{purchaseEditObj.purchaseId}} " disabled="true"/> <span id="purchaseSpan"
               style="color: red"></span>
           </div>
         </div>
 
         <div id="buyerNameGroup" class="form-group">
-          <label class="col-sm-2 control-label">Buyer Name</label>
+          <label class="col-sm-2 control-label">Seller Name</label>
           <div class="col-sm-10">
             <select class="form-control" id="buyerId"> 
-              {{#each buyerList}}
+              {{#each sellerList}}
               <option value="{{_id}}">{{name}}</option> {{/each}}
             </select>
           </div>
@@ -27,7 +27,7 @@
         <div id="paymentStatusGroup" class="form-group">
           <label class="col-sm-2 control-label">Payment Status</label>
           <div class="col-sm-10">
-            <select class="form-control" id="paymentStatus" selected ="{{invoiceSavedObj.paymentStatus}}">
+            <select class="form-control" id="paymentStatus" selected ="{{purchaseEditObj.paymentStatus}}">
               <option value=" Pending ">Pending</option>
               <option value=" cleared ">Cleared</option>
             </select> <span id="paymentStatusSpan" style="color: red"></span>
@@ -37,21 +37,13 @@
         <div id="deliveryStatusGroup" class="form-group">
           <label class="col-sm-2 control-label">Delivery Status</label>
           <div class="col-sm-10">
-            <select class="form-control" id="deliveryStatus" selected ="{{invoiceSavedObj.deliveryStatus}}">
-              <option value=" Dispatch ">Dispatch</option>
+            <select class="form-control" id="deliveryStatus" selected ="{{purchaseEditObj.deliveryStatus}}">
+              <option value="Yet to Dispatch ">Yet to Dispatch</option>
               <option value=" Delivered ">Delivered</option>
             </select> <span id="deliveryStatusSpan" style="color: red"></span>
           </div>
         </div>
-  <div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
+ <div class="form-group">
   </div>
 <div class="form-group">
   </div>
@@ -86,7 +78,7 @@
       <div class="input-group datetimepicker" >
         <span class="input-group-addon"><i
           class="glyphicon glyphicon-calendar"></i></span> <input
-          class="set-due-date form-control" type="text" id="date" value= "{{invoiceSavedObj.date}}"/>
+          class="set-due-date form-control" type="text" id="date" value= "{{purchaseEditObj.date}}"/>
       </div>
     </div>
   </div>
@@ -103,14 +95,13 @@
         </tr>
       </thead>
       <tbody>
-        {{#each itemList}}
+        {{#each purchaseList}}
         <tr>
-          <td>{{plantId}}</td>        
-          
+          <td>{{plantId}}</td>                  
           <td><input type="text" id="quantity" class="form-control"
             value="{{quantity}}" /></td>
           <td><input type="text" id="cost" class="form-control"
-             value="{{sellingCost}}"/></td>
+             value="{{cost}}"/></td>
              
           <td><a id="removeFromCart">Delete</a></td>
         </tr>
@@ -140,16 +131,12 @@
 
 
   <div class="col-md-2">
-    <button type="button" class="btn btn-success" id="finalInvoice">
-      Create final Invoice</button>
+    <button type="button" class="btn btn-success" id="final">
+      Create final </button>
   </div>
+  {{#if purchaseSaved}}
   <div class="col-md-2">
-    <button type="button" id="cancelInvoice" class="btn btn-danger">
-      Cancel Invoice</button>
-  </div>
-  {{#if invoiceSaved}}
-  <div class="col-md-2">
-    <button type="button" id="invoiceSavedDraft" class="btn btn-success">
+    <button type="button" id="purchaseSavedDraft" class="btn btn-success">
       Save Draft</button>
   </div>
   {{/if}}

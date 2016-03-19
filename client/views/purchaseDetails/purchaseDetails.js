@@ -158,10 +158,118 @@ Template.purchaseDetails.events({
 			{
 				temp.insert(tempObj[i]);
 			}
-	
+
+
+					var flag = '0';
+		$("#items :text").each(function(){
+			if($(this).val() == '')
+			{
+				alert('please enter cost and quantity');
+				flag = '1';
+			}
+
+		});
+		if(checkDate()==false)
+		{
+				flag = '1';
+		}
+		
+		if(flag == '0')
+		{
+			$("#cancelPurchase").remove();
+			var Contain='';
+			$("#items :text").each(function(){
+				Contain += $(this).val() + "+";
+			});
+			$("#items :text").each(function(){
+				$(this).attr("disabled",true) ;
+			});
+			console.log(Contain);
+			var array = Contain.split('+');
+			console.log(array.length);
+			var costArray=[];
+			var quantityArray=[];
+			var j=0,i,k=0;
+			//quantityArray[0]
+			for(i=0;i<array.length-1;i++)
+			{
+				if(i % 2==0)
+				{
+					quantityArray[j] = array[i];	
+					j++;
+				}
+				else{
+					costArray[k] = array[i];
+					k++;
+				}
+			}
+			var stockQuantity;
+			var	tempObj = temp.find().fetch();
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				if(CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0] != null)
+				{
+					stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+					stockQuantity = Number(stockQuantity) + Number(tempObj[i].quantity);
+					CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
+				}
+				else
+				{
+					var obj = {};
+					obj.plantId = tempObj[i].plantId;
+					obj.quantity = tempObj[i].quantity;
+					obj.avgCost = '';
+					CodeBashApp.stockDetailsService.getInstance().addStock(obj);
+				}
+				tempObj[i].cost = costArray[i];		
+			}
+			for(i=0;i<quantityArray.length;i++ )
+			{	
+				temp.remove({_id:tempObj[i]._id});
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				temp.insert(tempObj[i]);
+			}
+			tempObj = temp.find().fetch();
+			console.log(temp.find().fetch());
+			for(i = 0;i<tempObj.length;i++)
+			{
+				CodeBashApp.purchaseDetailsService.getInstance().addPurchaseDetails(tempObj[i]);
+			}
+			var purchaseDetailsObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseId'));	
+			var totalcost = 0;
+			for(var i = 0; i<purchaseDetailsObj.length;i++)
+			{
+				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].cost);
+			}
+			var purchaseObj = {};
+			purchaseObj.purchaseId = purchaseDetailsObj[0].purchaseId;
+			purchaseObj.sellerId = $("#sellerId").val();
+			purchaseObj.date = $("#date").val();
+			purchaseObj.totalCost = totalcost;
+			Session.set('totalCost',totalcost);
+			purchaseObj.paymentStatus = $("#paymentStatus").val();
+			purchaseObj.deliveryStatus = $("#deliveryStatus").val();
+			CodeBashApp.purchaseService.getInstance().addPurchase(purchaseObj);
+			for(i = 0;i<tempObj.length;i++)
+			{
+				temp.remove(tempObj[i]._id);
+			}
+			alert('saved');
+	//		Router.go('/purchaseDetailsLandingPage');
+			Session.set('purchaseDetailsSaved','true');
+		}
 	},
 	"click #finalPurchase":function()
 	{	
+		if(Session.get('purchaseDetailsSaved'))
+		{
+			CodeBashApp.purchaseService.getInstance().updatePurchase('',Session.get('purchaseNo'),'','',Session.get('totalCost'),final);
+		}
+		else
+		{
 		var flag = '0';
 		$("#items :text").each(function(){
 			if($(this).val() == '')
@@ -264,13 +372,16 @@ Template.purchaseDetails.events({
 			purchaseObj.totalCost = totalcost;
 			purchaseObj.paymentStatus = $("#paymentStatus").val();
 			purchaseObj.deliveryStatus = $("#deliveryStatus").val();
+			purchaseObj.status = 'final';
 			CodeBashApp.purchaseService.getInstance().addPurchase(purchaseObj);
 			for(i = 0;i<tempObj.length;i++)
 			{
 				temp.remove(tempObj[i]._id);
 			}
-			Session.set("saved",'');
+			Router.go('purchaseDetailsLandingPage');
 		}//end of if
+
+	}
 	}
 });
 
