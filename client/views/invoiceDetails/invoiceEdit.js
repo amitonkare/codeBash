@@ -231,7 +231,7 @@ Template.invoiceEdit.events({
 			}
 			Session.set('totalProfit',totalProfit);
 			Session.set('totalSellingCost',totalSellingCost);
-			CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','saved','',totalProfit,totalSellingCost);
+			CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','','',totalProfit,totalSellingCost);
 			alert('Saved');
 		}
 	},

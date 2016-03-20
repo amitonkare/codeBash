@@ -5,13 +5,23 @@ CodeBashApp.purchaseDetailsLandingPageOnReady();
 Template.purchaseDetailsLandingPage.helpers({
 	purchaseList:function()
 	{
-		var obj = CodeBashApp.purchaseService.getInstance().findPurchase();
+		var obj = CodeBashApp.purchaseService.getInstance().findPurchaseByStatus('');
 		for(var i=0;i<obj.length;i++)
 		{			
 			console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name);
 			obj[i].sellerId = CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name;
 		}
 		return obj;
+	},
+	finalPurchases:function()
+	{
+	var obj = CodeBashApp.purchaseService.getInstance().findPurchaseByStatus('final');
+		for(var i=0;i<obj.length;i++)
+		{			
+			console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name);
+			obj[i].sellerId = CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name;
+		}
+		return obj;	
 	},
 	updateObj:function()
 	{

@@ -252,6 +252,7 @@ Template.purchaseDetails.events({
 			Session.set('totalCost',totalcost);
 			purchaseObj.paymentStatus = $("#paymentStatus").val();
 			purchaseObj.deliveryStatus = $("#deliveryStatus").val();
+			purchaseObj.status = '';
 			CodeBashApp.purchaseService.getInstance().addPurchase(purchaseObj);
 			for(i = 0;i<tempObj.length;i++)
 			{
@@ -266,7 +267,7 @@ Template.purchaseDetails.events({
 	{	
 		if(Session.get('purchaseDetailsSaved'))
 		{
-			CodeBashApp.purchaseService.getInstance().updatePurchase('',Session.get('purchaseNo'),'','',Session.get('totalCost'),final);
+			CodeBashApp.purchaseService.getInstance().updatePurchase('',Session.get('purchaseNo'),'','',Session.get('totalCost'),'final');
 		}
 		else
 		{

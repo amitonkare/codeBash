@@ -56,6 +56,17 @@
                             <td><a id= "updateDetails">Edit</a></td>
                         </tr>
                         {{/each}}
+
+                            {{#each finalInvoiceList}}
+                          <tr>
+                            <td>{{invoiceId}}</td>
+                            <td>{{buyerId}}</td>
+                            <td>{{date}}</td>
+                            <td>{{paymentStatus}}</td>
+                            <td>{{deliveryStatus}}</td>
+                            <td></td>
+                        </tr>
+                        {{/each}}
                     </tbody>
                 </table>
     </div>

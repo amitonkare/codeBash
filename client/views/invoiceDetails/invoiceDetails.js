@@ -172,7 +172,6 @@ Template.invoiceDetails.events({
 	},
 	"click #invoiceSavedDraft":function()
 	{
-		Session.set("invoiceSaved",'true');
 		Session.set("invoiceNo",$("#invoiceNo").val());
 		Session.set("buyerId",$("#buyerId").val());
 		Session.set("paymentStatus",$("#paymentStatus").val());
@@ -303,12 +302,13 @@ Template.invoiceDetails.events({
 			invoiceObj.totalProfit = totalProfit;
 			invoiceObj.paymentStatus = $("#paymentStatus").val();
 			invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
-			invoiceObj.status = "saved";
+			invoiceObj.status = '';
 			CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
 			for(i = 0;i<tempObj.length;i++)
 			{
 				temp.remove({_id:tempObj[i]._id});
 			}
+			Session.set("invoiceSaved",'true');
 			alert('Saved');
 			//Session.set('invoiceSaved','');
 			Session.set('detailsSaved','true');
@@ -317,18 +317,18 @@ Template.invoiceDetails.events({
 	},
 	"click #finalInvoice":function()
 	{
-		$("#plantName").attr("disabled",true);
-		$("#invoiceNo").attr("disabled",true);
-		$("#buyerId").attr("disabled",true);
-		$("#paymentStatus").attr("disabled",true);
-		$("#deliveryStatus").attr("disabled",true);
-		$("#date").attr("disabled",true);
-		$("#items :text").each(function(){
-			$(this).attr("disabled",true);				 
-		});
 		if(Session.get('detailsSaved'))
 		{
 			CodeBashApp.invoiceService.getInstance().updateInvoice('','','','final',Session.get('invoiceId'),Session.get('invoiceTotalProfit'),Session.get('invoiceTotalCost'));
+			$("#plantName").attr("disabled",true);
+			$("#invoiceNo").attr("disabled",true);
+			$("#buyerId").attr("disabled",true);
+			$("#paymentStatus").attr("disabled",true);
+			$("#deliveryStatus").attr("disabled",true);
+			$("#date").attr("disabled",true);
+			$("#items :text").each(function(){
+				$(this).attr("disabled",true);				 
+			});			
 		}
 		else
 		{	
@@ -463,16 +463,28 @@ Template.invoiceDetails.events({
 				invoiceObj.totalProfit = totalProfit;
 				invoiceObj.paymentStatus = $("#paymentStatus").val();
 				invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
-				invoiceObj.status = "saved";
+				invoiceObj.status = "final";
 				CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
 				for(i = 0;i<tempObj.length;i++)
 				{
 					temp.remove({_id:tempObj[i]._id});
 				}
-				alert('Saved');
+				$("#plantName").attr("disabled",true);
+				$("#invoiceNo").attr("disabled",true);
+				$("#buyerId").attr("disabled",true);
+				$("#paymentStatus").attr("disabled",true);
+				$("#deliveryStatus").attr("disabled",true);
+				$("#date").attr("disabled",true);
+				$("#items :text").each(function(){
+				$(this).attr("disabled",true);				 
+				});
+		
+
+				alert('final');
 				Router.go('/invoiceDetailsLandingPage');
 			}
 		}
+
 	}
 
 });

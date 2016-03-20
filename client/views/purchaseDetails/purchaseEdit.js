@@ -175,11 +175,11 @@ Template.purchaseEdit.events({
 			}
 			Session.set('totalProfit',totalProfit);
 			Session.set('totalCost',totalCost);
-			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'','',totalCost,'saved');
+			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),totalCost,'');
 			alert('Saved');
-			Router.go('/purhcaseDetailsLandingPage');
+			Router.go('/purchaseDetailsLandingPage');
 		}
-	},
+	},//(id,purchaseId,paymentStatus,deliveryStatus,totalCost,status)
 	"click #finalPurchase":function()
 	{
 			$("#plantName").attr("disabled",true);
@@ -191,8 +191,8 @@ Template.purchaseEdit.events({
 			$("#items :text").each(function(){
 				$(this).attr("disabled",true);				 
 			});
-		CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'','',Session.get('totalCost'),'final');
-		Router.go('/purhcaseDetailsLandingPage');
+		CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),Session.get('totalCost'),'final');
+		Router.go('/purchaseDetailsLandingPage');
 	}
 
 

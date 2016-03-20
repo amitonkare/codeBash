@@ -5,7 +5,18 @@ CodeBashApp.invoiceDetailsLandingPageOnReady();
 Template.invoiceDetailsLandingPage.helpers({
 	invoiceList:function()
 	{
-		var obj = CodeBashApp.invoiceService.getInstance().findInvoice();
+		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus('');
+		for(var i=0;i<obj.length;i++)
+		{			
+			console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);
+			obj[i].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name;
+		}
+		return obj;
+	},
+	finalInvoiceList:function()
+	{
+		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus("final");
+		console.log(obj);
 		for(var i=0;i<obj.length;i++)
 		{			
 			console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);
