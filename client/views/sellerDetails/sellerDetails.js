@@ -100,5 +100,41 @@ Template.sellerDetails.events({
 		$('#newIFSC').val('');
 		$('#newAccountNumber').val('');
 		$('#newBranchName').val('');	
+	},
+	'click #editSellerCancel':function()
+	{
+		$("#sellerNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#sellerNameGroup").addClass('form-group');
+    	$("#sellerNameSpan").html('');
+    	$("#sellerAddressGroup").removeClass('form-group has-error has-feedback');
+    	$("#sellerAddressGroup").addClass('form-group');
+    	$("#sellerAddressSpan").html('');
+    	$("#sellerPhoneNoGroup").removeClass('form-group has-error has-feedback');
+    	$("#sellerPhoneNoGroup").addClass('form-group');
+    	$("#sellerPhoneNoSpan").html('');
+    	$("#sellerEmailIdGroup").removeClass('form-group has-error has-feedback');
+    	$("#sellerEmailIdGroup").addClass('form-group');
+    	$("#sellerEmailIdSpan").html('');
+    	$("#bankNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#bankNameGroup").addClass('form-group');
+    	$("#bankNameSpan").html('');
+    	$("#branchNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#branchNameGroup").addClass('form-group');
+    	$("#branchNameSpan").html('');
+    	$("#accountNumberGroup").removeClass('form-group has-error has-feedback');
+    	$("#accountNumberGroup").addClass('form-group');
+    	$("#accountNumberSpan").html('');
+    	$("#IFSCGroup").removeClass('form-group has-error has-feedback');
+    	$("#IFSCGroup").addClass('form-group');
+    	$("#IFSCSpan").html('');
+    	var obj = CodeBashApp.sellerDetailsService.getInstance().findSellerById(Session.get('bid'))[0];
+    	$("#sellerName").val(obj.name);
+    	$("#sellerAddress").val(obj.address);
+    	$("#sellerPhoneNo").val(obj.phoneNo);
+    	$("#sellerEmailId").val(obj.emailId);
+    	$("#bankName").val(obj.bankAccountDetails.bankName);
+    	$("#branchName").val(obj.bankAccountDetails.branch);
+    	$("#accountNumber").val(obj.bankAccountDetails.accountNumber);
+    	$("#IFSC").val(obj.bankAccountDetails.IFSCCode);
 	}
 });

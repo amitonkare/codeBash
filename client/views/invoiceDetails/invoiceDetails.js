@@ -17,6 +17,7 @@ Template.invoiceDetails.onRendered(function(){
 	CodeBashApp.invoiceDetailsOnReady();
 	Meteor.typeahead.inject();
 	this.$('.datetimepicker').datetimepicker();
+
 });
 Template.invoiceDetails.helpers({
 	plants:function() //auto-complete suggestions
@@ -65,23 +66,12 @@ Template.invoiceDetails.helpers({
 	},
 	netTotal:function()
 	{
-		if(Session.get("invoiceSaved"))
-		{	
-			var total= 0;
-			var obj = temp.find().fetch();
-			for(var i = 0;i<obj.length;i++)
-			{
-				total = total +(obj[i].quantity*obj[i].sellingCost);
-				//total= total.toFixed(2);
-			}
-			Session.set('total',total);
-			return total;
-		}
+			return Session.get('total');	
 	},
 	totalTax:function()
 	{
 		var tax;
-		if(Session.get("invoiceSaved") && Session.get('total'))
+		if(Session.get('total'))
 		{	
 
 			tax = ((14/100)* Number(Session.get('total')));
@@ -94,7 +84,7 @@ Template.invoiceDetails.helpers({
 	grandTotal:function()
 	{
 		var grandTotal;
-		if(Session.get("invoiceSaved") && Session.get('total') && Session.get('tax'))
+		if(Session.get('total') && Session.get('tax'))
 		{
 			grandTotal = (Number(Session.get('total'))+Number(Session.get('tax')));
 			//grandTotal = grandTotal.toFixed(2);
@@ -145,16 +135,24 @@ Template.invoiceDetails.events({
 			Session.set("invoiceId",tempObj.invoiceId);
 			tempObj.plantId = plant[0]._id;
 			tempObj.quantity ='1' ;
-			tempObj.sellingCost = '';
+			tempObj.sellingCost = '0';
 			tempObj.profit = ''; 		
 			temp.insert(tempObj);
 			flag = 1;
 		}
+		CodeBashApp.invoiceTotal();
 	},
 	"click #removeFromCart":function(event)
 	{
+		var name = this.plantId;
+		var str = Session.get('plants');
+		console.log(str);
+		str = str.replace(name,"+");
+		Session.set('plants',str);
+		console.log("After replacements-->"+Session.get('plants'));
 		temp.remove(this._id);
 		event.preventDefault();
+		CodeBashApp.invoiceTotal();
 	},
 	"click #cancelInvoice":function()
 	{
@@ -172,6 +170,45 @@ Template.invoiceDetails.events({
 	},
 	"click #invoiceSavedDraft":function()
 	{
+		var flag = '0';
+		$("#items :text").each(function(){
+			if( $(this).val() == '' || $(this).val() == '0')
+			{
+				alert('please enter quantity and cost');
+				flag = '1';
+			} 
+		}); 
+		if(checkDate()==false)
+		{
+			flag = '1';
+		}
+		if($("#invoiceNo").val() == '')
+		{
+			alert('Enter invoice no');
+			flag = '1';
+		}
+		if($("#buyerId").val() == '')
+		{
+			alert('enter buyer no');
+			flag = '1';
+		}
+		if($("#paymentStatus").val() == '')
+		{
+			alert('select payment status');
+			flag = '1';
+		}	
+		if($("#deliveryStatus").val() == '')
+		{
+			alert('select payment status');
+			flag = '1';
+		}
+		if($("#date").val() == '')
+		{
+			alert('enter date');
+			flag = '1';
+		}
+		if(flag == '0')
+		{		
 		Session.set("invoiceNo",$("#invoiceNo").val());
 		Session.set("buyerId",$("#buyerId").val());
 		Session.set("paymentStatus",$("#paymentStatus").val());
@@ -213,21 +250,6 @@ Template.invoiceDetails.events({
 			temp.insert(tempObj[i]);
 		}
 
-
-		var flag = '0';
-		$("#items :text").each(function(){
-			if( $(this).val() == '')
-			{
-				alert('please enter quantity and cost');
-				flag = '1';
-			} 
-		}); 
-		if(checkDate()==false)
-		{
-			flag = '1';
-		}
-		if(flag == '0')
-		{
 			$("#invoiceSavedDraft").remove();
 			var Contain='';
 			$("#items :text").each(function(){
@@ -257,9 +279,6 @@ Template.invoiceDetails.events({
 			for(i=0;i<quantityArray.length;i++)
 			{
 				tempObj[i].quantity = quantityArray[i];
-				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
-				stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
-				CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
 				tempObj[i].sellingCost = sellingCostArray[i];
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
@@ -332,6 +351,48 @@ Template.invoiceDetails.events({
 		}
 		else
 		{	
+			var flag = '0';
+			$("#items :text").each(function(){
+				if( $(this).val() == ''|| $(this).val() == '0')
+				{
+					alert('please enter quantity and cost');
+					flag = '1';
+				} 
+			}); 
+			if(checkDate()==false)
+			{
+				flag = '1';
+			}
+
+			if($("#invoiceNo").val() == '')
+			{
+				alert('Enter invoice no');
+				flag = '1';
+			}
+			if($("#buyerId").val() == '')
+			{
+				alert('enter buyer no');
+				flag = '1';
+			}
+			if($("#paymentStatus").val() == '')
+			{
+				alert('select payment status');
+				flag = '1';
+			}	
+			if($("#deliveryStatus").val() == '')
+			{
+				alert('select payment status');
+				flag = '1';
+			}
+			if($("#date").val() == '')
+			{
+				alert('enter date');
+				flag = '1';
+			}
+
+			if(flag == '0')
+			{
+
 			Session.set("invoiceSaved",'true');
 			Session.set("invoiceNo",$("#invoiceNo").val());
 			Session.set("buyerId",$("#buyerId").val());
@@ -373,22 +434,6 @@ Template.invoiceDetails.events({
 			{
 				temp.insert(tempObj[i]);
 			}
-
-
-			var flag = '0';
-			$("#items :text").each(function(){
-				if( $(this).val() == '')
-				{
-					alert('please enter quantity and cost');
-					flag = '1';
-				} 
-			}); 
-			if(checkDate()==false)
-			{
-				flag = '1';
-			}
-			if(flag == '0')
-			{
 				$("#invoiceSavedDraft").remove();
 				var Contain='';
 				$("#items :text").each(function(){
@@ -478,8 +523,6 @@ Template.invoiceDetails.events({
 				$("#items :text").each(function(){
 				$(this).attr("disabled",true);				 
 				});
-		
-
 				alert('final');
 				Router.go('/invoiceDetailsLandingPage');
 			}

@@ -95,6 +95,12 @@ Template.purchaseDetails.events({
 	},
 	"click #removeFromCart":function(event)
 	{
+		var name = this.plantId;
+		var str = Session.get('purchasedPlants');
+		console.log(str);
+		str = str.replace(name,"+");
+		Session.set('purchasedPlants',str);
+		console.log("After replacements-->"+Session.get('purchasedPlants'));	
 		temp.remove(this._id);
 		event.preventDefault();
 	},

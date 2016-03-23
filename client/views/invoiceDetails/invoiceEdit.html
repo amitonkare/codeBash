@@ -47,12 +47,6 @@
   </div>
 <div class="form-group">
   </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
 
         <div id="plantNameGroup" class="form-group">
           <label class="col-sm-2 control-label">Plant Name</label>
@@ -110,36 +104,48 @@
     </table>
   </div>
 
-  {{#if billed}}
-  <table>
+  
+<div class="row">
+<div class="col-md-4">
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Bill Details</div>
+  <div class="panel-body">    
+    <table class="table">
+      <thead></thead>
+      <tbody>
     <tr>
-      <td>Net Total</td>
+      <td><b>Net Total</b></td>
       <td>{{netTotal}}</td>
     </tr>
     <tr>
-      <td>total Tax</td>
+      <td><b>Total Tax</b></td>
       <td>{{totalTax}}</td>
     </tr>
     <tr>
-      <td>grand Total</td>
+      <td><b>Grand Total</b></td>
       <td>{{grandTotal}}</td>
     </tr>
+  </tbody>
   </table>
 
-
-  {{/if}}
-
+  </div>  
+</div>
+</div>
+</div>
+  
+  
 
   <div class="col-md-2">
     <button type="button" class="btn btn-success" id="finalInvoice">
       Create final Invoice</button>
   </div>
-  {{#if invoiceSaved}}
+  
   <div class="col-md-2">
     <button type="button" id="invoiceSavedDraft" class="btn btn-success">
       Save Draft</button>
   </div>
-  {{/if}}
+  
   <div class="col-md-2">
     <button type="button" class="btn btn-success">Print</button>
   </div>

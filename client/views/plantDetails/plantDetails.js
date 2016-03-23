@@ -67,7 +67,7 @@ Template.plantDetailsTable.events({
         CodeBashApp.plantDetailsService.getInstance().addPlant(plantToBeAdded);     
         $("#new-plant").modal("hide");
         return false;
-    /*  var table =  $('#list-plants').DataTable();
+       /* var table =  $('#list-plants').DataTable();
         table.clear();
         var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
         //console.log(JSON.stringify(dataArray));                
@@ -85,6 +85,9 @@ Template.plantDetailsTable.events({
     {
         Session.set('update','true');
         Session.set('id',this._id);        
+        var obj = CodeBashApp.plantDetailsService.getInstance().findPlantById(Session.get('id'))[0];   
+        $("#plantType").val(obj.type);
+        $("#plantCategory").val(obj.category);
         $("#edit-plant").modal("show");
     },
     "submit #editPlantForm": function () {
@@ -113,7 +116,7 @@ Template.plantDetailsTable.events({
         console.log("delete id -->"+Session.get('deletePlantId'));
         CodeBashApp.plantDetailsService.getInstance().deletePlant(Session.get('deletePlantId'));
         Session.set('deletePlantId','');
-    /*    var table =  $('#list-plants').DataTable();
+        /*var table =  $('#list-plants').DataTable();
         table.clear();
         var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
         //console.log(JSON.stringify(dataArray));                
@@ -135,6 +138,21 @@ Template.plantDetailsTable.events({
         $("#newPlantScientificName").val('');
         $("#newPlantCategory").val('');
         $("#newPlantComments").val('');
+    },
+    'click #editPlantCancel':function()
+    {
+        $("#plantNameGroup").removeClass('form-group has-error has-feedback');
+        $("#plantNameGroup").addClass('form-group');
+        $("#plantNameSpan").html('');
+        $("#plantScientificNameGroup").removeClass('form-group has-error has-feedback');
+        $("#plantScientificNameGroup").addClass('form-group');
+        $("#plantScientificNameSpan").html('');
+        var obj = CodeBashApp.plantDetailsService.getInstance().findPlantById(Session.get('id'))[0];   
+        $("#plantName").val(obj.name);
+        $("#plantScientificName").val(obj.scientificName);
+        $("#plantComments").val(obj.comments);
+        $("#plantType").val(obj.type);
+        $("#plantCategory").val(obj.category);
     }
 
 });

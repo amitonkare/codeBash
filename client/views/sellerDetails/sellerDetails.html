@@ -169,21 +169,21 @@
                 <form id="editSellerForm" class="form-horizontal">
 
                         <div class="form-group" id = "sellerNameGroup">
-                            <label class="col-sm-2 control-label">Name</label>
+                            <label class="col-sm-2 control-label">Name<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "sellerName" class="form-control"   value="{{updateObj.name}}" />
                                 <span id="sellerNameSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group" id="sellerAddressGroup">
-                            <label class="col-sm-2 control-label">Address</label>
+                            <label class="col-sm-2 control-label">Address<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "sellerAddress" class="form-control" value="{{updateObj.address}}" />
                                 <span id="sellerAddressSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group" id="sellerPhoneNoGroup">
-                            <label class="col-sm-2 control-label">Phone no</label>
+                            <label class="col-sm-2 control-label">Phone no<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "sellerPhoneNo" class="form-control" value=
                                 "{{updateObj.phoneNo}}" />
@@ -191,14 +191,14 @@
                             </div>
                         </div>
                         <div class="form-group" id="sellerEmailIdGroup">
-                            <label class="col-sm-2 control-label">Email Id</label>
+                            <label class="col-sm-2 control-label">Email Id<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "sellerEmailId" class="form-control" value="{{updateObj.emailId}}" />
                                 <span id="sellerEmailIdSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group" id="bankNameGroup">
-                            <label class="col-sm-2 control-label">BankName</label>
+                            <label class="col-sm-2 control-label">BankName<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "bankName" class="form-control"  value="{{updateObj.bankAccountDetails.bankName}}" />
                                 <span id="bankNameSpan" style="color:red"></span>
@@ -206,7 +206,7 @@
                         </div>
 
                         <div class="form-group" id = "branchNameGroup">
-                            <label class="col-sm-2 control-label">Branch</label>
+                            <label class="col-sm-2 control-label">Branch<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "branchName" class="form-control" value="{{updateObj.bankAccountDetails.branch}}" />
                                 <span id="branchNameSpan" style="color:red"></span>
@@ -214,7 +214,7 @@
                         </div>
 
                         <div class="form-group" id= "IFSCGroup">
-                            <label class="col-sm-2 control-label">IFSC Code</label>
+                            <label class="col-sm-2 control-label">IFSC Code<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "IFSC" class="form-control" value="{{updateObj.bankAccountDetails.IFSCCode}}" />
                                 <span id="IFSCSpan" style="color:red"></span>
@@ -222,18 +222,18 @@
                         </div>
                         
                         <div class="form-group" id = "accountNumberGroup">
-                            <label class="col-sm-2 control-label">Account Number</label>
+                            <label class="col-sm-2 control-label">Account Number<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" id = "accountNumber" class="form-control" value="{{updateObj.bankAccountDetails.accountNumber}}" />
                                 <span id="accountNumberSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="editSellerCancel" class="btn btn-default" data-dismiss="modal">Close</button>
                         <input type="submit" id="addSeller" value="Save" class="btn btn-primary" >
                         </form>
                     </div>
                     <div class="modal-footer">
-                        
+                        <span style="color:red">Fields marked with * are mandatory</span>
                     </div>
                 
             </div>

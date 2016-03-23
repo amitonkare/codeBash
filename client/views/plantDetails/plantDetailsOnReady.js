@@ -20,20 +20,15 @@ $("#newPlantName").keydown(function(event) {
     $("#newPlantNameGroup").addClass('form-group');
     $("#newPlantNameSpan").html('');
 });
-$("#PlantName").keydown(function(event) {
-    $("#PlantNameGroup").removeClass('form-group has-error has-feedback');
-	$("#PlantNameGroup").addClass('form-group');
-    $("#PlantNameSpan").html('');
+$("#plantScientificName").keydown(function(event) {
+    $("#plantScientificNameGroup").removeClass('form-group has-error has-feedback');
+	$("#plantScientificNameGroup").addClass('form-group');
+    $("#plantScientificNameSpan").html('');
 });
-$("#PlantScientificName").keydown(function(event) {
-    $("#PlantScientificNameGroup").removeClass('form-group has-error has-feedback');
-	$("#PlantScientificNameGroup").addClass('form-group');
-    $("#PlantScientificNameSpan").html('');
-});
-$("#PlantName").keydown(function(event) {
-    $("#PlantNameGroup").removeClass('form-group has-error has-feedback');
-    $("#PlantNameGroup").addClass('form-group');
-    $("#PlantNameSpan").html('');
+$("#plantName").keydown(function(event) {
+    $("#plantNameGroup").removeClass('form-group has-error has-feedback');
+    $("#plantNameGroup").addClass('form-group');
+    $("#plantNameSpan").html('');
 });
 
 

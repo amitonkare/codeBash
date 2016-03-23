@@ -47,8 +47,6 @@ Template.invoiceEdit.helpers({
 	},
 	netTotal:function()
 	{
-		if(Session.get("invoiceSaved"))
-		{	
 			var total= 0;
 			var obj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
 			for(var i = 0;i<obj.length;i++)
@@ -57,13 +55,12 @@ Template.invoiceEdit.helpers({
 				//total= total.toFixed(2);
 			}
 			Session.set('total',total);
-			return total;
-		}
+		return Session.get('total');
 	},
 	totalTax:function()
 	{
 		var tax;
-		if(Session.get("invoiceSaved") && Session.get('total'))
+		if(Session.get('total'))
 		{	
 
 			tax = ((14/100)* Number(Session.get('total')));
@@ -76,7 +73,7 @@ Template.invoiceEdit.helpers({
 	grandTotal:function()
 	{
 	var grandTotal;
-		if(Session.get("invoiceSaved") && Session.get('total') && Session.get('tax'))
+		if(Session.get('total') && Session.get('tax'))
 		{
 			grandTotal = (Number(Session.get('total'))+Number(Session.get('tax')));
 			//grandTotal = grandTotal.toFixed(2);
@@ -84,37 +81,12 @@ Template.invoiceEdit.helpers({
 		}
 
 	},
-	invoiceSaved:function()
-	{
-		if(Session.get("invoiceSaved"))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
-	},
-	billed:function()
-	{
-		if(Session.get("invoiceSaved"))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
-	}
-
-
 });
 Template.invoiceEdit.events({
 	'click #removeFromCart':function()
 	{
 		CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(this._id);
+		CodeBashApp.invoiceTotal();
 	},
 	'submit #addToCart':function(event)
 	{
@@ -129,14 +101,14 @@ Template.invoiceEdit.events({
 			tempObj.invoiceId = Session.get('invoiceDetailsId');
 			tempObj.plantId = plant[0]._id;
 			tempObj.quantity ='1' ;
-			tempObj.sellingCost = '';
+			tempObj.sellingCost = '0';
 			tempObj.profit = ''; 		
 			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj);
 		}
+			CodeBashApp.invoiceTotal();
 	},
 	"click #invoiceSavedDraft":function()
 	{
-		Session.set("invoiceSaved",'true');
 		var Contain='';
 		$("#items :text").each(function(){
 			Contain += $(this).val() + "+";
@@ -200,9 +172,6 @@ Template.invoiceEdit.events({
 			for(i=0;i<quantityArray.length;i++)
 			{
 				tempObj[i].quantity = quantityArray[i];
-				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
-				stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
-				CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
 				tempObj[i].sellingCost = sellingCostArray[i];
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
@@ -233,6 +202,7 @@ Template.invoiceEdit.events({
 			Session.set('totalSellingCost',totalSellingCost);
 			CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','','',totalProfit,totalSellingCost);
 			alert('Saved');
+			Router.go('/invoiceDetailsLandingPage');	
 		}
 	},
 	"click #finalInvoice":function()
@@ -246,7 +216,13 @@ Template.invoiceEdit.events({
 			$("#items :text").each(function(){
 				$(this).attr("disabled",true);				 
 			});
-		CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final',Session.get('invoiceId'),Session.get('totalProfit'),Session.get('totalSellingCost'));
+		CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',Session.get('totalProfit'),Session.get('totalSellingCost'));
+		alert('your invoice is finalized');
+		Router.go('/invoiceDetailsLandingPage');	
+	},
+	'keyup #cost':function()
+	{
+		CodeBashApp.invoiceTotal();
 	}
 
 

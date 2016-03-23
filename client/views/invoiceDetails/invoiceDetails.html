@@ -38,7 +38,7 @@
           <label class="col-sm-2 control-label">Delivery Status</label>
           <div class="col-sm-10">
             <select class="form-control" id="deliveryStatus" selected ="{{invoiceSavedObj.deliveryStatus}}">
-              <option value=" Dispatch ">Dispatch</option>
+              <option value=" Yet to Dispatch ">Yet to Dispatch</option>
               <option value=" Delivered ">Delivered</option>
             </select> <span id="deliveryStatusSpan" style="color: red"></span>
           </div>
@@ -47,20 +47,7 @@
   </div>
 <div class="form-group">
   </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
-<div class="form-group">
-  </div>
+
 
         <div id="plantNameGroup" class="form-group">
           <label class="col-sm-2 control-label">Plant Name</label>
@@ -83,7 +70,7 @@
     <!--end of col-->
     <div class="col-md-2">
 
-      <div class="input-group datetimepicker" >
+      <div class="input-group datetimepicker" id="datetimepicker1">
         <span class="input-group-addon"><i
           class="glyphicon glyphicon-calendar"></i></span> <input
           class="set-due-date form-control" type="text" id="date" value= "{{invoiceSavedObj.date}}"/>
@@ -119,24 +106,39 @@
     </table>
   </div>
 
-  {{#if billed}}
-  <table>
+
+<div class="row">
+<div class="col-md-4">
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Bill Details</div>
+  <div class="panel-body">    
+    <table class="table">
+      <thead></thead>
+      <tbody>
     <tr>
-      <td>Net Total</td>
+      <td><b>Net Total</b></td>
       <td>{{netTotal}}</td>
     </tr>
     <tr>
-      <td>total Tax</td>
+      <td><b>Total Tax</b></td>
       <td>{{totalTax}}</td>
     </tr>
     <tr>
-      <td>grand Total</td>
+      <td><b>Grand Total</b></td>
       <td>{{grandTotal}}</td>
     </tr>
+  </tbody>
   </table>
 
+  </div>  
+</div>
+</div>
+</div>
+  
+  
 
-  {{/if}}
+
 
 
   <div class="col-md-2">

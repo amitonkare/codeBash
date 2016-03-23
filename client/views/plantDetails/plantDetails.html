@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Type</label>
+                            <label class="col-sm-2 control-label">Type<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <select class = "form-control" id= "newPlantType">
                                     {{#each typeList}}
@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Category</label>
+                            <label class="col-sm-2 control-label">Category<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <!--<input type="text" id = "newPlantCategory" class="form-control" placeholder="Enter Category" />-->
                                 <select class="form-control" id= "newPlantCategory">
@@ -145,29 +145,29 @@
 
 
                     <form class="form-horizontal" id="editPlantForm">
-                        <div class="form-group" id = "PlantNameGroup">
-                            <label class="col-sm-2 control-label">Name</label>
+                        <div class="form-group" id = "plantNameGroup">
+                            <label class="col-sm-2 control-label">Name<span style="color:red">*</span></label>
                             <div class="col-sm-10">
-                                <input type="text" id = "plantName" class="form-control" value="{{updateObject.name}}" required/>
-                                <span id="PlantNameSpan" style="color:red"></span>
+                                <input type="text" id = "plantName" class="form-control" value="{{updateObject.name}}"/>
+                                <span id="plantNameSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group" id = "PlantScientificNameGroup">
-                            <label class="col-sm-2 control-label">Scientific Name</label>
+                        <div class="form-group" id = "plantScientificNameGroup">
+                            <label class="col-sm-2 control-label">Scientific Name<span style="color:red">*</span></label>
                             <div class="col-sm-10">
-                                <input type="text" id = "plantScientificName" class="form-control" value = "{{updateObject.scientificName}}" required />
-                                <span id="PlantScientificNameSpan" style="color:red"></span>
+                                <input type="text" id = "plantScientificName" class="form-control" value = "{{updateObject.scientificName}}"/>
+                                <span id="plantScientificNameSpan" style="color:red"></span>
                             </div>
                         </div>
-                        <div class="form-group" id="PlantCommentsGroup">
+                        <div class="form-group" id="plantCommentsGroup">
                             <label class="col-sm-2 control-label">Comments</label>
                             <div class="col-sm-10">
-                                <input type="text" id = "plantComments" class="form-control" value="{{updateObject.comments}}" required/>
-                                <span id="PlantCommentsSpan" style="color:red"></span>
+                                <input type="text" id = "plantComments" class="form-control" value="{{updateObject.comments}}"/>
+                                <span id="plantCommentsSpan" style="color:red"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Type</label>
+                            <label class="col-sm-2 control-label">Type<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <select class = "form-control" id= "plantType" value="{{updateObject.type}}" >
                                     {{#each typeList}}
@@ -178,7 +178,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Category</label>
+                            <label class="col-sm-2 control-label">Category<span style="color:red">*</span></label>
                             <div class="col-sm-10">
                                 <!--<input type="text" id = "plantCategory" class="form-control" placeholder="Enter Category" />-->
                                   <select class="form-control" id= "plantCategory" value="{{updateObject.category}}">
@@ -190,7 +190,7 @@
                             </div>
                         </div>                       
                     
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="editPlantCancel" class="btn btn-default" data-dismiss="modal">Close</button>
                         <input type="submit" id="updatePlant" class="btn btn-primary" value="Save">
                     
                 </form>
@@ -199,6 +199,7 @@
 
                     </div>
                     <div class="modal-footer">
+                        <span style="color:red">Note: Fields marked with * are mandatory</span>
                                     </div>
                 </div>
         </div>

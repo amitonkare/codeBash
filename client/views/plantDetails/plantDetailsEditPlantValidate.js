@@ -5,29 +5,29 @@ CodeBashApp.plantDetailsEditPlantValidate = function(){
             if($("#plantName").val()=='')
             {
                 event.preventDefault();
-                $("#PlantNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#PlantNameSpan").html('please enter name');                
+                $("#plantNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#plantNameSpan").html('please enter name');                
             }
             else
             if($("#plantName").val().length<4)
             {
                 event.preventDefault();
-                $("#PlantNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#PlantNameSpan").html('plant name must be more than 4 characters');                
+                $("#plantNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#plantNameSpan").html('plant name must be more than 4 characters');                
             }
             else
             if($("#plantScientificName").val()=='')
             {
                 event.preventDefault();
-                $("#PlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#PlantScientificNameSpan").html('please enter Scientific name');    
+                $("#plantScientificNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#plantScientificNameSpan").html('please enter Scientific name');    
             }
             else
             if($("#plantScientificName").val().length<4)
             {
                 event.preventDefault();
-                $("#PlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#PlantScientificNameSpan").html('plant Scientific Name must be more than 4 characters');    
+                $("#plantScientificNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#plantScientificNameSpan").html('plant Scientific Name must be more than 4 characters');    
             }
             else
             {

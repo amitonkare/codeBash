@@ -147,15 +147,25 @@ Template.buyerDetails.events({
 	    $("#bankNameGroup").removeClass('form-group has-error has-feedback');
     	$("#bankNameGroup").addClass('form-group');
     	$("#bankNameSpan").html('');
-	    $("#BranchNameGroup").removeClass('form-group has-error has-feedback');
-    	$("#BranchNameGroup").addClass('form-group');
-    	$("#BranchNameSpan").html('');
+	    $("#branchNameGroup").removeClass('form-group has-error has-feedback');
+    	$("#branchNameGroup").addClass('form-group');
+    	$("#branchNameSpan").html('');
 	    $("#IFSCGroup").removeClass('form-group has-error has-feedback');
     	$("#IFSCGroup").addClass('form-group');
     	$("#IFSCSpan").html('');
-	    $("#AccountNumberGroup").removeClass('form-group has-error has-feedback');
-    	$("#AccountNumberGroup").addClass('form-group');
-    	$("#AccountNumberSpan").html('');
+	    $("#accountNumberGroup").removeClass('form-group has-error has-feedback');
+    	$("#accountNumberGroup").addClass('form-group');
+    	$("#accountNumberSpan").html('');
+    	var obj = CodeBashApp.buyerDetailsService.getInstance().findBuyerById(Session.get('bid'))[0];
+    	$("#buyerName").val(obj.name);
+    	$("#buyerAddress").val(obj.address);
+    	$("#buyerPhoneNo").val(obj.phoneNo);
+    	$("#buyerEmailId").val(obj.emailId);
+    	$("#bankName").val(obj.bankAccountDetails.bankName);
+    	$("#branchName").val(obj.bankAccountDetails.branch);
+    	$("#IFSC").val(obj.bankAccountDetails.IFSCCode);
+    	$("#accountNumber").val(obj.bankAccountDetails.accountNumber);
+    	
 	}
 
 });
