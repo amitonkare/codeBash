@@ -159,6 +159,117 @@ Template.invoiceEdit.events({
 		}
 		if(flag == '0')
 		{
+			//$("#invoiceSavedDraft").remove();
+			var Contain='';
+			$("#items :text").each(function(){
+				Contain += $(this).val() + "+";
+			});
+			console.log(Contain);
+			var array = Contain.split('+');
+			console.log(array.length);
+			var stockQuantity;
+			var flag2 = '1';
+			var tempObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				tempObj[i].sellingCost = sellingCostArray[i];
+				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+				if(stockQuantity<quantityArray[i])
+				{
+					name =  CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
+					alert('available quantity of'+name+' is '+stockQuantity);
+					flag2 = '0';
+					break; 
+				}
+				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
+				if(tempObj[i].profit<0)
+				{
+					tempObj.profit[i].profit = 0;
+				}			
+			}
+			if(flag2 == '1'){
+			for(i=0;i<quantityArray.length;i++ )
+			{	
+				CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(tempObj[i]._id);
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);		
+			}
+			Session.set("invoiceSaved",'');	
+			tempObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
+			var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
+			var totalProfit = 0;
+			var totalSellingCost = 0;
+			for(var i = 0; i<invoiceDetailsObj.length;i++)
+			{
+				totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
+				totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+			}
+			Session.set('totalProfit',totalProfit);
+			Session.set('totalSellingCost',totalSellingCost);
+			CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','','',totalProfit,totalSellingCost);
+
+			alert('Saved');
+			Router.go('/invoiceDetailsLandingPage');	
+			}
+		}
+	},
+	"click #finalInvoice":function()
+	{
+		var flag2 = '1';
+		var Contain = '';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+			//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+				}
+		}
+		var tempObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
+		for(i=0;i<quantityArray.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(i=0;i<quantityArray.length;i++ )
+		{	
+			CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(tempObj[i]._id);
+		}
+		for(i=0;i<quantityArray.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+		}
+		var flag = '0';
+		$("#items :text").each(function(){
+			if( $(this).val() == '')
+			{
+				alert('please enter quantity and cost');
+				flag = '1';
+			} 
+		}); 
+		if(checkDate()==false)
+		{
+				flag = '1';
+		}
+		if(flag == '0')
+		{
 			$("#invoiceSavedDraft").remove();
 			var Contain='';
 			$("#items :text").each(function(){
@@ -173,6 +284,15 @@ Template.invoiceEdit.events({
 			{
 				tempObj[i].quantity = quantityArray[i];
 				tempObj[i].sellingCost = sellingCostArray[i];
+				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+				if(stockQuantity<quantityArray[i])
+				{
+					var plantName = CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
+					alert('available quantity of '+plantName+'is '+stockQuantity);
+					return false;
+				}	
+				stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
+				CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 				if(tempObj[i].profit<0)
@@ -198,15 +318,8 @@ Template.invoiceEdit.events({
 				totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
 				totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
 			}
-			Session.set('totalProfit',totalProfit);
-			Session.set('totalSellingCost',totalSellingCost);
-			CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','','',totalProfit,totalSellingCost);
-			alert('Saved');
-			Router.go('/invoiceDetailsLandingPage');	
-		}
-	},
-	"click #finalInvoice":function()
-	{
+			CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',totalProfit,totalSellingCost);
+
 			$("#plantName").attr("disabled",true);
 			$("#invoiceNo").attr("disabled",true);
 			$("#buyerId").attr("disabled",true);
@@ -216,11 +329,16 @@ Template.invoiceEdit.events({
 			$("#items :text").each(function(){
 				$(this).attr("disabled",true);				 
 			});
-		CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',Session.get('totalProfit'),Session.get('totalSellingCost'));
+		//CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',Session.get('totalProfit'),Session.get('totalSellingCost'));
 		alert('your invoice is finalized');
 		Router.go('/invoiceDetailsLandingPage');	
+		}
 	},
 	'keyup #cost':function()
+	{
+		CodeBashApp.invoiceTotal();
+	},
+	'keyup #quantity':function()
 	{
 		CodeBashApp.invoiceTotal();
 	}

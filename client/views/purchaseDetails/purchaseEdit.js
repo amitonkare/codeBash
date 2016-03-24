@@ -150,6 +150,118 @@ Template.purchaseEdit.events({
 			for(i=0;i<quantityArray.length;i++)
 			{
 				tempObj[i].quantity = quantityArray[i];
+	//			stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+	//			stockQuantity = Number(stockQuantity) + Number(tempObj[i].quantity);
+	//			CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
+				tempObj[i].cost = costArray[i];
+	//			stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+			}
+			for(i=0;i<quantityArray.length;i++ )
+			{	
+				CodeBashApp.purchaseDetailsService.getInstance().deletePurchaseDetails(tempObj[i]._id);
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				CodeBashApp.purchaseDetailsService.getInstance().addPurchaseDetails(tempObj[i]);		
+			}
+			Session.set("purchaseSaved",'');	
+			tempObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseDetailsId'));
+			var purchaseDetailsObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseDetailsId'));
+			var totalProfit = 0;
+			var totalCost = 0;
+			for(var i = 0; i<purchaseDetailsObj.length;i++)
+			{
+				totalCost = Number(totalCost)+Number(purchaseDetailsObj[i].cost);
+			}
+			Session.set('totalProfit',totalProfit);
+			Session.set('totalCost',totalCost);
+			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),totalCost,'');
+			alert('Saved');
+			Session.set('purchaseEditSaved','true');
+			Router.go('/purchaseDetailsLandingPage');
+		}
+	},//(id,purchaseId,paymentStatus,deliveryStatus,totalCost,status)
+	"click #finalPurchase":function()
+	{
+		if(Session.get('purchaseEditSaved'))
+		{
+			$("#plantName").attr("disabled",true);
+			$("#purchaseNo").attr("disabled",true);
+			$("#sellerId").attr("disabled",true);
+			$("#paymentStatus").attr("disabled",true);
+			$("#deliveryStatus").attr("disabled",true);
+			$("#date").attr("disabled",true);
+			$("#items :text").each(function(){
+				$(this).attr("disabled",true);				 
+			});
+			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),Session.get('totalCost'),'final');
+			Router.go('/purchaseDetailsLandingPage');	
+		}
+		else
+		{
+			var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		console.log(array.length);
+		var costArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+			//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				costArray[k] = array[i];
+				k++;
+				}
+		}
+		var tempObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseDetailsId'));
+		for(i=0;i<quantityArray.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+			tempObj[i].cost = costArray[i];
+		}
+		for(i=0;i<quantityArray.length;i++ )
+		{	
+			CodeBashApp.purchaseDetailsService.getInstance().deletePurchaseDetails(tempObj[i]._id);
+		}
+		for(i=0;i<quantityArray.length;i++)
+		{
+			CodeBashApp.purchaseDetailsService.getInstance().addPurchaseDetails(tempObj[i]);
+		}
+		var flag = '0';
+		$("#items :text").each(function(){
+			if( $(this).val() == '')
+			{
+				alert('please enter quantity and cost');
+				flag = '1';
+			} 
+		}); 
+		if(checkDate()==false)
+		{
+				flag = '1';
+		}
+		if(flag == '0')
+		{
+			$("#purchaseSavedDraft").remove();
+			var Contain='';
+			$("#items :text").each(function(){
+				Contain += $(this).val() + "+";
+			});
+			console.log(Contain);
+			var array = Contain.split('+');
+			console.log(array.length);
+			var stockQuantity;
+			var tempObj = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(Session.get('purchaseDetailsId'));
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
 				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
 				stockQuantity = Number(stockQuantity) + Number(tempObj[i].quantity);
 				CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
@@ -176,23 +288,11 @@ Template.purchaseEdit.events({
 			Session.set('totalProfit',totalProfit);
 			Session.set('totalCost',totalCost);
 			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),totalCost,'');
-			alert('Saved');
-			Router.go('/purchaseDetailsLandingPage');
-		}
-	},//(id,purchaseId,paymentStatus,deliveryStatus,totalCost,status)
-	"click #finalPurchase":function()
-	{
-			$("#plantName").attr("disabled",true);
-			$("#purchaseNo").attr("disabled",true);
-			$("#sellerId").attr("disabled",true);
-			$("#paymentStatus").attr("disabled",true);
-			$("#deliveryStatus").attr("disabled",true);
-			$("#date").attr("disabled",true);
-			$("#items :text").each(function(){
-				$(this).attr("disabled",true);				 
-			});
-		CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),Session.get('totalCost'),'final');
-		Router.go('/purchaseDetailsLandingPage');
+			alert('purchase final');
+			Router.go('/purchaseDetailsLandingPage');	
+
+			}
+		}		
 	}
 
 

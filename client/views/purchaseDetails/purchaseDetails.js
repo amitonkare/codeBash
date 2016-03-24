@@ -1,7 +1,7 @@
 function checkDate() {
             var EnteredDate = $("#date").val(); // For JQuery
-            var date = EnteredDate.substring(0, 2);
-            var month = EnteredDate.substring(3, 5);
+            var month = EnteredDate.substring(0, 2);
+            var date= EnteredDate.substring(3, 5);
             var year = EnteredDate.substring(6, 10);
             var myDate = new Date(year, month - 1, date);
             var today = new Date();
@@ -214,20 +214,6 @@ Template.purchaseDetails.events({
 			for(i=0;i<quantityArray.length;i++)
 			{
 				tempObj[i].quantity = quantityArray[i];
-				if(CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0] != null)
-				{
-					stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
-					stockQuantity = Number(stockQuantity) + Number(tempObj[i].quantity);
-					CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
-				}
-				else
-				{
-					var obj = {};
-					obj.plantId = tempObj[i].plantId;
-					obj.quantity = tempObj[i].quantity;
-					obj.avgCost = '';
-					CodeBashApp.stockDetailsService.getInstance().addStock(obj);
-				}
 				tempObj[i].cost = costArray[i];		
 			}
 			for(i=0;i<quantityArray.length;i++ )
@@ -336,21 +322,13 @@ Template.purchaseDetails.events({
 			for(i=0;i<quantityArray.length;i++)
 			{
 				tempObj[i].quantity = quantityArray[i];
+				tempObj[i].cost = costArray[i];		
 				if(CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0] != null)
 				{
 					stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
 					stockQuantity = Number(stockQuantity) + Number(tempObj[i].quantity);
-					CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
+					CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,tempObj[i].cost);
 				}
-				else
-				{
-					var obj = {};
-					obj.plantId = tempObj[i].plantId;
-					obj.quantity = tempObj[i].quantity;
-					obj.avgCost = '';
-					CodeBashApp.stockDetailsService.getInstance().addStock(obj);
-				}
-				tempObj[i].cost = costArray[i];		
 			}
 			for(i=0;i<quantityArray.length;i++ )
 			{	

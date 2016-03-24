@@ -250,7 +250,7 @@ Template.invoiceDetails.events({
 			temp.insert(tempObj[i]);
 		}
 
-			$("#invoiceSavedDraft").remove();
+			
 			var Contain='';
 			$("#items :text").each(function(){
 				Contain += $(this).val() + "+";
@@ -275,11 +275,21 @@ Template.invoiceDetails.events({
 				}
 			}
 			var stockQuantity;
+			var flag2 = '1';
 			tempObj = temp.find().fetch();
 			for(i=0;i<quantityArray.length;i++)
 			{
 				tempObj[i].quantity = quantityArray[i];
 				tempObj[i].sellingCost = sellingCostArray[i];
+				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+				if(stockQuantity<quantityArray[i])
+				{
+					name =  CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
+					alert('available quantity of'+name+' is '+stockQuantity);
+					flag2 = '0';
+					break; 
+				}
+				
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 				if(tempObj[i].profit<0)
@@ -287,10 +297,12 @@ Template.invoiceDetails.events({
 					tempObj.profit[i].profit = 0;
 				}			
 			}
+			if(flag2 == '1'){
 			for(i=0;i<quantityArray.length;i++ )
 			{	
 				temp.remove({_id:tempObj[i]._id});
 			}
+
 			for(i=0;i<quantityArray.length;i++)
 			{
 				temp.insert(tempObj[i]);
@@ -327,11 +339,13 @@ Template.invoiceDetails.events({
 			{
 				temp.remove({_id:tempObj[i]._id});
 			}
-			Session.set("invoiceSaved",'true');
+			//Session.set("invoiceSaved",'true');
 			alert('Saved');
 			//Session.set('invoiceSaved','');
 			Session.set('detailsSaved','true');
+			$("#invoiceSavedDraft").remove();
 			Router.go('/invoiceDetailsLandingPage');
+			}
 		}
 	},
 	"click #finalInvoice":function()
@@ -434,54 +448,40 @@ Template.invoiceDetails.events({
 			{
 				temp.insert(tempObj[i]);
 			}
-				$("#invoiceSavedDraft").remove();
-				var Contain='';
-				$("#items :text").each(function(){
-					Contain += $(this).val() + "+";
-				});
-				console.log(Contain);
-				var array = Contain.split('+');
-				console.log(array.length);
-				var sellingCostArray=[];
-				var quantityArray=[];
-				var j=0,i,k=0;
-				//quantityArray[0]
-				for(i=0;i<array.length-1;i++)
+			var stockQuantity;
+			var flag2 = '1';
+			var name;
+			tempObj = temp.find().fetch();
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+				if(stockQuantity<quantityArray[i])
 				{
-					if(i % 2==0)
-					{
-						quantityArray[j] = array[i];	
-						j++;
-					}
-					else{
-						sellingCostArray[k] = array[i];
-						k++;
-					}
+					name =  CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
+					alert('available quantity of'+name+' is '+stockQuantity);
+					flag2 = '0';
+					break; 
 				}
-				var stockQuantity;
-				tempObj = temp.find().fetch();
-				for(i=0;i<quantityArray.length;i++)
+				stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
+				CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
+				tempObj[i].sellingCost = sellingCostArray[i];
+				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
+				if(tempObj[i].profit<0)
 				{
-					tempObj[i].quantity = quantityArray[i];
-					stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
-					stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
-					CodeBashApp.stockDetailsService.getInstance().updateStock(tempObj[i].plantId,stockQuantity,'');
-					tempObj[i].sellingCost = sellingCostArray[i];
-					stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
-					tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
-					if(tempObj[i].profit<0)
-					{
-						tempObj.profit[i].profit = 0;
-					}			
-				}
-				for(i=0;i<quantityArray.length;i++ )
-				{	
-					temp.remove({_id:tempObj[i]._id});
-				}
-				for(i=0;i<quantityArray.length;i++)
-				{
-					temp.insert(tempObj[i]);
-				}
+					tempObj.profit[i].profit = 0;
+				}			
+			}
+			if(flag2 == '1'){
+			for(i=0;i<quantityArray.length;i++ )
+			{	
+				temp.remove({_id:tempObj[i]._id});
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				temp.insert(tempObj[i]);
+			}
 				Session.set("invoiceSaved",'');	
 				tempObj = temp.find().fetch();
 				console.log(temp.find().fetch());
@@ -491,11 +491,10 @@ Template.invoiceDetails.events({
 				}
 				var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceId'));
 				var totalProfit = 0;
-				var totalSellingCost = 0;
+				var totalSellingCost = 0;				
 				for(var i = 0; i<invoiceDetailsObj.length;i++)
 				{
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-
 					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
 				}
 				Session.set('invoiceTotalProfit',totalProfit);
@@ -527,8 +526,18 @@ Template.invoiceDetails.events({
 				Router.go('/invoiceDetailsLandingPage');
 			}
 		}
-
 	}
+
+	},//end of final purhcase
+	'keyup #cost':function()
+	{
+		CodeBashApp.invoiceTotal();
+	},
+	'keyup #quantity':function()
+	{
+		CodeBashApp.invoiceTotal();
+	}
+
 
 });
 

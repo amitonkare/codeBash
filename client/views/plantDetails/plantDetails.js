@@ -62,9 +62,19 @@ Template.plantDetailsTable.events({
         var plantCategory = event.target.newPlantCategory.value;
         event.target.newPlantCategory.value ='';
         var plantComments = event.target.newPlantComments.value;
-        event.target.newPlantComments.value ='';
-        var plantToBeAdded = CodeBashApp.plantDetailsVO(plantName, plantType, plantScientificName, plantCategory,plantComments);
+        console.log(event.target.newPlantComments.value);
+        console.log(plantComments);
+        event.target.newPlantComments.value ='';//(name,type,scientificName,category,cost,quantity,comments)
+        var plantToBeAdded = CodeBashApp.plantDetailsVO(plantName,plantType,plantScientificName,plantCategory,plantComments);
         CodeBashApp.plantDetailsService.getInstance().addPlant(plantToBeAdded);     
+        var plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantByName(plantName);
+        console.log(plantObj);
+        var obj = {};
+        obj.plantId = plantObj[0]._id;
+        obj.quantity = '';
+        obj.avgCost = '';
+        console.log(obj);
+        CodeBashApp.stockDetailsService.getInstance().addStock(obj);
         $("#new-plant").modal("hide");
         return false;
        /* var table =  $('#list-plants').DataTable();
@@ -114,8 +124,10 @@ Template.plantDetailsTable.events({
     },
     "click #deletePlant":function(){
         console.log("delete id -->"+Session.get('deletePlantId'));
+        CodeBashApp.stockDetailsService.getInstance().deleteStockByPlantId(Session.get('deletePlantId'));
         CodeBashApp.plantDetailsService.getInstance().deletePlant(Session.get('deletePlantId'));
         Session.set('deletePlantId','');
+
         /*var table =  $('#list-plants').DataTable();
         table.clear();
         var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
