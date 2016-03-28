@@ -174,14 +174,6 @@ Template.invoiceEdit.events({
 			{
 				tempObj[i].quantity = quantityArray[i];
 				tempObj[i].sellingCost = sellingCostArray[i];
-				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
-				if(stockQuantity<quantityArray[i])
-				{
-					name =  CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
-					alert('available quantity of'+name+' is '+stockQuantity);
-					flag2 = '0';
-					break; 
-				}
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 				if(tempObj[i].profit<0)

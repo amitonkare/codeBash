@@ -15,7 +15,7 @@ Template.plantDetailsTable.helpers({
     plantsList : function(){
                        
         plants = CodeBashApp.plantDetailsService.getInstance().findPlants();
-        //console.log("plants -- >" + plants);
+        console.log("plants id-- >" + plants);
         return plants;
     },
     categoryList:function()
@@ -40,6 +40,8 @@ Template.plantDetailsTable.helpers({
 Template.plantDetailsTable.events({
     "click #dPlant":function()
     {
+        console.log('dPlant cliked');
+        console.log('id--->'+this._id);
         Session.set('deletePlantId',this._id);
         $("#deleteModal").modal("show");    
     },
@@ -71,21 +73,26 @@ Template.plantDetailsTable.events({
         console.log(plantObj);
         var obj = {};
         obj.plantId = plantObj[0]._id;
-        obj.quantity = '';
-        obj.avgCost = '';
+        obj.quantity = '0';
+        obj.avgCost = '0';
         console.log(obj);
         CodeBashApp.stockDetailsService.getInstance().addStock(obj);
         $("#new-plant").modal("hide");
-        return false;
-       /* var table =  $('#list-plants').DataTable();
+        //datatable code here ---->
+
+/*        var table =  $('#list-plants').DataTable();
         table.clear();
         var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
         //console.log(JSON.stringify(dataArray));                
         for(var i = 0;i<dataArray.length;i++)
         {
-        table.row.add([dataArray[i].name,dataArray[i].scientificName,dataArray[i].type,dataArray[i].category,dataArray[i].quantity,dataArray[i].cost,dataArray[i].comments,'<a data-toggle="modal" data-target="#edit-plant" id= "updateDetails">Edit</a> <a id="dPlant" data-toggle="modal" data-target="#deleteModal">Delete</a>']);
+        table.row.add([dataArray[i].name,dataArray[i].scientificName,dataArray[i].type,dataArray[i].category,dataArray[i].comments,'<a data-toggle="modal" data-target="#edit-plant"  id= "updateDetails">Edit</a> <a id="dPlant" data-toggle="modal" data-target="#deleteModal">Delete</a>']);
         }
-        setTimeout(function(){table.draw();},3000);        */
+        setTimeout(function(){table.draw();},3000);        
+        console.log('datatable complete after add plant');
+        */
+        return false;
+
       }
     
           
@@ -93,6 +100,8 @@ Template.plantDetailsTable.events({
     },
     "click #updateDetails":function()
     {
+        console.log('updateDetails click');
+        console.log('id--->'+this._id);
         Session.set('update','true');
         Session.set('id',this._id);        
         var obj = CodeBashApp.plantDetailsService.getInstance().findPlantById(Session.get('id'))[0];   
@@ -127,17 +136,19 @@ Template.plantDetailsTable.events({
         CodeBashApp.stockDetailsService.getInstance().deleteStockByPlantId(Session.get('deletePlantId'));
         CodeBashApp.plantDetailsService.getInstance().deletePlant(Session.get('deletePlantId'));
         Session.set('deletePlantId','');
-
-        /*var table =  $('#list-plants').DataTable();
+        //datatable code here ---->
+        /* 
+        var table =  $('#list-plants').DataTable();
         table.clear();
         var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
         //console.log(JSON.stringify(dataArray));                
         for(var i = 0;i<dataArray.length;i++)
         {
-        table.row.add([dataArray[i].name,dataArray[i].scientificName,dataArray[i].type,dataArray[i].category,dataArray[i].quantity,dataArray[i].cost,dataArray[i].comments,'<a data-toggle="modal" data-target="#edit-plant" id= "updateDetails">Edit</a> <a id="dPlant" data-toggle="modal" data-target="#deleteModal">Delete</a>']);
+        table.row.add([dataArray[i].name,dataArray[i].scientificName,dataArray[i].type,dataArray[i].category,dataArray[i].comments,'<a data-toggle="modal" data-target="#edit-plant" id= "updateDetails">Edit</a> <a id="dPlant" data-toggle="modal" data-target="#deleteModal">Delete</a>']);
         }
-        setTimeout(function(){table.draw();},3000);        */
-       
+        setTimeout(function(){table.draw();},3000);        
+        console.log('datatable complete after delete plant');
+        */
     },
     'click #newplantmodal':function()
     {
