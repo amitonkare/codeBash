@@ -1,0 +1,41 @@
+<template name="stockReports"> <!--main div beginning-->
+	<div class="container-fluid">
+		{{>navbar}}
+
+        <div class="in-header row">
+            <div class="col-md-6">
+                <i class="fa fa-dot-circle-o  fa-lg"></i>
+                <span>Stock Reports</span>
+            </div>
+        </div>
+        
+            <div class="table" id = "stocks">
+                <table id="list-stocks" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>PlantName</th>
+                            <th>Quantity</th>
+                            <th>Avg Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each stockList}}
+                        <tr>
+                           <td>{{plantId}}</td>
+                           <td>{{quantity}}</td>
+                           <td>{{avgCost}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+  <div class="col-md-2">
+    <button type="button" class="btn btn-success" id="print">Save as PDF
+      </button>
+  </div>
+
+
+	</div><!--end of container-fluid-->
+
+</template>

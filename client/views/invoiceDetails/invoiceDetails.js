@@ -3,16 +3,50 @@ function checkDate() {
 	var month = EnteredDate.substring(0, 2);
 	var date = EnteredDate.substring(3, 5);
 	var year = EnteredDate.substring(6, 10);
-	var myDate = new Date(year, month - 1, date);
+	var time = EnteredDate.substring(10, EnteredDate.length);
+	var time_hrs = time.substring(0,3);
+ 	var time_min = time.substring(4,6);
+
+	console.log('time--->'+time);
+	var myDate = new Date(year, month - 1, date,time_hrs,time_min);
 	var today = new Date();
-	if (myDate >= today) {
+	console.log("EnteredDate -->"+myDate);
+	console.log("current date -->"+today);
+	var dateflag = '1';
+	var timeflag ='1';
+	console.log(myDate.getTime());
+	console.log(today.getTime());
+		
+	if (myDate.getTime() > today.getTime()) {
+		console.log('inside if');
+		console.log(myDate.getTime());
+		console.log(today.getTime());
+		timeflag ='0';
+		console.log(timeflag);
+	}
+
+		console.log(myDate.getDate());
+		console.log(today.getDate());
+	if(myDate.getDate() < today.getDate() && myDate.getMonth() < today.getMonth())
+	{
+		console.log('inside if');
+		console.log(myDate.getDate());
+		console.log(today.getDate());
+
+		dateflag ='0';
+		console.log(dateflag);
+	}
+	if(dateflag == '1' && timeflag == '1')
+	{
 		return true;
 	}
-	else {
+	else 
+	{
 		alert("Entered date is less than today's date ");
 		return false;
 	}
 }
+
 Template.invoiceDetails.onRendered(function(){
 	CodeBashApp.invoiceDetailsOnReady();
 	Meteor.typeahead.inject();
@@ -330,8 +364,8 @@ Template.invoiceDetails.events({
 			{
 				temp.remove({_id:tempObj[i]._id});
 			}
-			//Session.set("invoiceSaved",'true');
 			alert('Saved');
+			//Session.set("invoiceSaved",'true');
 			//Session.set('invoiceSaved','');
 			Session.set('detailsSaved','true');
 			$("#invoiceSavedDraft").remove();
