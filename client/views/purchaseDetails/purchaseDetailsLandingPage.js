@@ -5,7 +5,7 @@ CodeBashApp.purchaseDetailsLandingPageOnReady();
 Template.purchaseDetailsLandingPage.helpers({
 	purchaseList:function()
 	{
-		var obj = CodeBashApp.purchaseService.getInstance().findPurchaseByStatus('');
+		var obj = CodeBashApp.purchaseService.getInstance().findPurchaseByStatus('saved');
 		for(var i=0;i<obj.length;i++)
 		{			
 			console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name);

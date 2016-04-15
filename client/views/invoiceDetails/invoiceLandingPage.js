@@ -5,7 +5,7 @@ CodeBashApp.invoiceDetailsLandingPageOnReady();
 Template.invoiceDetailsLandingPage.helpers({
 	invoiceList:function()
 	{
-		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus('');
+		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus('saved');
 		for(var i=0;i<obj.length;i++)
 		{			
 			console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);

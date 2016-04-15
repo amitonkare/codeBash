@@ -1,7 +1,7 @@
 function checkDate() {
             var EnteredDate = $("#date").val(); // For JQuery
             var month = EnteredDate.substring(0, 2);
-            var date= EnteredDate.substring(3, 5);
+            var date = EnteredDate.substring(3, 5);
             var year = EnteredDate.substring(6, 10);
             var myDate = new Date(year, month - 1, date);
             var today = new Date();
@@ -244,7 +244,7 @@ Template.purchaseDetails.events({
 			Session.set('totalCost',totalcost);
 			purchaseObj.paymentStatus = $("#paymentStatus").val();
 			purchaseObj.deliveryStatus = $("#deliveryStatus").val();
-			purchaseObj.status = '';
+			purchaseObj.status = 'saved';
 			CodeBashApp.purchaseService.getInstance().addPurchase(purchaseObj);
 			for(i = 0;i<tempObj.length;i++)
 			{

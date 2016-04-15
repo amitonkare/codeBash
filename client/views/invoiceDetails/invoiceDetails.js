@@ -3,45 +3,12 @@ function checkDate() {
 	var month = EnteredDate.substring(0, 2);
 	var date = EnteredDate.substring(3, 5);
 	var year = EnteredDate.substring(6, 10);
-	var time = EnteredDate.substring(10, EnteredDate.length);
-	var time_hrs = time.substring(0,3);
- 	var time_min = time.substring(4,6);
-
-	console.log('time--->'+time);
-	var myDate = new Date(year, month - 1, date,time_hrs,time_min);
+	var myDate = new Date(year, month - 1, date);
 	var today = new Date();
-	console.log("EnteredDate -->"+myDate);
-	console.log("current date -->"+today);
-	var dateflag = '1';
-	var timeflag ='1';
-	console.log(myDate.getTime());
-	console.log(today.getTime());
-		
-	if (myDate.getTime() > today.getTime()) {
-		console.log('inside if');
-		console.log(myDate.getTime());
-		console.log(today.getTime());
-		timeflag ='0';
-		console.log(timeflag);
-	}
-
-		console.log(myDate.getDate());
-		console.log(today.getDate());
-	if(myDate.getDate() < today.getDate() && myDate.getMonth() < today.getMonth())
-	{
-		console.log('inside if');
-		console.log(myDate.getDate());
-		console.log(today.getDate());
-
-		dateflag ='0';
-		console.log(dateflag);
-	}
-	if(dateflag == '1' && timeflag == '1')
-	{
+	if (myDate >= today) {
 		return true;
 	}
-	else 
-	{
+	else {
 		alert("Entered date is less than today's date ");
 		return false;
 	}
@@ -353,12 +320,12 @@ Template.invoiceDetails.events({
 			var invoiceObj = {};
 			invoiceObj.invoiceId = invoiceDetailsObj[0].invoiceId;
 			invoiceObj.buyerId = $("#buyerId").val();
-			invoiceObj.date = $("#date").val();
+			invoiceObj.date = new Date($("#date").val());
 			invoiceObj.totalCost = totalSellingCost;
 			invoiceObj.totalProfit = totalProfit;
 			invoiceObj.paymentStatus = $("#paymentStatus").val();
 			invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
-			invoiceObj.status = '';
+			invoiceObj.status = 'saved';
 			CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
 			for(i = 0;i<tempObj.length;i++)
 			{

@@ -10,6 +10,16 @@ Router.route('/buyerReports', {
 	template: 'buyerReports'
 });
 
+Router.route('/invoiceReports', {
+	name: 'invoiceReports',
+	template: 'invoiceReports'
+});
+
+Router.route('/purchaseReports', {
+	name: 'purchaseReports',
+	template: 'purchaseReports'
+});
+
 Router.route('/stockReports', {
 	name: 'stockReports',
 	template: 'stockReports'
