@@ -4,7 +4,7 @@ CodeBashApp.purchaseDetailsValidate = function(){
         {
             if($("#purchaseNo").val()=='')
             {
-                 event.preventDefault();
+                event.preventDefault();
                 $("#purchaseNoGroup").addClass('form-group has-error has-feedback');                 
                 $("#purchaseNoSpan").html('please enter purchase No');                
             }
@@ -21,6 +21,12 @@ CodeBashApp.purchaseDetailsValidate = function(){
                  event.preventDefault();
                 $("#deliveryStatusGroup").addClass('form-group has-error has-feedback');                 
                 $("#deliveryStatusSpan").html('please enter delivery status');                
+            }
+            else
+            if($("#sellerId").val()=='')
+            {
+                $("#sellerNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#sellerNameSpan").html('please select seller Name');                         
             }
             else
             {

@@ -1,4 +1,4 @@
-CodeBashApp.printdiv = function(printdivname)
+CodeBashApp.printdiv = function(printdivname,route)
 {
 var headstr = "<html><head><title></title></head><body>";
 var footstr = "</body>";
@@ -8,4 +8,5 @@ document.body.innerHTML = headstr+newstr+footstr;
 window.print();
 document.body.innerHTML = oldstr;
 return false;
+Router.go('/'+route);
 }

@@ -9,7 +9,8 @@ function checkDate() {
                 return true;
             }
             else {
-                alert("Entered date is less than today's date ");
+            	$("#dateGroup").addClass('form-group has-error has-feedback');                 
+            	$("#dateSpan").html('please enter valid Date');                			
                 return false;
             }
         }
@@ -77,7 +78,7 @@ Template.purchaseDetails.events({
 			if(str.search(name) !== -1)
 			{
 				flag = 0;
-				alert('plant exists in list');
+				//alert('plant exists in list');
 			}
 		}
 		if(flag == 1)
@@ -120,16 +121,56 @@ Template.purchaseDetails.events({
 	},
 	"click #saveDraft":function()
 	{
-		Session.set("saved",'true');
-		Session.set("purchaseNo",$("#purchaseNo").val());
-		Session.set("sellerId",$("#sellerId").val());
-		Session.set("paymentStatus",$("#paymentStatus").val());
-		Session.set("deliveryStatus",$("#deliveryStatus").val());
-		Session.set("date",$("#date").val());
-		var Contain='';
-		$("#items :text").each(function(){
-			Contain += $(this).val() + "+";
+		var flag = '0';
+		console.log('inside click saveDraft');
+		var validate = CodeBashApp.purchaseDetailsValidate();
+		if(Session.get('purchasedPlants')=='')
+		{
+			$("#tableGroup").addClass('form-group has-error has-feedback');                 
+			$("#tableSpan").html('please enter plants for purchase');          
+			flag = '1';
+		}
+		if($("#date").val()=='')
+		{
+			$("#dateGroup").addClass('form-group has-error has-feedback');                 
+			$("#dateSpan").html('please enter date');                					
+			flag = '1';
+		}
+		else
+			$("#items :text").each(function(){
+			if($(this).val() == '')
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+                $("#quantitySpan").html('please enter quantity');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+                $("#costSpan").html('please enter cost');                	
+				//alert('please enter cost and quantity');
+				flag = '1';
+			}
+
 		});
+		if(checkDate()==false)
+		{
+				flag = '1';
+		}
+		console.log("flag--->"+flag+"validate--->"+validate);
+		if(validate=="false")
+		{
+			flag = '1';
+		}
+		if(flag=='0')
+		{
+			console.log('inside if');
+			Session.set("saved",'true');
+			Session.set("purchaseNo",$("#purchaseNo").val());
+			Session.set("sellerId",$("#sellerId").val());
+			Session.set("paymentStatus",$("#paymentStatus").val());
+			Session.set("deliveryStatus",$("#deliveryStatus").val());
+			Session.set("date",$("#date").val());
+			var Contain='';
+			$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+			});
 			console.log(Contain);
 			var array = Contain.split('+');
 			console.log(array.length);
@@ -163,25 +204,7 @@ Template.purchaseDetails.events({
 			for(i=0;i<quantityArray.length;i++)
 			{
 				temp.insert(tempObj[i]);
-			}
-
-
-					var flag = '0';
-		$("#items :text").each(function(){
-			if($(this).val() == '')
-			{
-				alert('please enter cost and quantity');
-				flag = '1';
-			}
-
-		});
-		if(checkDate()==false)
-		{
-				flag = '1';
-		}
-		
-		if(flag == '0')
-		{
+			}		
 			$("#cancelPurchase").remove();
 			var Contain='';
 			$("#items :text").each(function(){
@@ -250,24 +273,54 @@ Template.purchaseDetails.events({
 			{
 				temp.remove(tempObj[i]._id);
 			}
-			alert('saved');
-	//		Router.go('/purchaseDetailsLandingPage');
+			//alert('saved');
 			Session.set('purchaseDetailsSaved','true');
+			$("#saveDraft").remove();
+			$("#saveModal").modal("show");    			
 		}
 	},
 	"click #finalPurchase":function()
 	{	
+
 		if(Session.get('purchaseDetailsSaved'))
 		{
 			CodeBashApp.purchaseService.getInstance().updatePurchase('',Session.get('purchaseNo'),'','',Session.get('totalCost'),'final');
 		}
 		else
 		{
-		var flag = '0';
-		$("#items :text").each(function(){
-			if($(this).val() == '')
+			var flag = '0';
+			var validate = CodeBashApp.purchaseDetailsValidate();
+			if(Session.get('purchasedPlants')=='')
 			{
-				alert('please enter cost and quantity');
+				$("#tableGroup").addClass('form-group has-error has-feedback');                 
+				$("#tableSpan").html('please enter plants for purchase');          
+				flag = '1';
+			}
+			if(Session.get('purchasedPlants')=='')
+			{
+				$("#tableGroup").addClass('form-group has-error has-feedback');                 
+				$("#tableSpan").html('please enter plants for purchase');          
+				flag = '1';
+			}
+		
+		if(validate =='false')
+		{
+			flag='1';
+		}
+		if($("#date").val()=='')
+		{
+			$("#dateGroup").addClass('form-group has-error has-feedback');                 
+			$("#dateSpan").html('please enter date');                					
+			flag = '1';
+		}
+		$("#items :text").each(function(){
+		if($(this).val() == '')
+		{
+			$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+            $("#quantitySpan").html('please enter quantity');                
+			$("#costGroup").addClass('form-group has-error has-feedback');                 
+            $("#costSpan").html('please enter cost');                			
+				//alert('please enter cost and quantity');
 				flag = '1';
 			}
 
@@ -363,27 +416,18 @@ Template.purchaseDetails.events({
 			{
 				temp.remove(tempObj[i]._id);
 			}
-			Router.go('purchaseDetailsLandingPage');
+			
 		}//end of if
-
+	
 	}
+	},
+	"click #savePurchase":function()
+	{
+		Router.go('/purchaseDetailsLandingPage');
+	},
+	"click #confirmPurchase":function()
+	{
+		Router.go('/purchaseDetailsLandingPage');
 	}
 });
 
-/*
-db.plantDetails.find().pretty();
-{
-        "_id" : "o88x6SPAPcBijLynp",
-        "name" : "rose",
-        "type" : "indoor",
-        "scientificName" : "mango",
-        "category" : "flowering"
-}
-{
-        "_id" : "v6B2t8fYh2AoTxT42",
-        "name" : "apple",
-        "type" : "indoor",
-        "scientificName" : "apla",
-        "category" : "flowering"
-}
- */

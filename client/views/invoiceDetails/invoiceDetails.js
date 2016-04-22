@@ -9,7 +9,8 @@ function checkDate() {
 		return true;
 	}
 	else {
-		alert("Entered date is less than today's date ");
+		$("#dateGroup").addClass('form-group has-error has-feedback');                 
+        $("#dateSpan").html('please enter valid Date');                			
 		return false;
 	}
 }
@@ -123,8 +124,9 @@ Template.invoiceDetails.events({
 		{
 			if(str.search(name) !== -1)
 			{
+				$("#tableSpan").html('plant Exists in cart');          
 				flag = 0;
-				alert('plant exists in list');
+				
 			}
 		}
 
@@ -162,6 +164,7 @@ Template.invoiceDetails.events({
 		{	
 			temp.remove({_id:tempObj[i]._id});
 		}	
+		Session.set('plants','');
 		$("#plantName").val('');
 		$("#invoiceNo").val('');
 		$("#buyerId").val('');
@@ -172,40 +175,36 @@ Template.invoiceDetails.events({
 	"click #invoiceSavedDraft":function()
 	{
 		var flag = '0';
+		var validate = CodeBashApp.invoiceDetailsValidate();
+		if(Session.get('plants')=='')
+		{
+			$("#tableGroup").addClass('form-group has-error has-feedback');                 
+			$("#tableSpan").html('please enter plants for purchase');          
+			flag = '1';
+		}
+		if(validate =='false')
+		{
+			flag = '1';
+		}
 		$("#items :text").each(function(){
 			if( $(this).val() == '' || $(this).val() == '0')
 			{
-				alert('please enter quantity and cost');
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+                $("#quantitySpan").html('please enter quantity');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+                $("#costSpan").html('please enter cost');                	
+				//alert('please enter cost and quantity');
 				flag = '1';
 			} 
-		}); 
+		});
+		if($("#date").val()=='')
+		{
+			$("#dateGroup").addClass('form-group has-error has-feedback');                 
+        	$("#dateSpan").html('please enter  Date');                			
+			flag ='1'; 
+		} 
 		if(checkDate()==false)
-		{
-			flag = '1';
-		}
-		if($("#invoiceNo").val() == '')
-		{
-			alert('Enter invoice no');
-			flag = '1';
-		}
-		if($("#buyerId").val() == '')
-		{
-			alert('enter buyer no');
-			flag = '1';
-		}
-		if($("#paymentStatus").val() == '')
-		{
-			alert('select payment status');
-			flag = '1';
-		}	
-		if($("#deliveryStatus").val() == '')
-		{
-			alert('select payment status');
-			flag = '1';
-		}
-		if($("#date").val() == '')
-		{
-			alert('enter date');
+		{			
 			flag = '1';
 		}
 		if(flag == '0')
@@ -250,7 +249,6 @@ Template.invoiceDetails.events({
 		{
 			temp.insert(tempObj[i]);
 		}
-
 			
 			var Contain='';
 			$("#items :text").each(function(){
@@ -285,9 +283,10 @@ Template.invoiceDetails.events({
 				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
+				console.log('profit--->'+tempObj[i].profit)
 				if(tempObj[i].profit<0)
 				{
-					tempObj.profit[i].profit = 0;
+					tempObj[i].profit='0';
 				}			
 			}
 			if(flag2 == '1'){
@@ -320,7 +319,7 @@ Template.invoiceDetails.events({
 			var invoiceObj = {};
 			invoiceObj.invoiceId = invoiceDetailsObj[0].invoiceId;
 			invoiceObj.buyerId = $("#buyerId").val();
-			invoiceObj.date = new Date($("#date").val());
+			invoiceObj.date = $("#date").val();
 			invoiceObj.totalCost = totalSellingCost;
 			invoiceObj.totalProfit = totalProfit;
 			invoiceObj.paymentStatus = $("#paymentStatus").val();
@@ -331,12 +330,12 @@ Template.invoiceDetails.events({
 			{
 				temp.remove({_id:tempObj[i]._id});
 			}
-			alert('Saved');
+			//alert('Saved');
 			//Session.set("invoiceSaved",'true');
 			//Session.set('invoiceSaved','');
 			Session.set('detailsSaved','true');
-			$("#invoiceSavedDraft").remove();
-			Router.go('/invoiceDetailsLandingPage');
+			$("#invoiceSavedDraft").remove();			
+			$("#saveModal").modal("show");    				
 			}
 		}
 	},
@@ -358,44 +357,37 @@ Template.invoiceDetails.events({
 		else
 		{	
 			var flag = '0';
+			var validate = CodeBashApp.invoiceDetailsValidate();
+			if(validate =='false')
+			{
+				flag = '1';
+			}
 			$("#items :text").each(function(){
-				if( $(this).val() == ''|| $(this).val() == '0')
-				{
-					alert('please enter quantity and cost');
-					flag = '1';
-				} 
+			if( $(this).val() == '' || $(this).val() == '0')
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+                $("#quantitySpan").html('please enter quantity');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+                $("#costSpan").html('please enter cost');                	
+				//alert('please enter cost and quantity');
+				flag = '1';
+			}
+
 			}); 
-			if(checkDate()==false)
-			{
+			
+			if($("#date").val()=='')
+			{	
+				$("#dateGroup").addClass('form-group has-error has-feedback');                 
+				$("#dateSpan").html('please enter date');                					
 				flag = '1';
 			}
-
-			if($("#invoiceNo").val() == '')
+			if(checkDate()=='false')
 			{
-				alert('Enter invoice no');
-				flag = '1';
+				$("#dateGroup").addClass('form-group has-error has-feedback');                 
+				$("#dateSpan").html('please enter valid date');                					
+				flag = '1';	
 			}
-			if($("#buyerId").val() == '')
-			{
-				alert('enter buyer no');
-				flag = '1';
-			}
-			if($("#paymentStatus").val() == '')
-			{
-				alert('select payment status');
-				flag = '1';
-			}	
-			if($("#deliveryStatus").val() == '')
-			{
-				alert('select payment status');
-				flag = '1';
-			}
-			if($("#date").val() == '')
-			{
-				alert('enter date');
-				flag = '1';
-			}
-
+		
 			if(flag == '0')
 			{
 
@@ -451,7 +443,7 @@ Template.invoiceDetails.events({
 				if(stockQuantity<quantityArray[i])
 				{
 					name =  CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
-					alert('available quantity of'+name+' is '+stockQuantity);
+					$("#tableSpan").html('available quantity of'+name+' is '+stockQuantity);          
 					flag2 = '0';
 					break; 
 				}
@@ -462,7 +454,7 @@ Template.invoiceDetails.events({
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 				if(tempObj[i].profit<0)
 				{
-					tempObj.profit[i].profit = 0;
+					tempObj.profit[i].profit = '0';
 				}			
 			}
 			if(flag2 == '1'){
@@ -514,13 +506,22 @@ Template.invoiceDetails.events({
 				$("#items :text").each(function(){
 				$(this).attr("disabled",true);				 
 				});
-				alert('final');
-				Router.go('/invoiceDetailsLandingPage');
+				$("#confirmModal").modal("show");    				
+				
 			}
 		}
 	}
 
 	},//end of final purhcase
+
+	"click #saveInvoice":function()
+	{
+		Router.go('/invoiceDetailsLandingPage');
+	},
+	"click #confirmInvoice":function()
+	{
+		Router.go('/invoiceDetailsLandingPage');
+	},
 	'keyup #cost':function()
 	{
 		CodeBashApp.invoiceTotal();

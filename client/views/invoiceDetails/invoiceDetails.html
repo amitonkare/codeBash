@@ -9,25 +9,26 @@
           <label class="col-sm-2 control-label">Invoice Number</label>
           <div class="col-sm-10">
             <input type="text" id="invoiceNo" class="form-control"
-              placeholder="Enter Invoice Number" value =" {{invoiceSavedObj.invoiceNo}} "/> <span id="invoiceSpan"
+              placeholder="Enter Invoice Number" /> <span id="invoiceNoSpan"
               style="color: red"></span>
           </div>
         </div>
 
-        <div id="buyerNameGroup" class="form-group">
+        <div id="buyerIdGroup" class="form-group">
           <label class="col-sm-2 control-label">Buyer Name</label>
           <div class="col-sm-10">
             <select class="form-control" id="buyerId"> 
               {{#each buyerList}}
               <option value="{{_id}}">{{name}}</option> {{/each}}
             </select>
+             <span id="buyerIdSpan" style="color: red"></span>
           </div>
         </div>
 
         <div id="paymentStatusGroup" class="form-group">
           <label class="col-sm-2 control-label">Payment Status</label>
           <div class="col-sm-10">
-            <select class="form-control" id="paymentStatus" selected ="{{invoiceSavedObj.paymentStatus}}">
+            <select class="form-control" id="paymentStatus" >
               <option value=" Pending ">Pending</option>
               <option value=" cleared ">Cleared</option>
             </select> <span id="paymentStatusSpan" style="color: red"></span>
@@ -37,7 +38,7 @@
         <div id="deliveryStatusGroup" class="form-group">
           <label class="col-sm-2 control-label">Delivery Status</label>
           <div class="col-sm-10">
-            <select class="form-control" id="deliveryStatus" selected ="{{invoiceSavedObj.deliveryStatus}}">
+            <select class="form-control" id="deliveryStatus">
               <option value=" Yet to Dispatch ">Yet to Dispatch</option>
               <option value=" Delivered ">Delivered</option>
             </select> <span id="deliveryStatusSpan" style="color: red"></span>
@@ -69,14 +70,16 @@
     </div>
     <!--end of col-->
     <div class="col-md-2">
-
-      <div class="input-group datetimepicker" id="datetimepicker1">
+     <div class="form-group" id="dateGroup">    
+   <div class="input-group datetimepicker" >
         <span class="input-group-addon"><i
           class="glyphicon glyphicon-calendar"></i></span> <input
-          class="set-due-date form-control" type="text" id="date" value= "{{invoiceSavedObj.date}}"/>
+          class="set-due-date form-control" type="text" id="date" />
       </div>
+      <span id="dateSpan" style="color:red"></span>                      
     </div>
-  </div>
+        </div>
+     </div>
   <!--end of col-->
 
   <div class="table-responsive" id="items">
@@ -94,19 +97,27 @@
         <tr>
           <td>{{plantId}}</td>        
           
-          <td><input type="text" id="quantity" class="form-control"
-            value="{{quantity}}" /></td>
-          <td><input type="text" id="cost" class="form-control"
-             value="{{sellingCost}}"/></td>
-             
+          <td>
+          <div id="quantityGroup" class="form-group">        
+            <input type="text" id="quantity" class="form-control"
+            value="{{quantity}}" />
+           <span id="quantitySpan" style="color: red"></span>            
+          </div>
+          </td>
+          <td>
+            <div id="costGroup" class="form-group">        
+              <input type="text" id="cost" class="form-control" value="{{sellingCost}}"/>
+              <span id="costSpan" style="color: red"></span>            
+          </div>
+            </td>
+            
           <td><a id="removeFromCart">Delete</a></td>
         </tr>
         {{/each}}
       </tbody>
     </table>
   </div>
-
-
+ <span id="tableSpan" style="color: red"></span>
 <div class="row">
 <div class="col-md-4">
 <div class="panel panel-primary">
@@ -160,5 +171,45 @@
   </div>
 
 </div>
+     
+
+<div id="saveModal" data-backdrop="false" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Your invoice is saved</p>
+      </div>
+      <div class="modal-footer">       
+            <input type="submit" class="btn btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="confirmModal" data-backdrop="false" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Your invoice is confirmed</p>
+      </div>
+      <div class="modal-footer">       
+            <input type="submit" class="btn btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
+      </div>
+    </div>
+  </div>
+</div>
+
 
 </template>
