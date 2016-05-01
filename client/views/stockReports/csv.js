@@ -17,6 +17,7 @@ CodeBashApp.saveCSV = function(csvContent,div){
     }
 
     finalVal += '\n';
+    finalVal += ',';
 }
 
 console.log(finalVal);

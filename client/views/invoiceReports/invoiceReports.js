@@ -248,7 +248,9 @@ Template.invoiceReports.events({
 	
 	},
 	'click #printInvoiceReports':function(){
-    	CodeBashApp.printdiv("invoiceReports"); 
+    	CodeBashApp.printdiv("invoiceReports");
+    	$("#maindiv").remove();
+		Router.current().render(Template.invoiceReports); 
   	},
   	'click #invoiceReportsCSV':function(){
 

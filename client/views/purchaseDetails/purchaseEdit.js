@@ -1,22 +1,24 @@
  function checkDate() {
-            var EnteredDate = $("#date").val(); // For JQuery
-            var month = EnteredDate.substring(0, 2);
-            var date = EnteredDate.substring(3, 5);
-            var year = EnteredDate.substring(6, 10);
-            var myDate = new Date(year, month - 1, date);
-            var today = new Date();
-            if (myDate >= today) {
-                return true;
-            }
-            else {
-                alert("Entered date is less than today's date ");
-                return false;
-            }
-        }
+			var EnteredDate = $("#date").val(); // For JQuery
+			var month = EnteredDate.substring(0, 2);
+			var date = EnteredDate.substring(3, 5);
+			var year = EnteredDate.substring(6, 10);
+			var myDate = new Date(year, month - 1, date);
+			var today = new Date();
+			if (myDate >= today) {
+				return true;
+			}
+			else {
+				$("#dateGroup").addClass('form-group has-error has-feedback');                 
+				$("#dateSpan").html('please enter valid Date');                			
+				return false;
+			}
+		}
 
 Template.purchaseEdit.onRendered(function(){
 	Meteor.typeahead.inject();
 	this.$('.datetimepicker').datetimepicker();
+	CodeBashApp.purchaseEditOnReady();
 });
 Template.purchaseEdit.helpers({
 	plants:function() //auto-complete suggestions
@@ -80,8 +82,12 @@ Template.purchaseEdit.events({
 			tempObj.plantId = plant[0]._id;
 			tempObj.quantity ='1' ;
 			tempObj.cost = '';
-			
 			CodeBashApp.purchaseDetailsService.getInstance().addPurchaseDetails(tempObj);
+		}else
+		{
+			$("#tableGroup").addClass('form-group has-error has-feedback');                 
+			$("#tableSpan").html('plant already exists in cart');          
+		
 		}
 	},
 	"click #purchaseSavedDraft":function()
@@ -127,7 +133,9 @@ Template.purchaseEdit.events({
 		$("#items :text").each(function(){
 			if( $(this).val() == '')
 			{
-				alert('please enter quantity and cost');
+				$("#tableGroup").addClass('form-group has-error has-feedback');                 
+				$("#tableSpan").html('please enter quantity and cost');          
+				//alert('please enter quantity and cost');
 				flag = '1';
 			} 
 		}); 
@@ -176,9 +184,9 @@ Template.purchaseEdit.events({
 			Session.set('totalProfit',totalProfit);
 			Session.set('totalCost',totalCost);
 			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),totalCost,'');
-			alert('Saved');
+			//alert('Saved');
 			Session.set('purchaseEditSaved','true');
-			Router.go('/purchaseDetailsLandingPage');
+			$("#saveModal").modal("show");    			
 		}
 	},//(id,purchaseId,paymentStatus,deliveryStatus,totalCost,status)
 	"click #finalPurchase":function()
@@ -195,7 +203,7 @@ Template.purchaseEdit.events({
 				$(this).attr("disabled",true);				 
 			});
 			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),Session.get('totalCost'),'final');
-			Router.go('/purchaseDetailsLandingPage');	
+			$("#confirmModal").modal("show");    			
 		}
 		else
 		{
@@ -239,7 +247,9 @@ Template.purchaseEdit.events({
 		$("#items :text").each(function(){
 			if( $(this).val() == '')
 			{
-				alert('please enter quantity and cost');
+				$("#tableGroup").addClass('form-group has-error has-feedback');                 
+				$("#tableSpan").html('please enter plants for purchase');          
+			//	alert('please enter quantity and cost');
 				flag = '1';
 			} 
 		}); 
@@ -288,11 +298,18 @@ Template.purchaseEdit.events({
 			Session.set('totalProfit',totalProfit);
 			Session.set('totalCost',totalCost);
 			CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurchaseId'),'',$("#paymentStatus").val(),$("#deliveryStatus").val(),totalCost,'');
-			alert('purchase final');
-			Router.go('/purchaseDetailsLandingPage');	
-
+			$("#confirmModal").modal("show");    				
 			}
 		}		
+	},
+	
+	"click #savePurchase":function()
+	{
+		Router.go('/purchaseDetailsLandingPage');
+	},
+	"click #confirmPurchase":function()
+	{
+		Router.go('/purchaseDetailsLandingPage');
 	}
 
 

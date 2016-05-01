@@ -10,7 +10,7 @@ function checkDate() {
 	}
 	else {
 		$("#dateGroup").addClass('form-group has-error has-feedback');                 
-        $("#dateSpan").html('please enter valid Date');                			
+		$("#dateSpan").html('please enter valid Date');                			
 		return false;
 	}
 }
@@ -68,7 +68,7 @@ Template.invoiceDetails.helpers({
 	},
 	netTotal:function()
 	{
-			return Session.get('total');	
+		return Session.get('total');	
 	},
 	totalTax:function()
 	{
@@ -190,9 +190,9 @@ Template.invoiceDetails.events({
 			if( $(this).val() == '' || $(this).val() == '0')
 			{
 				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
-                $("#quantitySpan").html('please enter quantity');                
+				$("#quantitySpan").html('please enter quantity');                
 				$("#costGroup").addClass('form-group has-error has-feedback');                 
-                $("#costSpan").html('please enter cost');                	
+				$("#costSpan").html('please enter cost');                	
 				//alert('please enter cost and quantity');
 				flag = '1';
 			} 
@@ -200,7 +200,7 @@ Template.invoiceDetails.events({
 		if($("#date").val()=='')
 		{
 			$("#dateGroup").addClass('form-group has-error has-feedback');                 
-        	$("#dateSpan").html('please enter  Date');                			
+			$("#dateSpan").html('please enter  Date');                			
 			flag ='1'; 
 		} 
 		if(checkDate()==false)
@@ -209,19 +209,19 @@ Template.invoiceDetails.events({
 		}
 		if(flag == '0')
 		{		
-		Session.set("invoiceNo",$("#invoiceNo").val());
-		Session.set("buyerId",$("#buyerId").val());
-		Session.set("paymentStatus",$("#paymentStatus").val());
-		Session.set("date",$("#date").val());
-		var Contain='';
-		$("#items :text").each(function(){
-			Contain += $(this).val() + "+";
-		});
-		var array = Contain.split('+');
-		console.log(array.length);
-		var sellingCostArray=[];
-		var quantityArray=[];
-		var j=0,i,k=0;
+			Session.set("invoiceNo",$("#invoiceNo").val());
+			Session.set("buyerId",$("#buyerId").val());
+			Session.set("paymentStatus",$("#paymentStatus").val());
+			Session.set("date",$("#date").val());
+			var Contain='';
+			$("#items :text").each(function(){
+				Contain += $(this).val() + "+";
+			});
+			var array = Contain.split('+');
+			console.log(array.length);
+			var sellingCostArray=[];
+			var quantityArray=[];
+			var j=0,i,k=0;
 		//quantityArray[0]
 		for(i=0;i<array.length-1;i++)
 		{
@@ -249,17 +249,17 @@ Template.invoiceDetails.events({
 		{
 			temp.insert(tempObj[i]);
 		}
-			
-			var Contain='';
-			$("#items :text").each(function(){
-				Contain += $(this).val() + "+";
-			});
-			console.log(Contain);
-			var array = Contain.split('+');
-			console.log(array.length);
-			var sellingCostArray=[];
-			var quantityArray=[];
-			var j=0,i,k=0;
+		
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		console.log(Contain);
+		var array = Contain.split('+');
+		console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
 			//quantityArray[0]
 			for(i=0;i<array.length-1;i++)
 			{
@@ -290,106 +290,106 @@ Template.invoiceDetails.events({
 				}			
 			}
 			if(flag2 == '1'){
-			for(i=0;i<quantityArray.length;i++ )
-			{	
-				temp.remove({_id:tempObj[i]._id});
-			}
+				for(i=0;i<quantityArray.length;i++ )
+				{	
+					temp.remove({_id:tempObj[i]._id});
+				}
 
-			for(i=0;i<quantityArray.length;i++)
-			{
-				temp.insert(tempObj[i]);
-			}
-			Session.set("invoiceSaved",'');	
-			tempObj = temp.find().fetch();
-			console.log(temp.find().fetch());
-			for(i = 0;i<tempObj.length;i++)
-			{
-				CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
-			}
-			var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceId'));
-			var totalProfit = 0;
-			var totalSellingCost = 0;
-			for(var i = 0; i<invoiceDetailsObj.length;i++)
-			{
-				totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-				totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
-			}
-			Session.set('invoiceTotalProfit',totalProfit);
-			Session.set('invoiceTotalCost',totalSellingCost);
-			var invoiceObj = {};
-			invoiceObj.invoiceId = invoiceDetailsObj[0].invoiceId;
-			invoiceObj.buyerId = $("#buyerId").val();
-			invoiceObj.date = $("#date").val();
-			invoiceObj.totalCost = totalSellingCost;
-			invoiceObj.totalProfit = totalProfit;
-			invoiceObj.paymentStatus = $("#paymentStatus").val();
-			invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
-			invoiceObj.status = 'saved';
-			CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
-			for(i = 0;i<tempObj.length;i++)
-			{
-				temp.remove({_id:tempObj[i]._id});
-			}
+				for(i=0;i<quantityArray.length;i++)
+				{
+					temp.insert(tempObj[i]);
+				}
+				Session.set("invoiceSaved",'');	
+				tempObj = temp.find().fetch();
+				console.log(temp.find().fetch());
+				for(i = 0;i<tempObj.length;i++)
+				{
+					CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+				}
+				var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceId'));
+				var totalProfit = 0;
+				var totalSellingCost = 0;
+				for(var i = 0; i<invoiceDetailsObj.length;i++)
+				{
+					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+				}
+				Session.set('invoiceTotalProfit',totalProfit);
+				Session.set('invoiceTotalCost',totalSellingCost);
+				var invoiceObj = {};
+				invoiceObj.invoiceId = invoiceDetailsObj[0].invoiceId;
+				invoiceObj.buyerId = $("#buyerId").val();
+				invoiceObj.date = $("#date").val();
+				invoiceObj.totalCost = totalSellingCost;
+				invoiceObj.totalProfit = totalProfit;
+				invoiceObj.paymentStatus = $("#paymentStatus").val();
+				invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
+				invoiceObj.status = 'saved';
+				CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
+				for(i = 0;i<tempObj.length;i++)
+				{
+					temp.remove({_id:tempObj[i]._id});
+				}
 			//alert('Saved');
 			//Session.set("invoiceSaved",'true');
 			//Session.set('invoiceSaved','');
 			Session.set('detailsSaved','true');
 			$("#invoiceSavedDraft").remove();			
 			$("#saveModal").modal("show");    				
-			}
 		}
-	},
-	"click #finalInvoice":function()
+	}
+},
+"click #finalInvoice":function()
+{
+	if(Session.get('detailsSaved'))
 	{
-		if(Session.get('detailsSaved'))
+		CodeBashApp.invoiceService.getInstance().updateInvoice('','','','final',Session.get('invoiceId'),Session.get('invoiceTotalProfit'),Session.get('invoiceTotalCost'));
+		$("#plantName").attr("disabled",true);
+		$("#invoiceNo").attr("disabled",true);
+		$("#buyerId").attr("disabled",true);
+		$("#paymentStatus").attr("disabled",true);
+		$("#deliveryStatus").attr("disabled",true);
+		$("#date").attr("disabled",true);
+		$("#items :text").each(function(){
+			$(this).attr("disabled",true);				 
+		});			
+	}
+	else
+	{	
+		var flag = '0';
+		var validate = CodeBashApp.invoiceDetailsValidate();
+		if(validate =='false')
 		{
-			CodeBashApp.invoiceService.getInstance().updateInvoice('','','','final',Session.get('invoiceId'),Session.get('invoiceTotalProfit'),Session.get('invoiceTotalCost'));
-			$("#plantName").attr("disabled",true);
-			$("#invoiceNo").attr("disabled",true);
-			$("#buyerId").attr("disabled",true);
-			$("#paymentStatus").attr("disabled",true);
-			$("#deliveryStatus").attr("disabled",true);
-			$("#date").attr("disabled",true);
-			$("#items :text").each(function(){
-				$(this).attr("disabled",true);				 
-			});			
+			flag = '1';
 		}
-		else
-		{	
-			var flag = '0';
-			var validate = CodeBashApp.invoiceDetailsValidate();
-			if(validate =='false')
-			{
-				flag = '1';
-			}
-			$("#items :text").each(function(){
+		$("#items :text").each(function(){
 			if( $(this).val() == '' || $(this).val() == '0')
 			{
 				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
-                $("#quantitySpan").html('please enter quantity');                
+				$("#quantitySpan").html('please enter quantity');                
 				$("#costGroup").addClass('form-group has-error has-feedback');                 
-                $("#costSpan").html('please enter cost');                	
+				$("#costSpan").html('please enter cost');                	
 				//alert('please enter cost and quantity');
 				flag = '1';
 			}
 
-			}); 
-			
-			if($("#date").val()=='')
-			{	
-				$("#dateGroup").addClass('form-group has-error has-feedback');                 
-				$("#dateSpan").html('please enter date');                					
-				flag = '1';
-			}
-			if(checkDate()=='false')
-			{
-				$("#dateGroup").addClass('form-group has-error has-feedback');                 
-				$("#dateSpan").html('please enter valid date');                					
-				flag = '1';	
-			}
+		}); 
 		
-			if(flag == '0')
-			{
+		if($("#date").val()=='')
+		{	
+			$("#dateGroup").addClass('form-group has-error has-feedback');                 
+			$("#dateSpan").html('please enter date');                					
+			flag = '1';
+		}
+		if(checkDate()=='false')
+		{
+			$("#dateGroup").addClass('form-group has-error has-feedback');                 
+			$("#dateSpan").html('please enter valid date');                					
+			flag = '1';	
+		}
+		
+		if(flag == '0')
+		{
 
 			Session.set("invoiceSaved",'true');
 			Session.set("invoiceNo",$("#invoiceNo").val());
@@ -458,14 +458,14 @@ Template.invoiceDetails.events({
 				}			
 			}
 			if(flag2 == '1'){
-			for(i=0;i<quantityArray.length;i++ )
-			{	
-				temp.remove({_id:tempObj[i]._id});
-			}
-			for(i=0;i<quantityArray.length;i++)
-			{
-				temp.insert(tempObj[i]);
-			}
+				for(i=0;i<quantityArray.length;i++ )
+				{	
+					temp.remove({_id:tempObj[i]._id});
+				}
+				for(i=0;i<quantityArray.length;i++)
+				{
+					temp.insert(tempObj[i]);
+				}
 				Session.set("invoiceSaved",'');	
 				tempObj = temp.find().fetch();
 				console.log(temp.find().fetch());
@@ -504,7 +504,7 @@ Template.invoiceDetails.events({
 				$("#deliveryStatus").attr("disabled",true);
 				$("#date").attr("disabled",true);
 				$("#items :text").each(function(){
-				$(this).attr("disabled",true);				 
+					$(this).attr("disabled",true);				 
 				});
 				$("#confirmModal").modal("show");    				
 				

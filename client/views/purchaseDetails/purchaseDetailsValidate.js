@@ -31,7 +31,8 @@ CodeBashApp.purchaseDetailsValidate = function(){
             else
             {
                 validate = true;
-            }
+            }     
         }
+
         return validate;
 };

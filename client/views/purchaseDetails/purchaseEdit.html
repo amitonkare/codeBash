@@ -68,16 +68,18 @@
     </div>
     <!--end of col-->
     <div class="col-md-2">
-
+<div class="form-group" id="dateGroup">
       <div class="input-group datetimepicker" >
         <span class="input-group-addon"><i
           class="glyphicon glyphicon-calendar"></i></span> <input
           class="set-due-date form-control" type="text" id="date" value= "{{purchaseEditObj.date}}"/>
       </div>
+    <span id="dateSpan" style="color:red"></span>                      
+    </div>
     </div>
   </div>
   <!--end of col-->
-
+<div class="form-group" id="tableGroup">
   <div class="table-responsive" id="items">
     <table id="list-plants" class="table table-bordered">
       <thead>
@@ -103,6 +105,8 @@
       </tbody>
     </table>
   </div>
+  <span id="tableSpan" style="color:red"></span>                      
+</div>    
 
   {{#if billed}}
   <table>
@@ -139,5 +143,54 @@
   </div>
 
 </div>
+
+
+
+
+<div id="saveModal" data-backdrop="false" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Your Purchase is saved</p>
+      </div>
+      <div class="modal-footer">       
+            <input type="submit" class="btn btn-success" data-dismiss="modal" id="savePurchase" value="Yes"> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="confirmModal" data-backdrop="false" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Your Purchase is confirmed</p>
+      </div>
+      <div class="modal-footer">       
+            <input type="submit" class="btn btn-success" data-dismiss="modal" id="confirmPurchase" value="Yes"> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
 
 </template>

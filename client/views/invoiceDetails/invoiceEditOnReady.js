@@ -1,33 +1,5 @@
-CodeBashApp.invoiceDetailsOnReady=function(){
-
-  $(document).ready(function () {
-      Session.set('plants','');
-      Session.set('detailsSaved','');
-      Session.set('total','');
-      $("#plantName").val('');
-      $("#invoiceNo").val('');
-      $("#buyerId").val('');
-      $("#date").val('');
-      $("#items :text").each(function(){
-         $(this).val('');				 
-     });
-
-      Session.set('invoiceTotalProfit','');
-      Session.set('invoiceTotalCost','');
-      Session.set("invoiceSaved",'');	
-      Session.set('detailsSaved','');
-      Session.set('tax','');
-      console.log('on ready');
-      var tempObj = temp.find().fetch();
-      console.log(tempObj);
-      for(var i=0;i<tempObj.length;i++)
-      {
-          temp.remove(tempObj[i]._id)	;
-          console.log('invoice Details removed');
-      }
-      
-
-      $("#invoiceNo").keydown(function(event) {
+CodeBashApp.invoiceEditOnReady = function () {
+	$("#invoiceNo").keydown(function(event) {
          console.log('invoice no on ready');
          $("#invoiceNoGroup").removeClass('form-group has-error has-feedback');                 
          $("#invoiceNoGroup").addClass('form-group');                 
@@ -101,11 +73,6 @@ CodeBashApp.invoiceDetailsOnReady=function(){
          $("#dateSpan").html(''); 
          $("#tableSpan").html('');  
      });
-
-	/*$('#list-plants').DataTable();
-    $(".tool-tip").tooltip();*/
-
-});
 
 
 };

@@ -15,6 +15,8 @@ Template.sellerReports.helpers({
 Template.sellerReports.events({
 	'click #printSellerReports':function(){
 		CodeBashApp.printdiv("sellerReports","sellerReports"); 
+		$("#maindiv").remove();
+		Router.current().render(Template.sellerReports);
 	},
 	'click #sellerReportsCSV':function(){
 		var array = CodeBashApp.sellerDetailsService.getInstance().findSeller();

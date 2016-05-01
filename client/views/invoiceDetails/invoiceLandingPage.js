@@ -1,5 +1,5 @@
 Template.invoiceDetailsLandingPage.onRendered( function(){
-CodeBashApp.invoiceDetailsLandingPageOnReady();
+	CodeBashApp.invoiceDetailsLandingPageOnReady();
 });
 
 Template.invoiceDetailsLandingPage.helpers({
@@ -37,7 +37,7 @@ Template.invoiceDetailsLandingPage.events({
 		Session.set('updateId',this._id);	
 		Session.set('editInvoiceId',Session.get('updateId'));
 		Router.go('/invoiceEdit');
-	
+		
 	},
 	"submit #editInvoiceForm":function(event)
 	{

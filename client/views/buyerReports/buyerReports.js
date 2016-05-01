@@ -1,9 +1,9 @@
 Template.buyerReports.onRendered(
-    function () 
-    {
+  function () 
+  {
     CodeBashApp.buyerReportsOnReady();
-    }
-);
+  }
+  );
 
 Template.buyerReports.helpers({
   buyerList:function()
@@ -11,9 +11,14 @@ Template.buyerReports.helpers({
     return CodeBashApp.buyerDetailsService.getInstance().findBuyer();
   }
 });
+
 Template.buyerReports.events({
+
   'click #printBuyerReports':function(){
     CodeBashApp.printdiv("buyerReports"); 
+    console.log("div printed");
+    $("#maindiv").remove();
+    Router.current().render(Template.buyerReports);
   },
 
   'click #buyerReportsCSV':function(){
@@ -22,39 +27,39 @@ Template.buyerReports.events({
     var stringArray = [];
     for(var i=0;i<array.length;i++)
     {
-       stringArray.push(array[i]._id);
-       stringArray.push(array[i].name);
-       stringArray.push(array[i].address);
-       stringArray.push(array[i].phoneNo);
-       stringArray.push(array[i].emailId);
-       stringArray.push(array[i].bankAccountDetails.bankName);
-       stringArray.push(array[i].bankAccountDetails.branch);
-       stringArray.push(array[i].bankAccountDetails.IFSCCode);
-       stringArray.push(array[i].bankAccountDetails.accountNumber);
-       dataArray[i] = stringArray;
-    }
-    console.log("data array of csv--->" + dataArray);
-    CodeBashApp.saveCSV(dataArray,'buyerReports');
-  },
+     stringArray.push(array[i]._id);
+     stringArray.push(array[i].name);
+     stringArray.push(array[i].address);
+     stringArray.push(array[i].phoneNo);
+     stringArray.push(array[i].emailId);
+     stringArray.push(array[i].bankAccountDetails.bankName);
+     stringArray.push(array[i].bankAccountDetails.branch);
+     stringArray.push(array[i].bankAccountDetails.IFSCCode);
+     stringArray.push(array[i].bankAccountDetails.accountNumber);
+     dataArray[i] = stringArray;
+   }
+   console.log("data array of csv--->" + dataArray);
+   CodeBashApp.saveCSV(dataArray,'buyerReports');
+ },
 
-  "click #saveBuyerReports": function (){
+ "click #saveBuyerReports": function (){
   
-    var specialElementHandlers = {
+  var specialElementHandlers = {
     '#buyerReports': function (element, renderer) {
-        return true;
-      }
-    };
-   var doc = new jsPDF();
-   doc.fromHTML($('#buyerReports').html(), 15, 15, {
-        'width': 1000,
-            'elementHandlers': specialElementHandlers
-    });
-    doc.save('buyerReports.pdf');
-  },
+      return true;
+    }
+  };
+  var doc = new jsPDF();
+  doc.fromHTML($('#buyerReports').html(), 15, 15, {
+    'width': 1000,
+    'elementHandlers': specialElementHandlers
+  });
+  doc.save('buyerReports.pdf');
+},
 
-  "click #printBuyerReports":function(){
-       CodeBashApp.printdiv("buyerReports","buyerReports"); 
-  }
+"click #printBuyerReports":function(){
+ CodeBashApp.printdiv("buyerReports","buyerReports"); 
+}
 
 
 });

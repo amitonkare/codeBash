@@ -1,7 +1,7 @@
 CodeBashApp.invoiceTotal = function(){
 	var Contain='';
 	$("#items :text").each(function(){
-	Contain += $(this).val() + "+";
+		Contain += $(this).val() + "+";
 	});
 	var array = Contain.split('+');
 	console.log(array.length);
@@ -19,7 +19,7 @@ CodeBashApp.invoiceTotal = function(){
 		else{
 			sellingCostArray[k] = array[i];
 			k++;
-			}
+		}
 	}
 	var stockQuantity;
 	var total= 0;
@@ -28,7 +28,7 @@ CodeBashApp.invoiceTotal = function(){
 		total = total + (quantityArray[i]*sellingCostArray[i]);
 	}	
 	Session.set('total',total);
-		
+	
 
 
 };

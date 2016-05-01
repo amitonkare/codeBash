@@ -7,9 +7,9 @@ CodeBashApp.invoiceEditValidate = function (plantName) {
 		
 		if(plantObj[0].name == plantName)
 		{
-		flag = 1;
-		console.log("invalid");
-		break;
+			flag = 1;
+			console.log("invalid");
+			break;
 		}
 	}
 	if(flag == 1)
