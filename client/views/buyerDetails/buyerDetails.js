@@ -1,11 +1,11 @@
-Template.buyerDetails.onRendered(
+Template.buyerDetailsTable.onRendered(
 	function () 
 	{
 		CodeBashApp.buyerDetailsOnReady();
 	}
 	);
 
-Template.buyerDetails.helpers({
+Template.buyerDetailsTable.helpers({
 	buyerList:function()
 	{
 		return CodeBashApp.buyerDetailsService.getInstance().findBuyer();
@@ -19,7 +19,7 @@ Template.buyerDetails.helpers({
 	}
 });
 
-Template.buyerDetails.events({
+Template.buyerDetailsTable.events({
 	'click #updateDetails':function()
 	{
 		Session.set('bid',this._id);	
@@ -81,6 +81,10 @@ Template.buyerDetails.events({
 			event.target.newIFSC.value = '';
 			event.target.newAccountNumber.value = '';
 			$("#new-buyer").modal("hide");    
+		   // $("#rootDiv").remove();
+   		   // Router.current().render(Template.buyerDetails);
+   			Router.current().render(Template.buyerDetails);
+ 			Router.current().render(Template.buyerDetailsTable);
 		}
 	},
 	'click #deleteBuyerId': function()
@@ -91,7 +95,11 @@ Template.buyerDetails.events({
 	'click #deleteBuyer': function()
 	{
 		CodeBashApp.buyerDetailsService.getInstance().deleteBuyer(Session.get('deleteId'));
-	},
+//		$("#rootDiv").remove();
+//   	    Router.current().render(Template.buyerDetails);
+		Router.current().render(Template.buyerDetails);
+ 		Router.current().render(Template.buyerDetailsTable);
+  	},
 	'click #newbuyermodal':function()
 	{
 		$("#new-buyer").modal("show");    

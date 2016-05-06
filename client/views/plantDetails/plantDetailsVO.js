@@ -5,8 +5,8 @@ CodeBashApp.plantDetailsVO = function(name,type,scientificName,category,comments
     obj.scientificName = scientificName;
     obj.category = category;
     obj.comments = comments;
-    console.log(comments);
-    console.log(obj.comments);
-	console.log(obj);
+    //console.log(comments);
+    //console.log(obj.comments);
+	//console.log(obj);
     return obj;
 };

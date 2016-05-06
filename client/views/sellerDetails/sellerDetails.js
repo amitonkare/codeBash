@@ -1,10 +1,10 @@
-Template.sellerDetails.onRendered(
+Template.sellerDetailsTable.onRendered(
     function () 
     {
        CodeBashApp.sellerDetailsOnReady();
     }
 );
-Template.sellerDetails.helpers({
+Template.sellerDetailsTable.helpers({
 	sellerList:function()
 	{
 		return CodeBashApp.sellerDetailsService.getInstance().findSeller();
@@ -19,7 +19,7 @@ Template.sellerDetails.helpers({
 	}
 
 });
-Template.sellerDetails.events({
+Template.sellerDetailsTable.events({
 	'click #newSellerModal':function()
 	{
 		$("#new-seller").modal('show');
@@ -75,6 +75,10 @@ Template.sellerDetails.events({
 		event.target.newBranchName.value = '';
 		event.target.newAccountNumber.value = '';
 		$('#new-seller').modal('hide');
+	    //$("#rootDiv").remove();
+   		//Router.current().render(Template.sellerDetails);
+   		Router.current().render(Template.sellerDetails);
+ 		Router.current().render(Template.sellerDetailsTable);
 		}
 	},
 	'click #deleteSellerId':function()
@@ -88,6 +92,10 @@ Template.sellerDetails.events({
 		if(Session.get('deleteId'))
 		{
 				CodeBashApp.sellerDetailsService.getInstance().deleteSeller(Session.get('deleteId'));
+		//		$("#rootDiv").remove();
+   		//		Router.current().render(Template.sellerDetails);
+   				Router.current().render(Template.sellerDetails);
+ 				Router.current().render(Template.sellerDetailsTable);
 		}
 	},
 	'click #newSellerCancel':function()

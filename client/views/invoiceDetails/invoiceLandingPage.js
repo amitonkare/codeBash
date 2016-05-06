@@ -1,8 +1,8 @@
-Template.invoiceDetailsLandingPage.onRendered( function(){
+Template.invoiceDetailsLandingPageTable.onRendered( function(){
 	CodeBashApp.invoiceDetailsLandingPageOnReady();
 });
 
-Template.invoiceDetailsLandingPage.helpers({
+Template.invoiceDetailsLandingPageTable.helpers({
 	invoiceList:function()
 	{
 		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus('saved');
@@ -30,7 +30,7 @@ Template.invoiceDetailsLandingPage.helpers({
 	}
 });
 
-Template.invoiceDetailsLandingPage.events({
+Template.invoiceDetailsLandingPageTable.events({
 	"click #updateDetails":function()
 	{
 		//$("#editModal").modal("show");
