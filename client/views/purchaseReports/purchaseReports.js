@@ -240,6 +240,8 @@ Template.purchaseReports.events({
 	},
    'click #printPurchaseReports':function(){
     CodeBashApp.printdiv("purchaseReports","purchaseReports"); 
+    $("#maindiv").remove();
+	Router.current().render(Template.purchaseReports);
   },
 
    'click #purchaseReportsCSV':function(){

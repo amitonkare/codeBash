@@ -12,12 +12,12 @@
             <div class="col-md-6 text-right">
                 <a href="javascript:void(0)" id="addbuyerDetails" data-toggle="tooltip" data-placement="bottom"
                 title="" data-original-title="Add New Buyer"
-                class="tool-tip" data-target="#myModal"><i id="newbuyermodal" class="fa fa-plus-circle fa-2x"></i></a>
+                class="tool-tip" data-target="#myModal"><i id="newbuyermodal" class="material-icons">add</i></a>
             </div>
         </div>
         
         <div class="table-responsive">
-            <table id="list-buyers" class="table table-bordered">
+            <table id="list-buyers" class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -135,8 +135,8 @@
                             <span id = "newAccountNumberSpan" style="color:red"></span>
                         </div>
                     </div>
-                    <button type="button" id="cancelNewBuyer" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" id="addnewBuyer" value="Save" class="btn btn-primary" >
+                    <button type="button" id="cancelNewBuyer" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" id="addnewBuyer" value="Save" class="btn btn-raised btn-success" >
                 </form>
             </div>
             <div class="modal-footer">                        
@@ -227,8 +227,8 @@
                             <span id = "accountNumberSpan" style="color:red"></span>
                         </div>
                     </div>
-                    <button type="button" id= "editBuyerCancel" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" id="addBuyer" value="Save" class="btn btn-primary" >
+                    <button type="button" id= "editBuyerCancel" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" id="addBuyer" value="Save" class="btn btn-raised btn-success" >
                 </form>
             </div>
             <div class="modal-footer">                        
@@ -249,8 +249,8 @@
         <p>Are you sure you want to delete this buyer</p>
     </div>
     <div class="modal-footer">       
-        <input type="button" class="btn btn-success" data-dismiss="modal" id="deleteBuyer" value="Yes"> 
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-raised btn-success"  id="deleteBuyer">Yes</button> 
+        <button type="button" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
     </div>
 </div>
 </div>

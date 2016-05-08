@@ -5,24 +5,7 @@
     <!--main div beginning-->
     <div class="container-fluid">
       {{>navbar}}
-      <div class="row">
-        <div class="col-md-6">
 
-            <div class="form-group">       
-                <div id="invoice-search-input">
-                    <div class="input-group col-md-8">
-                        <input type="text" class="form-control input-sm" placeholder="Search invoice" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-info btn-sm" type="button">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
     <div class="in-header row">
         <div class="col-md-6">
             <i class="fa fa-dot-circle-o  fa-lg"></i>
@@ -31,13 +14,13 @@
         <div class="col-md-6 text-right">
             <a href="javascript:void(0)" id="newInvoice" data-toggle="tooltip" data-placement="bottom"
             title="" data-original-title="Add New Invoice"
-            class="tool-tip" data-target="#myModal"><i id="newInvoice" class="fa fa-plus-circle fa-2x"></i></a>
+            class="tool-tip" data-target="#myModal"><i id="newInvoice" class="material-icons">add</i></a>
         </div>
     </div>
 
 
     <div class="table-responsive">
-        <table id="list-invoice" class="table table-bordered">
+        <table id="list-invoice" class="table table-striped table-bordered">
             <thead>
                 <tr>                            
                     <th>InvoiceNumber</th>
@@ -101,8 +84,8 @@
                 </div>
             </div>
             
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <input type="submit"  class="btn btn-primary" value="Save">
+            <button type="button" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
+            <input type="submit"  class="btn btn-raised btn-success" value="Save">
         </form>
 
 

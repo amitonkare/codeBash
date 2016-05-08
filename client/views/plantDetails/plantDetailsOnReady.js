@@ -1,8 +1,9 @@
 CodeBashApp.plantDetailsOnReady = function(){
 $(document).ready(function () {
-    $('#list-plants').DataTable();
-    $(".tool-tip").tooltip();
-    
+     
+     $('#list-plants').DataTable();
+     $('[data-toggle="tooltip"]').tooltip();     
+   
 });
 
 $("#newPlantName").keydown(function(event) {

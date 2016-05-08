@@ -2,24 +2,7 @@
 <!--main div beginning-->
     <div class="container-fluid">
       {{>navbar}}
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">                 
-                        <div id="Purchase-search-input">
-                            <div class="input-group col-md-8">
-                                <input type="text" class="form-control input-sm" placeholder="Search Purchase" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-info btn-sm" type="button">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+      
      <div class="in-header row">
             <div class="col-md-6">
                 <i class="fa fa-dot-circle-o  fa-lg"></i>
@@ -27,14 +10,14 @@
             </div>
             <div class="col-md-6 text-right">
                 <a href="javascript:void(0)" id="newPurchase" data-toggle="tooltip" data-placement="bottom"
-                    title="" data-original-title="Add New Invoice"
-                    class="tool-tip" data-target="#myModal"><i id="newPurchase" class="fa fa-plus-circle fa-2x"></i></a>
+                    title="" data-original-title="Add New Purchase"
+                    class="tool-tip" data-target="#myModal"><i id="newPurchase" class="material-icons">add</i></a>
             </div>
         </div>
 
 
     <div class="table-responsive">
-                <table id="list-purchase" class="table table-bordered">
+                <table id="list-purchase" class="table table-striped table-bordered">
                     <thead>
                         <tr>                            
                             <th>purchaseNumber</th>

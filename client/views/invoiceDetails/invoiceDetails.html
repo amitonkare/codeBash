@@ -56,7 +56,7 @@
               <input class="form-control typeahead" id="plantName" type="text"
               placeholder="PlantName" autocomplete="off" spellcheck="off"
               data-source="plants" />
-              <input type="submit" id="addToCart" class="btn btn-success"
+              <input type="submit" id="addToCart" class="btn btn-raised btn-success"
               value="add" style="margin-left: 50px;">
 
             </div>
@@ -154,21 +154,21 @@
 
 
     <div class="col-md-2">
-      <button type="button" class="btn btn-success" id="finalInvoice">
+      <button type="button" class="btn btn-raised btn-success" id="finalInvoice">
         Create final Invoice</button>
       </div>
       <div class="col-md-2">
-        <button type="button" id="cancelInvoice" class="btn btn-danger">
+        <button type="button" id="cancelInvoice" class="btn btn-raised btn-danger">
           Cancel Invoice</button>
         </div>
         {{#if invoiceSaved}}
         <div class="col-md-2">
-          <button type="button" id="invoiceSavedDraft" class="btn btn-success">
+          <button type="button" id="invoiceSavedDraft" class="btn btn-raised btn-success">
             Save Draft</button>
           </div>
           {{/if}}
           <div class="col-md-2">
-            <button type="button" class="btn btn-success">Print</button>
+            <button type="button" class="btn btn-raised btn-success">Print</button>
           </div>
 
         </div>
@@ -186,7 +186,7 @@
                 <p>Your invoice is saved</p>
               </div>
               <div class="modal-footer">       
-                <input type="submit" class="btn btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
+                <input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
               </div>
             </div>
           </div>
@@ -206,7 +206,7 @@
                 <p>Your invoice is confirmed</p>
               </div>
               <div class="modal-footer">       
-                <input type="submit" class="btn btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
+                <input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
               </div>
             </div>
           </div>

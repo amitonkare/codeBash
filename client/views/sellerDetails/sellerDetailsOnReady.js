@@ -1,7 +1,7 @@
 CodeBashApp.sellerDetailsOnReady = function(){
 	$(document).ready(function () {
         $('#list-sellers').DataTable();
-        $(".tool-tip").tooltip();
+         $('[data-toggle="tooltip"]').tooltip();  
     });
 
 $("#newSellerPhoneNo,#sellerPhoneNo").keydown(function(event) {
