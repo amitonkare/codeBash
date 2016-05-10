@@ -240,7 +240,7 @@ Template.purchaseReports.events({
 	},
    'click #printPurchaseReports':function(){
     CodeBashApp.printdiv("purchaseReports","purchaseReports"); 
-    $("#maindiv").remove();
+    $("#mainDiv").remove();
 	Router.current().render(Template.purchaseReports);
   },
 

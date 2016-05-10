@@ -3,8 +3,16 @@ function checkDate() {
 	var month = EnteredDate.substring(0, 2);
 	var date = EnteredDate.substring(3, 5);
 	var year = EnteredDate.substring(6, 10);
-	var myDate = new Date(year, month - 1, date);
+	var hrsmin = EnteredDate.substring(10,EnteredDate.length-2); 
+	hrsmin = hrsmin.split(":");
+
+	var hrs = hrsmin[0];
+	var min = hrsmin[1];
+	//console.log("hrs-->"+hrs+"    min--->"+min);
+	var myDate = new Date(year, month - 1,date,hrs,min,'0','0');
 	var today = new Date();
+	//console.log("mydate--->"+myDate);
+	//console.log("today-->"+today);
 	if (myDate >= today) {
 		return true;
 	}
@@ -24,7 +32,7 @@ Template.invoiceDetails.onRendered(function(){
 Template.invoiceDetails.helpers({
 	plants:function() //auto-complete suggestions
 	{
-		console.log(CodeBashApp.plantDetailsService.getInstance().findPlants().map(function(it){ return it.name; }));
+		//console.log(CodeBashApp.plantDetailsService.getInstance().findPlants().map(function(it){ return it.name; }));
 		return CodeBashApp.plantDetailsService.getInstance().findPlants().map(function(it){ return it.name; });
 	},
 	invoiceSaved:function()
@@ -53,7 +61,7 @@ Template.invoiceDetails.helpers({
 	},
 	itemList:function()
 	{
-		console.log("inside itemlist");
+		//console.log("inside itemlist");
 		var obj = temp.find().fetch();
 		for(var i = 0;i<obj.length;i++)
 		{
@@ -116,9 +124,9 @@ Template.invoiceDetails.events({
 		event.preventDefault();
 		Session.set('invoiceSaved','');
 		var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
-		console.log(plant);	
+		//console.log(plant);	
 		var str = Session.get('plants');
-		console.log(str.search(name));
+		//console.log(str.search(name));
 		var flag = 1;
 		if(Session.get('plants') != '')
 		{
@@ -149,10 +157,10 @@ Template.invoiceDetails.events({
 	{
 		var name = this.plantId;
 		var str = Session.get('plants');
-		console.log(str);
+		//console.log(str);
 		str = str.replace(name,"+");
 		Session.set('plants',str);
-		console.log("After replacements-->"+Session.get('plants'));
+		//console.log("After replacements-->"+Session.get('plants'));
 		temp.remove(this._id);
 		event.preventDefault();
 		CodeBashApp.invoiceTotal();
@@ -218,7 +226,7 @@ Template.invoiceDetails.events({
 				Contain += $(this).val() + "+";
 			});
 			var array = Contain.split('+');
-			console.log(array.length);
+			//console.log(array.length);
 			var sellingCostArray=[];
 			var quantityArray=[];
 			var j=0,i,k=0;
@@ -254,9 +262,9 @@ Template.invoiceDetails.events({
 		$("#items :text").each(function(){
 			Contain += $(this).val() + "+";
 		});
-		console.log(Contain);
+		//console.log(Contain);
 		var array = Contain.split('+');
-		console.log(array.length);
+		//console.log(array.length);
 		var sellingCostArray=[];
 		var quantityArray=[];
 		var j=0,i,k=0;
@@ -283,7 +291,7 @@ Template.invoiceDetails.events({
 				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
 				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
-				console.log('profit--->'+tempObj[i].profit)
+				//console.log('profit--->'+tempObj[i].profit)
 				if(tempObj[i].profit<0)
 				{
 					tempObj[i].profit='0';
@@ -301,7 +309,7 @@ Template.invoiceDetails.events({
 				}
 				Session.set("invoiceSaved",'');	
 				tempObj = temp.find().fetch();
-				console.log(temp.find().fetch());
+				//console.log(temp.find().fetch());
 				for(i = 0;i<tempObj.length;i++)
 				{
 					CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
@@ -401,7 +409,7 @@ Template.invoiceDetails.events({
 				Contain += $(this).val() + "+";
 			});
 			var array = Contain.split('+');
-			console.log(array.length);
+			//console.log(array.length);
 			var sellingCostArray=[];
 			var quantityArray=[];
 			var j=0,i,k=0;
@@ -468,7 +476,7 @@ Template.invoiceDetails.events({
 				}
 				Session.set("invoiceSaved",'');	
 				tempObj = temp.find().fetch();
-				console.log(temp.find().fetch());
+				//console.log(temp.find().fetch());
 				for(i = 0;i<tempObj.length;i++)
 				{
 					CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
@@ -524,11 +532,149 @@ Template.invoiceDetails.events({
 	},
 	'keyup #cost':function()
 	{
+		$("#costGroup").removeClass('form-group has-error has-feedback');                 
+		$("#costGroup").addClass('form-group');                 
+		$("#costSpan").html('please enter cost');                	
 		CodeBashApp.invoiceTotal();
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.remove(tempObj[i]._id);	
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.insert(tempObj[i]);
+		}
+				
 	},
 	'keyup #quantity':function()
 	{
+		$("#quantityGroup").removeClass('form-group has-error has-feedback');                 
+		$("#quantityGroup").removeClass('form-group');                 	
+		$("#quantitySpan").html('');
 		CodeBashApp.invoiceTotal();
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.remove(tempObj[i]._id);	
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.insert(tempObj[i]);
+		}
+	},
+	"click #printInvoice":function()
+	{
+		var flag = 0,dv;
+		$("#items :text").each(function(){
+			if( $(this).val() == '' || $(this).val() == '0')
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+				$("#quantitySpan").html('please enter quantity');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+				$("#costSpan").html('please enter cost');                	
+				//alert('please enter cost and quantity');
+				flag = '1';
+			} 
+		});
+		console.log("inside print invoice");
+		var validate = CodeBashApp.invoiceDetailsValidate();
+		console.log("validate--->"+validate);
+		if(validate == 'false')
+		{
+				flag = 1;	
+		}
+		dv = checkDate();
+		console.log("date validate-->"+dv);
+		if(dv)
+		{
+			console.log("flag value-->"+flag)
+			flag = 0;
+		}
+		else
+		{
+			console.log("flag value-->"+flag)
+			flag = 1;
+		}
+		console.log("flag--->"+flag);
+		if(flag == 0)
+		{
+				var invoiceNo = $("#invoiceNo").val();
+				var date = $("#date").val();
+				var paymentStatus = $("#paymentStatus").val();
+				var deliveryStatus = $("#deliveryStatus").val();
+				var buyerName = $("#buyerId").val();
+				buyerName = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(buyerName);
+				CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName);
+		
+		}	
+
+	},
+	"click #date":function()
+	{
+		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
+		$("#dateGroup").addClass('form-group');                 
+		$("#dateSpan").html('');                			
 	}
 
 

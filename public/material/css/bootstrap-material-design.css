@@ -39,7 +39,7 @@ Then, run this script to get the list.
 /* SHADOWS */
 /* Shadows (from mdl http://www.getmdl.io/) */
 body {
-  background-color: #EEEEEE;
+  background-color: #FFFFFF;
 }
 body.inverse {
   background: #333333;
@@ -1935,13 +1935,13 @@ label.control-label {
 .form-group .checkbox label,
 .form-group .radio label,
 .form-group label {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.42857143;
-  color: #BDBDBD;
+  color: #000000;
   font-weight: 400;
 }
 .form-group label.control-label {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.07142857;
   font-weight: 400;
   margin: 16px 0 0 0;
@@ -2594,7 +2594,7 @@ fieldset[disabled] .navbar .btn-link:focus {
   color: rgba(255,255,255, 0.84);
 }
 .navbar.navbar-warning {
-  background-color: #ff5722;
+  background-color:#800df2 ;
   color: rgba(255,255,255, 0.84);
 }
 .navbar.navbar-warning .navbar-form .form-group input.form-control::-moz-placeholder,
@@ -2618,7 +2618,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 }
 .navbar.navbar-warning .dropdown-menu li > a:hover,
 .navbar.navbar-warning .dropdown-menu li > a:focus {
-  color: #ff5722;
+  color: #800df2;
   background-color: #eeeeee;
 }
 .navbar.navbar-warning .dropdown-menu .active > a {

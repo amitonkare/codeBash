@@ -1,19 +1,27 @@
- function checkDate() {
-			var EnteredDate = $("#date").val(); // For JQuery
-			var month = EnteredDate.substring(0, 2);
-			var date = EnteredDate.substring(3, 5);
-			var year = EnteredDate.substring(6, 10);
-			var myDate = new Date(year, month - 1, date);
-			var today = new Date();
-			if (myDate >= today) {
-				return true;
-			}
-			else {
-				$("#dateGroup").addClass('form-group has-error has-feedback');                 
-				$("#dateSpan").html('please enter valid Date');                			
-				return false;
-			}
-		}
+function checkDate() {
+	var EnteredDate = $("#date").val(); // For JQuery
+	var month = EnteredDate.substring(0, 2);
+	var date = EnteredDate.substring(3, 5);
+	var year = EnteredDate.substring(6, 10);
+	var hrsmin = EnteredDate.substring(10,EnteredDate.length-2); 
+	hrsmin = hrsmin.split(":");
+
+	var hrs = hrsmin[0];
+	var min = hrsmin[1];
+	console.log("hrs-->"+hrs+"    min--->"+min);
+	var myDate = new Date(year, month - 1,date,hrs,min,'0','0');
+	var today = new Date();
+	console.log("mydate--->"+myDate);
+	console.log("today-->"+today);
+	if (myDate >= today) {
+		return true;
+	}
+	else {
+		$("#dateGroup").addClass('form-group has-error has-feedback');                 
+		$("#dateSpan").html('please enter valid Date');                			
+		return false;
+	}
+}
 
 Template.purchaseEdit.onRendered(function(){
 	Meteor.typeahead.inject();

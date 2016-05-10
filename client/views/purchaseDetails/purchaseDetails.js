@@ -1,19 +1,28 @@
 function checkDate() {
-			var EnteredDate = $("#date").val(); // For JQuery
-			var month = EnteredDate.substring(0, 2);
-			var date = EnteredDate.substring(3, 5);
-			var year = EnteredDate.substring(6, 10);
-			var myDate = new Date(year, month - 1, date);
-			var today = new Date();
-			if (myDate >= today) {
-				return true;
-			}
-			else {
-				$("#dateGroup").addClass('form-group has-error has-feedback');                 
-				$("#dateSpan").html('please enter valid Date');                			
-				return false;
-			}
-		}
+	var EnteredDate = $("#date").val(); // For JQuery
+	var month = EnteredDate.substring(0, 2);
+	var date = EnteredDate.substring(3, 5);
+	var year = EnteredDate.substring(6, 10);
+	var hrsmin = EnteredDate.substring(10,EnteredDate.length-2); 
+	hrsmin = hrsmin.split(":");
+
+	var hrs = hrsmin[0];
+	var min = hrsmin[1];
+	//console.log("hrs-->"+hrs+"    min--->"+min);
+	var myDate = new Date(year, month - 1,date,hrs,min,'0','0');
+	var today = new Date();
+	//console.log("mydate--->"+myDate);
+	//console.log("today-->"+today);
+	if (myDate >= today) {
+		return true;
+	}
+	else {
+		$("#dateGroup").addClass('form-group has-error has-feedback');                 
+		$("#dateSpan").html('please enter valid Date');                			
+		return false;
+	}
+}
+
 		Template.purchaseDetails.onRendered(function(){
 			CodeBashApp.purchaseDetailsOnReady();
 			Meteor.typeahead.inject();
@@ -439,6 +448,148 @@ function checkDate() {
 "click #confirmPurchase":function()
 {
 	Router.go('/purchaseDetailsLandingPage');
-}
+},
+	"click #printPurchase":function()
+	{
+		var flag = 0,dv;
+		$("#items :text").each(function(){
+		if($(this).val() == ''|| $(this).val() == '0')
+		{
+			$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+			$("#quantitySpan").html('please enter quantity');                
+			$("#costGroup").addClass('form-group has-error has-feedback');                 
+			$("#costSpan").html('please enter cost');                	
+			flag = 1;
+		}});
+		
+		console.log("inside print purchase");
+		var validate = CodeBashApp.purchaseDetailsValidate();
+		console.log("validate--->"+validate);
+		if(validate == 'false')
+		{
+				flag = 1;	
+		}
+		dv = checkDate();
+		console.log("date validate-->"+dv);
+		if(dv)
+		{
+			console.log("flag value-->"+flag)
+			flag = 0;
+		}
+		else
+		{
+			console.log("flag value-->"+flag);
+			flag = 1;
+		}
+		console.log("flag--->"+flag);
+		if(flag == 0)
+		{
+				var purchaseNo = $("#purchaseNo").val();
+				var date = $("#date").val();
+				var paymentStatus = $("#paymentStatus").val();
+				var deliveryStatus = $("#deliveryStatus").val();
+				var sellerName = $("#sellerId").val();
+				sellerName = CodeBashApp.sellerDetailsService.getInstance().findSellerNameById(sellerName);
+				CodeBashApp.printPurchaseDetails(purchaseNo,date,paymentStatus,deliveryStatus,sellerName);
+		
+		}	
+
+	},
+	"click #date":function()
+	{
+		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
+		$("#dateGroup").addClass('form-group');                 
+		$("#dateSpan").html('');                			
+	},
+	"keyup #cost":function()
+	{
+		$("#costGroup").removeClass('form-group has-error has-feedback');                 
+		$("#costGroup").addClass('form-group');                 			
+		$("#costSpan").html('');                	
+			
+		tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.remove(tempObj[i]._id);
+		}
+		var Contain='';
+					$("#items :text").each(function(){
+						Contain += $(this).val() + "+";
+					});
+					console.log(Contain);
+					var array = Contain.split('+');
+					console.log(array.length);
+					var costArray=[];
+					var quantityArray=[];
+					var j=0,i,k=0;
+			//quantityArray[0]
+			for(i=0;i<array.length-1;i++)
+			{
+				if(i % 2==0)
+				{
+					quantityArray[j] = array[i];	
+					j++;
+				}
+				else{
+					costArray[k] = array[i];
+					k++;
+				}
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				tempObj[i].cost = costArray[i];		
+			}
+			for(var i=0;i<tempObj.length;i++)
+			{	
+				temp.insert(tempObj[i]);
+			}
+	},
+	"keyup #quantity":function()
+	{
+		$("#quantityGroup").removeClass('form-group has-error has-feedback');                 
+		$("#quantityGroup").addClass('form-group');                 	
+		$("#quantitySpan").html('');                
+			
+		tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.remove(tempObj[i]._id);
+		}
+		var Contain='';
+					$("#items :text").each(function(){
+						Contain += $(this).val() + "+";
+					});
+					console.log(Contain);
+					var array = Contain.split('+');
+					console.log(array.length);
+					var costArray=[];
+					var quantityArray=[];
+					var j=0,i,k=0;
+			//quantityArray[0]
+			for(i=0;i<array.length-1;i++)
+			{
+				if(i % 2==0)
+				{
+					quantityArray[j] = array[i];	
+					j++;
+				}
+				else{
+					costArray[k] = array[i];
+					k++;
+				}
+			}
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				tempObj[i].cost = costArray[i];		
+			}
+			for(var i=0;i<tempObj.length;i++)
+			{	
+				temp.insert(tempObj[i]);
+			}
+	}
+
+
 });
 
