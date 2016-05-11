@@ -147,10 +147,7 @@ Template.purchaseEdit.events({
 				flag = '1';
 			} 
 		}); 
-		if(checkDate()==false)
-		{
-				flag = '1';
-		}
+		
 		if(flag == '0')
 		{
 			$("#purchaseSavedDraft").remove();
@@ -261,10 +258,7 @@ Template.purchaseEdit.events({
 				flag = '1';
 			} 
 		}); 
-		if(checkDate()==false)
-		{
-				flag = '1';
-		}
+		
 		if(flag == '0')
 		{
 			$("#purchaseSavedDraft").remove();
@@ -318,6 +312,14 @@ Template.purchaseEdit.events({
 	"click #confirmPurchase":function()
 	{
 		Router.go('/purchaseDetailsLandingPage');
+	},
+	"click #date":function()
+	{
+		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
+		$("#dateGroup").addClass('form-group');                 
+		$("#dateSpan").html(''); 
+		console.log("inside date click");
+		$('#dateIcon').click();
 	}
 
 

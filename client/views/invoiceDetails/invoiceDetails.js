@@ -534,7 +534,7 @@ Template.invoiceDetails.events({
 	{
 		$("#costGroup").removeClass('form-group has-error has-feedback');                 
 		$("#costGroup").addClass('form-group');                 
-		$("#costSpan").html('please enter cost');                	
+		$("#costSpan").html('');                	
 		CodeBashApp.invoiceTotal();
 		var Contain='';
 		$("#items :text").each(function(){
@@ -665,8 +665,7 @@ Template.invoiceDetails.events({
 				var deliveryStatus = $("#deliveryStatus").val();
 				var buyerName = $("#buyerId").val();
 				buyerName = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(buyerName);
-				CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName);
-		
+				CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName);		
 		}	
 
 	},
@@ -674,8 +673,11 @@ Template.invoiceDetails.events({
 	{
 		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
 		$("#dateGroup").addClass('form-group');                 
-		$("#dateSpan").html('');                			
-	}
+		$("#dateSpan").html('');   
+		console.log("inside date click");
+		$('#dateIcon').click();
+	}             			
+	
 
 
 });

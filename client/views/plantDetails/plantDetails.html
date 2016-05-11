@@ -4,18 +4,20 @@
 <template name="plantDetailsTable">
     <div class="container-fluid" id="rootDiv">
         {{>navbar}}
-        <div class="in-header row">
+
+     <div class="container-fluid">   
+        <div class="in-header row" style=" background-color:#f2f2f2">
             <div class="col-md-6">
-                <i class="fa fa-dot-circle-o  fa-lg"></i>
-                <span>Plants</span>
-            </div>
+                <span style="color:black">Plants</span>
+            </div>    
             <div class="col-md-6 text-right">
-               <!-- <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add New Plant"><i id="newplantmodal" class="material-icons">add</i></button>-->
-                <a href="javascript:void(0)" id="newPlantDetails" data-toggle="tooltip" data-placement="bottom"
+
+                    <a href="javascript:void(0)" id="newPlant" data-toggle="tooltip" data-placement="bottom"
                     title="" data-original-title="Add New Plant"
-                    class="tool-tip" data-target="#myModal"><i id="newplantmodal" class="material-icons">add</i></a>
-            </div>
+                    class="tool-tip" data-target="#myModal"><i id="newplantmodal" style="color:black" class="material-icons">add</i></a>        
+            </div>               
         </div>
+    </div>
 
         <form class="form-horizontal">
             <div class="table-responsive">

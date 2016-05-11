@@ -79,6 +79,7 @@ function checkDate() {
 			{
 				event.preventDefault();
 				var name = $("#plantName").val();
+				$("#plantName").val('');
 				var str = Session.get('purchasedPlants');
 				var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
 				console.log(str.search(name));
@@ -588,6 +589,14 @@ function checkDate() {
 			{	
 				temp.insert(tempObj[i]);
 			}
+	},
+	"click #date":function()
+	{
+		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
+		$("#dateGroup").addClass('form-group');                 
+		$("#dateSpan").html(''); 
+		console.log("inside date click");
+		$('#dateIcon').click();
 	}
 
 

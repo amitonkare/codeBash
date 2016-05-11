@@ -2,19 +2,20 @@
 <!--main div beginning-->
     <div class="container-fluid">
       {{>navbar}}
-      
-     <div class="in-header row">
+     <div class="container-fluid"> 
+     <div class="in-header row" style=" background-color:#f2f2f2">
             <div class="col-md-6">
-                <i class="fa fa-dot-circle-o  fa-lg"></i>
-                <span>Purchase</span>
-            </div>
+                <span style="color:black">Purchase</span>
+            </div>    
             <div class="col-md-6 text-right">
-                <a href="javascript:void(0)" id="newPurchase" data-toggle="tooltip" data-placement="bottom"
+        			<a href="javascript:void(0)" id="newPurchase" data-toggle="tooltip" data-placement="bottom"
                     title="" data-original-title="Add New Purchase"
-                    class="tool-tip" data-target="#myModal"><i id="newPurchase" class="material-icons">add</i></a>
-            </div>
+                    class="tool-tip" data-target="#myModal"><i id="newPurchase" style="color:black" class="material-icons">add</i></a>        
+            </div>    
+            
+            
         </div>
-
+    </div>
 
     <div class="table-responsive">
                 <table id="list-purchase" class="table table-striped table-bordered">

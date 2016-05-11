@@ -282,7 +282,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-fab.btn-success,
 .btn-group-raised .btn.btn-success,
 .btn-group-raised .input-group-btn .btn.btn-success {
-  background-color: #4caf50;
+  background-color: #846281;
   color: rgba(255,255,255, 0.84);
 }
 .btn.btn-raised.btn-info,
@@ -423,7 +423,7 @@ body .container-fluid .jumbotron-danger {
 .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-success,
 .btn-group-raised .btn:not(.btn-link):active.btn-success,
 .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-success {
-  background-color: #59b75c;
+  background-color: #9d7b9a;
 }
 .btn.btn-raised:not(.btn-link):hover.btn-info,
 .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-info,
@@ -2594,7 +2594,7 @@ fieldset[disabled] .navbar .btn-link:focus {
   color: rgba(255,255,255, 0.84);
 }
 .navbar.navbar-warning {
-  background-color:#800df2 ;
+  background-color:#4d394b ;
   color: rgba(255,255,255, 0.84);
 }
 .navbar.navbar-warning .navbar-form .form-group input.form-control::-moz-placeholder,
@@ -2618,7 +2618,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 }
 .navbar.navbar-warning .dropdown-menu li > a:hover,
 .navbar.navbar-warning .dropdown-menu li > a:focus {
-  color: #800df2;
+  color:  #ab9ba9;
   background-color: #eeeeee;
 }
 .navbar.navbar-warning .dropdown-menu .active > a {

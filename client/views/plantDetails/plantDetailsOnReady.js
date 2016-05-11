@@ -2,7 +2,12 @@ CodeBashApp.plantDetailsOnReady = function(){
 $(document).ready(function () {
      
      $('#list-plants').DataTable();
-     $('[data-toggle="tooltip"]').tooltip();     
+     $('[data-toggle="tooltip"]').tooltip();   
+      var currentUrl = window.location.href;
+            // Get the span you want with a combination class and attribute and child jQuery selector
+            var currentMenuItem = $(".main-nav-link[href='" + currentUrl + "'] > .main-nav-item");
+            // Then add your class
+            currentMenuItem.addClass("current");
    
 });
 

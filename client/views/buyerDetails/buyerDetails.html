@@ -4,17 +4,19 @@
 <template name="buyerDetailsTable">
     <div class="container-fluid" id="rootDiv">
         {{>navbar}}
-        <div class="in-header row">
+       
+    <div class="container-fluid">
+        <div class="in-header row" style=" background-color:#f2f2f2">
             <div class="col-md-6">
-                <i class="fa fa-dot-circle-o  fa-lg"></i>
-                <span>Buyer</span>
-            </div>
+                <span style="color:black">Buyer</span>
+            </div>    
             <div class="col-md-6 text-right">
-                <a href="javascript:void(0)" id="addbuyerDetails" data-toggle="tooltip" data-placement="bottom"
-                title="" data-original-title="Add New Buyer"
-                class="tool-tip" data-target="#myModal"><i id="newbuyermodal" class="material-icons">add</i></a>
-            </div>
-        </div>
+                    <a href="javascript:void(0)" id="newBuyer" data-toggle="tooltip" data-placement="bottom"
+                    title="" data-original-title="Add New BUyer"
+                    class="tool-tip" data-target="#myModal"><i id="newbuyermodal" style="color:black" class="material-icons">add</i></a>        
+            </div>                
+        </div>     
+    </div>
         
         <div class="table-responsive">
             <table id="list-buyers" class="table table-striped table-bordered">

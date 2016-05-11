@@ -164,10 +164,7 @@ function checkDate() {
 					flag = '1';
 				} 
 			}); 
-			if(checkDate()==false)
-			{
-				flag = '1';
-			}
+			
 			if(flag == '0')
 			{
 			//$("#invoiceSavedDraft").remove();
@@ -269,10 +266,6 @@ function checkDate() {
 					flag = '1';
 				} 
 			}); 
-			if(checkDate()==false)
-			{
-				flag = '1';
-			}
 			if(flag == '0')
 			{
 				$("#invoiceSavedDraft").remove();
@@ -305,7 +298,7 @@ function checkDate() {
 					tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 					if(tempObj[i].profit<0)
 					{
-						tempObj.profit[i].profit = 0;
+						tempObj.profit[i].profit = '';
 					}			
 				}
 				for(i=0;i<quantityArray.length;i++ )
@@ -357,7 +350,15 @@ function checkDate() {
 "click #confirmInvoice":function()
 {
 	Router.go('/invoiceDetailsLandingPage');
-}
+},
+	"click #date":function()
+	{
+		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
+		$("#dateGroup").addClass('form-group');                 
+		$("#dateSpan").html(''); 
+		console.log("inside date click");
+		$('#dateIcon').click();
+	}
 
 
 });
