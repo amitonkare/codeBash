@@ -1,5 +1,6 @@
 Template.purchaseReports.onRendered(function(){
 	Meteor.typeahead.inject();
+	this.$('.datetimepicker').datetimepicker();
 });
 Template.purchaseReports.helpers({	
 	typeList : function()
@@ -447,7 +448,17 @@ Template.purchaseReports.events({
     doc.save('purchaseReports.pdf');
 
 
-  }
+  },
+
+   "click #fromDate":function()
+	{
+		$('#fromDateIcon').click();
+	},
+	 "click #toDate":function()
+	{
+		$('#toDateIcon').click();
+	}           
+
 
 
 });

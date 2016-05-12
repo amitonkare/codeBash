@@ -1,5 +1,6 @@
 Template.invoiceReports.onRendered(function(){
 	Meteor.typeahead.inject();
+	this.$('.datetimepicker').datetimepicker();
 });
 Template.invoiceReports.helpers({	
 	typeList : function()
@@ -528,7 +529,15 @@ Template.invoiceReports.events({
         'elementHandlers': specialElementHandlers
     });
     doc.save('invoiceReports.pdf');
-  }
+  },
+  "click #fromDate":function()
+	{
+		$('#fromDateIcon').click();
+	},
+	 "click #toDate":function()
+	{
+		$('#toDateIcon').click();
+	}           
 
 
 

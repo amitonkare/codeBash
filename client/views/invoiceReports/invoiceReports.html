@@ -12,15 +12,33 @@
   <form class="form-inline">
   <div class="form-group">
     <label for="Date">Date</label>
-    <input type="text" class="form-control" id="fromDate" placeholder="MM/DD/YYYY"> to
-    <input type="text" class="form-control" id="toDate" placeholder="MM/DD/YYYY">
-  </div> 
+    <!--<input type="text" class="form-control" id="fromDate" placeholder="MM/DD/YYYY"> to
+    <input type="text" class="form-control" id="toDate" placeholder="MM/DD/YYYY">-->
+         <div class="form-group" id="dateGroup">    
+         <div class="input-group datetimepicker" >
+          <span class="input-group-addon"><i
+            class="glyphicon glyphicon-calendar" id="fromDateIcon"></i></span> <input
+            class="set-due-date form-control" type="text" id="fromDate" />
+          </div>
+          <span id="dateSpan" style="color:red"></span>                      
+         </div>
+      to
+       <div class="form-group" id="dateGroup">    
+         <div class="input-group datetimepicker" >
+          <span class="input-group-addon"><i
+            class="glyphicon glyphicon-calendar" id="toDateIcon"></i></span> <input
+            class="set-due-date form-control" type="text" id="toDate" />
+          </div>
+          <span id="dateSpan" style="color:red"></span>                      
+        </div>
+      </div>  
+   
+   
   <div class="form-group">
     <label> Type </label>&nbsp;&nbsp;&nbsp;
     <select class = "form-control" id= "plantType">
           <option></option>
           {{#each typeList}}
-
           <option>{{type}}</option>
           {{/each}}
           </select>
