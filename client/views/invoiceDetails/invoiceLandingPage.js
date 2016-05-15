@@ -1,3 +1,20 @@
+/*Template.navbar.onRendered(
+	function()
+	{
+		var routeName = Router.current().route.getName();
+		console.log("route name--->"+routeName);
+		$("#nav li").each(function(){			
+			if($(this).text().search(routeName) !== -1)
+			{
+				console.log("inside if");
+				$(this).addClass('active');
+				console.log("list class changed");
+			}
+		});		
+	}
+);
+*/
+
 Template.invoiceDetailsLandingPageTable.onRendered( function(){
 	CodeBashApp.invoiceDetailsLandingPageOnReady();
 });

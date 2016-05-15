@@ -1,3 +1,23 @@
+Template.navbar.onRendered(
+	function()
+	{
+		var routeName = Router.current().route.getName();
+		if(routeName == 'plantDetails')
+		{
+			$('#plantDetails').addClass('active');
+		}
+		if(routeName == 'invoiceDetailsLandingPage')
+		{
+			$('#invoiceDetailsLandingPage').addClass('active');
+		}
+		if(routeName == 'purchaseDetailsLandingPage')
+		{
+			$('#purchaseDetailsLandingPage').addClass('active');
+		}
+		
+	}
+);
+
 Template.plantDetailsTable.onRendered(
 	function () 
 	{

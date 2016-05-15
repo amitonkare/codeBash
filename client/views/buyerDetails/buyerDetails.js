@@ -1,3 +1,7 @@
+
+
+
+
 Template.buyerDetailsTable.onRendered(
 	function () 
 	{
