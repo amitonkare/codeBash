@@ -20,7 +20,7 @@ Template.sellerDetailsTable.helpers({
 
 });
 Template.sellerDetailsTable.events({
-	'click #newSellerModal':function()
+	'click #newSellermodal':function()
 	{
 		$("#new-seller").modal('show');
 	},	

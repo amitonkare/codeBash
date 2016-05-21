@@ -14,6 +14,14 @@ Template.navbar.onRendered(
 		{
 			$('#purchaseDetailsLandingPage').addClass('active');
 		}
+		if(routeName == 'sellerDetails' || routeName == 'buyerDetails')
+		{
+			$('#master').addClass('active');
+		}
+		if(routeName == 'sellerReports' || routeName == 'stockReports' || routeName == 'purchaseReports' || routeName == 'invoiceReports' || routeName == 'buyerReports')
+		{
+			$('#reports').addClass('active');
+		}
 		
 	}
 );
@@ -101,23 +109,6 @@ Template.plantDetailsTable.events({
 		$("#new-plant").modal("hide");
 		Router.current().render(Template.plantDetails);
 		Router.current().render(Template.plantDetailsTable);
-	  //  setTimeout(function(){//console.log("time gap after modal hide");},100);
-	   //  $("#rootDiv").remove();
-		//setTimeout(function(){//console.log("time gap");},100);
-	  ////Router.current().render(Template.plantDetailsTable);
-		//datatable code here ---->
-
-/*        var table =  $('#list-plants').DataTable();
-		table.clear();
-		var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
-		////console.log(JSON.stringify(dataArray));                
-		for(var i = 0;i<dataArray.length;i++)
-		{
-		table.row.add([dataArray[i].name,dataArray[i].scientificName,dataArray[i].type,dataArray[i].category,dataArray[i].comments,'<a data-toggle="modal" data-target="#edit-plant"  id= "updateDetails">Edit</a> <a id="dPlant" data-toggle="modal" data-target="#deleteModal">Delete</a>']);
-		}
-		setTimeout(function(){table.draw();},3000);        
-		//console.log('datatable complete after add plant');
-		*/
 	  }
 	
 		  
@@ -165,19 +156,7 @@ Template.plantDetailsTable.events({
 		$("#deleteModal").modal("hide");    
  		Router.current().render(Template.plantDetails);
  		Router.current().render(Template.plantDetailsTable);
-		//datatable code here ---->
-		/* 
-		var table =  $('#list-plants').DataTable();
-		table.clear();
-		var dataArray = CodeBashApp.plantDetailsService.getInstance().findPlants();
-		////console.log(JSON.stringify(dataArray));                
-		for(var i = 0;i<dataArray.length;i++)
-		{
-		table.row.add([dataArray[i].name,dataArray[i].scientificName,dataArray[i].type,dataArray[i].category,dataArray[i].comments,'<a data-toggle="modal" data-target="#edit-plant" id= "updateDetails">Edit</a> <a id="dPlant" data-toggle="modal" data-target="#deleteModal">Delete</a>']);
-		}
-		setTimeout(function(){table.draw();},3000);        
-		//console.log('datatable complete after delete plant');
-		*/
+		
 	},
 	'click #newplantmodal':function()
 	{

@@ -1,39 +1,56 @@
 CodeBashApp.plantDetailsNewPlantValidate = function(){
    	 var validate = 'false';
+     var flagArray = [];
         if(validate == 'false')
         {
             if($("#newPlantName").val()=='')
             {
-                 event.preventDefault();
-                $("#newPlantNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#newPlantNameSpan").html('please enter name');                
+                flagArray.push(1);        
             }
-            else
-                if($("#newPlantName").val().length<4 || $("#newPlantName").val().length>20)
-                {
-                     event.preventDefault();
-                    $("#newPlantNameGroup").addClass('form-group has-error has-feedback');                 
-                    $("#newPlantNameSpan").html('name should have minimum four characters and maximum 20 characters');                
-         
-                }
-                else
+            if($("#newPlantName").val().length<4 || $("#newPlantName").val().length>20)
+            {
+               flagArray.push(2);                        
+            }   
             if($("#newPlantScientificName").val()=='')
             {
-                 event.preventDefault();
-                $("#newPlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#newPlantScientificNameSpan").html('please enter Scientific name');    
+                flagArray.push(3);
             }
-            else
             if($("#newPlantScientificName").val().length<4 || $("#newPlantScientificName").val().length>20 )
             {
-                event.preventDefault();
-                $("#newPlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#newPlantScientificNameSpan").html('Scientific name should have four characters and maximum 20 characters');    
-            }   
-            else
+                flagArray.push(4);                    
+            }  
+            if(flagArray.length == 0)
             {
-                validate = 'true';    
-            }      
+                validate = "true";
+                console.log("validate value-->"+validate);
+            }       
+        }
+        for(var i=0;i<4;i++)
+        {
+            console.log("index-->"+i+"  value="+flagArray[i]);
+        }
+     
+        if(validate !='true')
+        {
+
+            for (var i = 0; i < flagArray.length; i++) {
+                console.log('inside for loop');
+                switch(flagArray[i])
+                {
+                    case 1: $("#newPlantNameGroup").addClass('form-group has-error has-feedback');                 
+                            $("#newPlantNameSpan").html('please enter name');
+                            break;
+                    case 2: $("#newPlantNameGroup").addClass('form-group has-error has-feedback');                 
+                            $("#newPlantNameSpan").html('name should have minimum four characters and maximum 20 characters');                
+                            break;
+                    case 3: $("#newPlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
+                            $("#newPlantScientificNameSpan").html('please enter Scientific name');               
+                            break;
+                    case 4: $("#newPlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
+                            $("#newPlantScientificNameSpan").html('Scientific name should have four characters and maximum 20 characters');    
+                            break;
+                }
+            };
         }
         return validate;    
 };

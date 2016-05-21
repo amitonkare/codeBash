@@ -145,7 +145,14 @@ Template.purchaseEdit.events({
 				$("#tableSpan").html('please enter quantity and cost');          
 				//alert('please enter quantity and cost');
 				flag = '1';
-			} 
+			}
+			if( $(this).val() < 0)
+			{
+				$("#tableGroup").addClass('form-group has-error has-feedback');                 
+				$("#tableSpan").html(' quantity and cost must be positive');          
+				//alert('please enter quantity and cost');
+				flag = '1';
+			}  
 		}); 
 		
 		if(flag == '0')

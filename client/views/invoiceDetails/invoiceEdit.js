@@ -265,6 +265,7 @@ function checkDate() {
 					//alert('please enter quantity and cost');
 					flag = '1';
 				} 
+				
 			}); 
 			if(flag == '0')
 			{

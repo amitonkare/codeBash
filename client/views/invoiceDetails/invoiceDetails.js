@@ -203,7 +203,16 @@ Template.invoiceDetails.events({
 				$("#costSpan").html('please enter cost');                	
 				//alert('please enter cost and quantity');
 				flag = '1';
-			} 
+			}
+			if( $(this).val() < 0)
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+				$("#quantitySpan").html('quantity must be a positive number');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+				$("#costSpan").html('cost must be a positive number');                	
+				//alert('please enter cost and quantity');
+				flag = '1';
+			}
 		});
 		if($("#date").val()=='')
 		{
@@ -635,7 +644,16 @@ Template.invoiceDetails.events({
 				$("#costSpan").html('please enter cost');                	
 				//alert('please enter cost and quantity');
 				flag = '1';
-			} 
+			}
+			if( $(this).val() < 0)
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+				$("#quantitySpan").html('quantity must be positive');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+				$("#costSpan").html('cost must be positive');                	
+				//alert('please enter cost and quantity');
+				flag = '1';
+			}  
 		});
 		console.log("inside print invoice");
 		var validate = CodeBashApp.invoiceDetailsValidate();
@@ -659,6 +677,7 @@ Template.invoiceDetails.events({
 		console.log("flag--->"+flag);
 		if(flag == 0)
 		{
+			
 				var invoiceNo = $("#invoiceNo").val();
 				var date = $("#date").val();
 				var paymentStatus = $("#paymentStatus").val();

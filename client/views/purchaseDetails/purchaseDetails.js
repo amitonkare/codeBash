@@ -168,7 +168,15 @@ function checkDate() {
 				//alert('please enter cost and quantity');
 				flag = '1';
 			}
-
+			if($(this).val() < 0)
+						{
+							$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+							$("#quantitySpan").html('quantity must be positive');                
+							$("#costGroup").addClass('form-group has-error has-feedback');                 
+							$("#costSpan").html('cost  must be positive');                	
+				//alert('please enter cost and quantity');
+				flag = '1';
+			}
 		});
 				if(checkDate()==false)
 				{
@@ -344,7 +352,15 @@ function checkDate() {
 				//alert('please enter cost and quantity');
 				flag = '1';
 			}
-
+			if($(this).val() < 0)
+				{
+					$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+					$("#quantitySpan").html('quantity must be positive');                
+					$("#costGroup").addClass('form-group has-error has-feedback');                 
+					$("#costSpan").html('cost must be positive');                			
+				//alert('please enter cost and quantity');
+				flag = '1';
+			}
 		});
 			if(checkDate()==false)
 			{
@@ -461,7 +477,16 @@ function checkDate() {
 			$("#costGroup").addClass('form-group has-error has-feedback');                 
 			$("#costSpan").html('please enter cost');                	
 			flag = 1;
-		}});
+		}
+		if($(this).val() <0)
+		{
+			$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+			$("#quantitySpan").html('quantity must be positive');                
+			$("#costGroup").addClass('form-group has-error has-feedback');                 
+			$("#costSpan").html('cost must be positive');                	
+			flag = 1;
+		}
+		});
 		
 		console.log("inside print purchase");
 		var validate = CodeBashApp.purchaseDetailsValidate();
