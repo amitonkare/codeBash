@@ -8,8 +8,8 @@ Template.purchaseDetailsLandingPage.helpers({
 		var obj = CodeBashApp.purchaseService.getInstance().findPurchaseByStatus('saved');
 		for(var i=0;i<obj.length;i++)
 		{			
-			console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name);
-			obj[i].sellerId = CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name;
+			//console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerNameById(obj[i].sellerId)[0].name);
+			obj[i].sellerId = CodeBashApp.sellerDetailsService.getInstance().findSellerNameById(obj[i].sellerId)[0].name;
 		}
 		return obj;
 	},
@@ -18,8 +18,8 @@ Template.purchaseDetailsLandingPage.helpers({
 	var obj = CodeBashApp.purchaseService.getInstance().findPurchaseByStatus('final');
 		for(var i=0;i<obj.length;i++)
 		{			
-			console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name);
-			obj[i].sellerId = CodeBashApp.sellerDetailsService.getInstance().findSellerById(obj[i].sellerId)[0].name;
+			//console.log(CodeBashApp.sellerDetailsService.getInstance().findSellerNameById(obj[i].sellerId)[0].name);
+			obj[i].sellerId = CodeBashApp.sellerDetailsService.getInstance().findSellerNameById(obj[i].sellerId)[0].name;
 		}
 		return obj;	
 	},
@@ -48,5 +48,10 @@ Template.purchaseDetailsLandingPage.events({
 	"click #newPurchase":function()
 	{
 		Router.go('/purchaseDetails');
+	},
+	"click #viewFinalPurchase":function()
+	{
+		Session.set('finalPurchaseId',this._id);
+		Router.go('/finalPurchasePreview');
 	}
 });

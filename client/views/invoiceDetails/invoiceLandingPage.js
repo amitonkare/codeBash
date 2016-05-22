@@ -22,11 +22,11 @@ Template.invoiceDetailsLandingPageTable.onRendered( function(){
 Template.invoiceDetailsLandingPageTable.helpers({
 	invoiceList:function()
 	{
-		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus('saved');
+		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus("saved");
+		console.log(obj);
 		for(var i=0;i<obj.length;i++)
 		{			
-			console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);
-			obj[i].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name;
+			obj[i].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(obj[i].buyerId)[0].name;
 		}
 		return obj;
 	},
@@ -36,8 +36,8 @@ Template.invoiceDetailsLandingPageTable.helpers({
 		console.log(obj);
 		for(var i=0;i<obj.length;i++)
 		{			
-			console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);
-			obj[i].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name;
+			//console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);
+			obj[i].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(obj[i].buyerId)[0].name;
 		}
 		return obj;
 	},
@@ -64,5 +64,11 @@ Template.invoiceDetailsLandingPageTable.events({
 	"click #newInvoice":function()
 	{
 		Router.go('/invoiceDetails');
+	},
+	"click #viewFinalInvoice":function()
+	{
+		Session.set('finalInvoiceId',this._id);
+		Router.go('/finalInvoicePreview');
 	}
+
 });

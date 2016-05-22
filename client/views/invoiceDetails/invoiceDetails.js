@@ -471,7 +471,7 @@ Template.invoiceDetails.events({
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 				if(tempObj[i].profit<0)
 				{
-					tempObj.profit[i].profit = '0';
+					tempObj[i].profit= '0';
 				}			
 			}
 			if(flag2 == '1'){
