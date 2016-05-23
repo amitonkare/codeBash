@@ -1,3 +1,129 @@
+function saveForPrint()
+{
+	Session.set("invoiceNo",$("#invoiceNo").val());
+	Session.set("buyerId",$("#buyerId").val());
+	Session.set("paymentStatus",$("#paymentStatus").val());
+	Session.set("date",$("#date").val());
+	var Contain='';
+	$("#items :text").each(function(){
+		Contain += $(this).val() + "+";
+	});
+	var array = Contain.split('+');
+			//console.log(array.length);
+			var sellingCostArray=[];
+			var quantityArray=[];
+			var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = temp.find().fetch();
+		for(i=0;i<quantityArray.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(i=0;i<quantityArray.length;i++ )
+		{	
+			temp.remove({_id:tempObj[i]._id});
+		}
+		for(i=0;i<quantityArray.length;i++)
+		{
+			temp.insert(tempObj[i]);
+		}
+		
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		//console.log(Contain);
+		var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+			//quantityArray[0]
+			for(i=0;i<array.length-1;i++)
+			{
+				if(i % 2==0)
+				{
+					quantityArray[j] = array[i];	
+					j++;
+				}
+				else{
+					sellingCostArray[k] = array[i];
+					k++;
+				}
+			}
+			var stockQuantity;
+			var flag2 = '1';
+			tempObj = temp.find().fetch();
+			for(i=0;i<quantityArray.length;i++)
+			{
+				tempObj[i].quantity = quantityArray[i];
+				tempObj[i].sellingCost = sellingCostArray[i];
+				stockQuantity = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId)[0].quantity;
+				stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
+				//console.log('profit--->'+tempObj[i].profit)
+				if(tempObj[i].profit<0)
+				{
+					tempObj[i].profit='0';
+				}			
+			}
+			if(flag2 == '1'){
+				for(i=0;i<quantityArray.length;i++ )
+				{	
+					temp.remove({_id:tempObj[i]._id});
+				}
+
+				for(i=0;i<quantityArray.length;i++)
+				{
+					temp.insert(tempObj[i]);
+				}
+				Session.set("invoiceSaved",'');	
+				tempObj = temp.find().fetch();
+				//console.log(temp.find().fetch());
+				for(i = 0;i<tempObj.length;i++)
+				{
+					CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+				}
+				var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceId'));
+				var totalProfit = 0;
+				var totalSellingCost = 0;
+				for(var i = 0; i<invoiceDetailsObj.length;i++)
+				{
+					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+				}
+				Session.set('invoiceTotalProfit',totalProfit);
+				Session.set('invoiceTotalCost',totalSellingCost);
+				var invoiceObj = {};
+				invoiceObj.invoiceId = invoiceDetailsObj[0].invoiceId;
+				invoiceObj.buyerId = $("#buyerId").val();
+				invoiceObj.date = $("#date").val();
+				invoiceObj.totalCost = totalSellingCost;
+				invoiceObj.totalProfit = totalProfit;
+				invoiceObj.paymentStatus = $("#paymentStatus").val();
+				invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
+				invoiceObj.status = 'saved';
+				CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
+				
+			}
+			//alert('Saved');
+			//Session.set("invoiceSaved",'true');
+			//Session.set('invoiceSaved','');
+		}
+
 function checkDate() {
 	var EnteredDate = $("#date").val(); // For JQuery
 	var month = EnteredDate.substring(0, 2);
@@ -112,8 +238,8 @@ Template.invoiceDetails.helpers({
 			obj.date = Session.get("date");
 			return obj;
 		}
-	}
-
+	},
+	
 
 });
 Template.invoiceDetails.events({
@@ -147,6 +273,7 @@ Template.invoiceDetails.events({
 			tempObj.plantId = plant[0]._id;
 			tempObj.quantity ='1' ;
 			tempObj.sellingCost = '0';
+			tempObj.individualTotal = Number(tempObj.quantity * tempObj.sellingCost);  
 			tempObj.profit = ''; 		
 			temp.insert(tempObj);
 			flag = 1;
@@ -582,9 +709,13 @@ Template.invoiceDetails.events({
 		}
 		for(var i=0;i<tempObj.length;i++)
 		{
+			tempObj[i].individualTotal = Number(tempObj[i].sellingCost * tempObj[i].quantity);
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
 			temp.insert(tempObj[i]);
 		}
-				
+
 	},
 	'keyup #quantity':function()
 	{
@@ -629,6 +760,10 @@ Template.invoiceDetails.events({
 		}
 		for(var i=0;i<tempObj.length;i++)
 		{
+			tempObj[i].individualTotal = Number(tempObj[i].sellingCost * tempObj[i].quantity);
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
 			temp.insert(tempObj[i]);
 		}
 	},
@@ -660,7 +795,7 @@ Template.invoiceDetails.events({
 		console.log("validate--->"+validate);
 		if(validate == 'false')
 		{
-				flag = 1;	
+			flag = 1;	
 		}
 		dv = checkDate();
 		console.log("date validate-->"+dv);
@@ -677,14 +812,18 @@ Template.invoiceDetails.events({
 		console.log("flag--->"+flag);
 		if(flag == 0)
 		{
-			
-				var invoiceNo = $("#invoiceNo").val();
-				var date = $("#date").val();
-				var paymentStatus = $("#paymentStatus").val();
-				var deliveryStatus = $("#deliveryStatus").val();
-				var buyerName = $("#buyerId").val();
-				buyerName = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(buyerName);
-				CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName);		
+			saveForPrint();
+			var invoiceNo = $("#invoiceNo").val();
+			var date = $("#date").val();
+			var paymentStatus = $("#paymentStatus").val();
+			var deliveryStatus = $("#deliveryStatus").val();
+			var buyerName = $("#buyerId").val();
+			buyerName = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(buyerName)[0].name;
+			console.log(buyerName);
+			CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName);		
+			$("#rootDiv").remove();
+			Router.go('/invoiceDetailsLandingPage');
+
 		}	
 
 	},

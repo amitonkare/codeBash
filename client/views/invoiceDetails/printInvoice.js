@@ -29,15 +29,5 @@ CodeBashApp.printInvoiceDetails = function(invoiceNo,date,paymentStatus,delivery
 	document.body.innerHTML = oldstr;
 	return false;
 	
-	/*console.log("inside print invoice function");
-	var headstr = "<html><head><title></title></head><body>";
-	var contentstr = "<p>Invoice no :"+invoiceNo+"<br>"+"Date"+date+"<br>Payment Status"+paymentStatus+"<br>Delivery Status"+deliveryStatus;
-	var footstr = "</body>";
-	document.getElementById("#printDiv").write(contentstr);
-	var newstr = document.getElementById("#printDiv").innerHTML;
-	var oldstr = document.body.innerHTML;
-	document.body.innerHTML = headstr+newstr+footstr;
-	window.print();
-	document.body.innerHTML = oldstr;
-	return false;*/
+
 };

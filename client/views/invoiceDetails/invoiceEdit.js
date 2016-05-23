@@ -1,3 +1,38 @@
+CodeBashApp.printSavedInvoiceDetails = function(){
+	
+	var headstr = "<html><head><title></title></head><body>";
+	var footstr = "</body>";
+	var obj = CodeBashApp.invoiceService.getInstance(). findInvoiceByInvoiceId(Session.get('invoiceDetailsId'));
+	obj[0].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(obj[0].buyerId)[0].name;	
+	var tempObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId')); 
+	var contentstr = "<br><br><br><br><br><br><p>Invoice no :"+obj[0].invoiceId+"<br>Buyer Name :"+obj[0].buyerId+" <br>"+"Date :"+obj[0].date+"<br>Payment Status :"+obj[0].paymentStatus+"<br>Delivery Status  :"+obj[0].deliveryStatus;	
+	var tableHeader ="<table "+"border="+"1"+" style="+"width:100%"+"><thead><tr><th>PlantName</th><th>Quantity</th><th>Cost</th><th>Total</th></tr></thead>";
+	var tableBody = "<tbody>";
+	var tableFooter = "</tbody></table>";
+	var tableContent = "";
+	var sum = 0;
+	for(var i=0;i<tempObj.length;i++)
+	{
+		var plantObj = CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId);
+		tempObj[i].plantId = plantObj[0].name;
+		tableContent = tableContent + "<tr><td>"+tempObj[i].plantId+"</td><td>"+tempObj[i].quantity+"</td><td>"+tempObj[i].sellingCost+"</td><td>"+(tempObj[i].sellingCost*tempObj[i].quantity)+"</td></tr>";
+		sum = sum+Number((tempObj[i].sellingCost*tempObj[i].quantity));
+	}
+	tableContent = tableContent + "<tr><td></td><td></td><td><b>Total Cost</b></td><td>"+sum+"</td></tr>";
+	var tax = ((14/100)* Number(sum));
+	tax = (tax + (0.5*Number(tax)));
+	tax = tax.toFixed(2);
+	tableContent = tableContent + "<tr><td></td><td></td><td><b>Total Tax</b></td><td>"+tax+"</td></tr>";
+	tableContent = tableContent + "<tr><td></td><td></td><td><b>Amount Payable</b></td><td>"+(Number(sum)+Number(tax))+"</td></tr>";
+	//var newstr = document.getElementById("#printDiv").innerHTML;
+	var oldstr = document.body.innerHTML;
+	document.body.innerHTML = headstr+contentstr+tableHeader+tableBody+tableContent+tableFooter+footstr;
+	window.print();
+	document.body.innerHTML = oldstr;
+	return false;
+	
+};
+
 function checkDate() {
 	var EnteredDate = $("#date").val(); // For JQuery
 	var month = EnteredDate.substring(0, 2);
@@ -112,6 +147,7 @@ function checkDate() {
  			tempObj.plantId = plant[0]._id;
  			tempObj.quantity ='1' ;
  			tempObj.sellingCost = '0';
+ 			tempObj.individualTotal = Number(tempObj.quantity * tempObj.sellingCost);  
  			tempObj.profit = ''; 		
  			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj);
  		}
@@ -186,7 +222,7 @@ function checkDate() {
 				tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 				if(tempObj[i].profit<0)
 				{
-					tempObj.profit[i].profit = 0;
+					tempObj[i].profit = 0;
 				}			
 			}
 			if(flag2 == '1'){
@@ -299,7 +335,7 @@ function checkDate() {
 					tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);	
 					if(tempObj[i].profit<0)
 					{
-						tempObj.profit[i].profit = '0';
+						tempObj[i].profit = 0;
 					}			
 				}
 				for(i=0;i<quantityArray.length;i++ )
@@ -336,14 +372,6 @@ function checkDate() {
 		$("#confirmModal").modal("show");    					
 	}
 },
-'keyup #cost':function()
-{
-	CodeBashApp.invoiceTotal();
-},
-'keyup #quantity':function()
-{
-	CodeBashApp.invoiceTotal();
-},
 "click #saveInvoice":function()
 {
 	Router.go('/invoiceDetailsLandingPage');
@@ -352,13 +380,126 @@ function checkDate() {
 {
 	Router.go('/invoiceDetailsLandingPage');
 },
-	"click #date":function()
+"click #date":function()
+{
+	$("#dateGroup").removeClass('form-group has-error has-feedback');                 
+	$("#dateGroup").addClass('form-group');                 
+	$("#dateSpan").html(''); 
+	console.log("inside date click");
+	$('#dateIcon').click();
+},
+'keyup #cost':function()
 	{
-		$("#dateGroup").removeClass('form-group has-error has-feedback');                 
-		$("#dateGroup").addClass('form-group');                 
-		$("#dateSpan").html(''); 
-		console.log("inside date click");
-		$('#dateIcon').click();
+		$("#costGroup").removeClass('form-group has-error has-feedback');                 
+		$("#costGroup").addClass('form-group');                 
+		$("#costSpan").html('');                	
+		CodeBashApp.invoiceTotal();
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
+		for(var i=0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(tempObj[i]._id);	
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+		}
+		var stockObj;
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].individualTotal = Number(tempObj[i].sellingCost * tempObj[i].quantity);
+			stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+			tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+		}
+				
+	},
+	'keyup #quantity':function()
+	{
+		$("#quantityGroup").removeClass('form-group has-error has-feedback');                 
+		$("#quantityGroup").removeClass('form-group');                 	
+		$("#quantitySpan").html('');
+		CodeBashApp.invoiceTotal();
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(tempObj[i]._id);	
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+		}
+		var stockObj;
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].individualTotal = Number(tempObj[i].sellingCost * tempObj[i].quantity);
+			stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+			tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+		}
+	},
+	'click #printSavedInvoice':function()
+	{
+		CodeBashApp.printSavedInvoiceDetails();	
+		$('#rootDiv').remove();
+		Router.go('/invoiceDetailsLandingPage');
 	}
 
 

@@ -1,5 +1,5 @@
 <template name="invoiceDetails"> <!--main div beginning-->
-  <div class="container-fluid">
+  <div class="container-fluid" id="rootDiv">
     {{>navbar}}
     <div class="row">
       <div class="col-md-6">
@@ -89,6 +89,7 @@
             <th>PlantName</th>
             <th>Quantity</th>
             <th>Cost</th>
+            <th>Total    </th>
             <th>Action</th>
           </tr>
         </thead>
@@ -110,10 +111,12 @@
                 <span id="costSpan" style="color: red"></span>            
               </div>
             </td>
-            
+            <td id="individualTotal">{{individualTotal}}              
+            </td>
             <td><a id="removeFromCart">Delete</a></td>
           </tr>
           {{/each}}
+          
         </tbody>
       </table>
     </div>

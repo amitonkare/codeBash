@@ -37,6 +37,16 @@ $("#plantName").keydown(function(event) {
     $("#plantNameSpan").html('');
 });
 
+$("#newPlantType").click(function(event) {
+    $("#newPlantTypeGroup").removeClass('form-group has-error has-feedback');
+    $("#newPlantTypeGroup").addClass('form-group');
+    $("#newPlantTypeSpan").html('');
+});
+$("#newPlantCategory").click(function(event) {
+    $("#newPlantCategoryGroup").removeClass('form-group has-error has-feedback');
+    $("#newPlantCategoryGroup").addClass('form-group');
+    $("#newPlantCategorySpan").html('');
+});
 
 
  

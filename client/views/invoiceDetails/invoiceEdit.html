@@ -1,5 +1,5 @@
 <template name="invoiceEdit"> <!--main div beginning-->
-	<div class="container-fluid">
+	<div class="container-fluid" id="rootDiv">
 		{{>navbar}}
 		<div class="row">
 			<div class="col-md-6">
@@ -68,14 +68,14 @@
 			</div>
 			<!--end of col-->
 			<div class="col-md-2">
-<div class="form-group" id="dateGroup">  
-				<div class="input-group datetimepicker" >
-					<span class="input-group-addon"><i
-						class="glyphicon glyphicon-calendar" id="dateIcon"></i></span> <input
-						class="set-due-date form-control" type="text" id="date" value= "{{invoiceEditObj.date}}"/>
+				<div class="form-group" id="dateGroup">  
+					<div class="input-group datetimepicker" >
+						<span class="input-group-addon"><i
+							class="glyphicon glyphicon-calendar" id="dateIcon"></i></span> <input
+							class="set-due-date form-control" type="text" id="date" value= "{{invoiceEditObj.date}}"/>
+						</div>
+						<span id="dateSpan" style="color:red"></span>                      
 					</div>
-					<span id="dateSpan" style="color:red"></span>                      
-				</div>
 				</div>
 			</div>
 			<!--end of col-->
@@ -87,6 +87,7 @@
 							<th>PlantName</th>
 							<th>Quantity</th>
 							<th>Cost</th>
+							<th>Total</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -94,106 +95,116 @@
 						{{#each invoiceList}}
 						<tr>
 							<td>{{plantId}}</td>                  
-							<td><input type="text" id="quantity" class="form-control"
-								value="{{quantity}}" /></td>
-								<td><input type="text" id="cost" class="form-control"
-								 value="{{sellingCost}}"/></td>
-								 
-								 <td><a id="removeFromCart">Delete</a></td>
-							 </tr>
-							 {{/each}}
-						 </tbody>
-					 </table>
-				 </div>
-
-				 
-				 <div class="row">
-					<div class="col-md-4">
-						<div class="panel panel-primary">
-							<!-- Default panel contents -->
-							<div class="panel-heading">Bill Details</div>
-							<div class="panel-body">    
-								<table class="table">
-									<thead></thead>
-									<tbody>
-										<tr>
-											<td><b>Net Total</b></td>
-											<td>{{netTotal}}</td>
-										</tr>
-										<tr>
-											<td><b>Total Tax</b></td>
-											<td>{{totalTax}}</td>
-										</tr>
-										<tr>
-											<td><b>Grand Total</b></td>
-											<td>{{grandTotal}}</td>
-										</tr>
-									</tbody>
-								</table>
-
-							</div>  
+							<td>
+								<div id="quantityGroup" class="form-group">        
+									<input type="text" id="quantity" class="form-control"
+									value="{{quantity}}" />
+									<span id="quantitySpan" style="color: red"></span>
+									</div>
+								</td>
+								<td>
+									<div id="quantityGroup" class="form-group">        
+										<input type="text" id="cost" class="form-control"
+										value="{{sellingCost}}"/>
+										<span id="costSpan" style="color: red"></span>
+										</div>
+										</td>
+										<td>{{individualTotal}}</td>
+										<td><a id="removeFromCart">Delete</a></td>
+									</tr>
+									{{/each}}
+								</tbody>
+							</table>
 						</div>
-					</div>
-				</div>
-				
-				
 
-				<div class="col-md-2">
-					<button type="button" class="btn btn-raised btn-success" id="finalInvoice">
-						Create final Invoice</button>
-					</div>
-					
-					<div class="col-md-2">
-						<button type="button" id="invoiceSavedDraft" class="btn btn-raised btn-success">
-							Save Draft</button>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="panel panel-primary">
+									<!-- Default panel contents -->
+									<div class="panel-heading">Bill Details</div>
+									<div class="panel-body">    
+										<table class="table">
+											<thead></thead>
+											<tbody>
+												<tr>
+													<td><b>Net Total</b></td>
+													<td>{{netTotal}}</td>
+												</tr>
+												<tr>
+													<td><b>Total Tax</b></td>
+													<td>{{totalTax}}</td>
+												</tr>
+												<tr>
+													<td><b>Grand Total</b></td>
+													<td>{{grandTotal}}</td>
+												</tr>
+											</tbody>
+										</table>
+
+									</div>  
+								</div>
+							</div>
 						</div>
-						
+
+
+
 						<div class="col-md-2">
-							<button type="button" class="btn btn-raised btn-success">Print</button>
-						</div>
-
-				<div id="saveModal" data-backdrop="false" class="modal fade" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title"></h4>
+							<button type="button" class="btn btn-raised btn-success" id="finalInvoice">
+								Create final Invoice</button>
 							</div>
-							<div class="modal-body">
-								<p>Your invoice is saved</p>
+
+							<div class="col-md-2">
+								<button type="button" id="invoiceSavedDraft" class="btn btn-raised btn-success">
+									Save Draft</button>
+								</div>
+
+								<div class="col-md-2">
+									<button type="button" id= "printSavedInvoice" class="btn btn-raised btn-success">Print</button>
+								</div>
+
+								<div id="saveModal" data-backdrop="false" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title"></h4>
+											</div>
+											<div class="modal-body">
+												<p>Your invoice is saved</p>
+											</div>
+											<div class="modal-footer">       
+												<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<div id="confirmModal" data-backdrop="false" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title"></h4>
+											</div>
+											<div class="modal-body">
+												<p>Your invoice is confirmed</p>
+											</div>
+											<div class="modal-footer">       
+												<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
+
 							</div>
-							<div class="modal-footer">       
-								<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
-							</div>
-						</div>
-					</div>
-				</div>
 
 
-				<div id="confirmModal" data-backdrop="false" class="modal fade" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title"></h4>
-							</div>
-							<div class="modal-body">
-								<p>Your invoice is confirmed</p>
-							</div>
-							<div class="modal-footer">       
-								<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
-
-					</div>
-
-
-				</template>
+						</template>

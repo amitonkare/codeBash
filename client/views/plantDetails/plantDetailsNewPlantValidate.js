@@ -18,7 +18,15 @@ CodeBashApp.plantDetailsNewPlantValidate = function(){
             if($("#newPlantScientificName").val().length<4 || $("#newPlantScientificName").val().length>20 )
             {
                 flagArray.push(4);                    
-            }  
+            } 
+            if($("#newPlantType").val()=='')
+            {
+              flagArray.push(5);  
+            } 
+            if($("#newPlantCategory").val()=='')
+            {
+              flagArray.push(6);  
+            } 
             if(flagArray.length == 0)
             {
                 validate = "true";
@@ -48,6 +56,12 @@ CodeBashApp.plantDetailsNewPlantValidate = function(){
                             break;
                     case 4: $("#newPlantScientificNameGroup").addClass('form-group has-error has-feedback');                 
                             $("#newPlantScientificNameSpan").html('Scientific name should have four characters and maximum 20 characters');    
+                            break;
+                    case 5: $("#newPlantTypeGroup").addClass('form-group has-error has-feedback');                 
+                            $("#newPlantTypeSpan").html('Please select plant type');    
+                            break;
+                    case 6: $("#newPlantCategoryGroup").addClass('form-group has-error has-feedback');                 
+                            $("#newPlantCategorySpan").html('Please select plant Category');    
                             break;
                 }
             };

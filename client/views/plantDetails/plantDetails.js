@@ -48,11 +48,12 @@ Template.plantDetailsTable.helpers({
 	},
 	categoryList:function()
 	{
-		return PlantCategory.find();
+		return CodeBashApp.plantCategoryService.getInstance().findPlantCategory();
+		//return PlantCategory.find();
 	},
 	typeList : function()
 	{
-		return PlantType.find();
+		return CodeBashApp.plantTypeService.getInstance().findPlantType();
 	},
 	updateObject:function()
 	{
@@ -165,9 +166,25 @@ Template.plantDetailsTable.events({
 	'click #newPlantCancel':function()
 	{
 		$("#newPlantName").val('');
+		$("#newPlantNameGroup").removeClass('form-group has-error has-feedback');
+		$("#newPlantNameGroup").addClass('form-group');
+		$("#newPlantNameSpan").html('');
+
 		$("#newPlantType").val('');
+		$("#newPlantTypeGroup").removeClass('form-group has-error has-feedback');
+		$("#newPlantTypeGroup").addClass('form-group');
+		$("#newPlantTypeSpan").html('');
+		
 		$("#newPlantScientificName").val('');
+		$("#newPlantScientificNameGroup").removeClass('form-group has-error has-feedback');
+		$("#newPlantScientificNameGroup").addClass('form-group');
+		$("#newPlantScientificNameSpan").html('');
+		
 		$("#newPlantCategory").val('');
+		$("#newPlantCategoryGroup").removeClass('form-group has-error has-feedback');
+		$("#newPlantCategoryGroup").addClass('form-group');
+		$("#newPlantCategorySpan").html('');
+		
 		$("#newPlantComments").val('');
 	},
 	'click #editPlantCancel':function()
