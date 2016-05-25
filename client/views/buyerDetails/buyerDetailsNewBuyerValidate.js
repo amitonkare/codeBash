@@ -12,6 +12,7 @@ function validateEmail(x) {
 CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 	var validate = 'false';
 	var flagArray = [];
+	var regexIFSC = /^[^\s]{4}\d{7}$/;
 	if(validate == 'false')
 	{
 		if($("#newBuyerName").val()=='')
@@ -99,6 +100,11 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 		{
 			flagArray.push(17);
 		}
+		 if (!regexIFSC.test($("#newIFSC").val()))
+		 {
+		 	console.log('regex evaluated');
+		 	flagArray.push(18);
+		 }
 		if(flagArray.length == 0)
 		{
 			validate = 'true';    
@@ -179,6 +185,10 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 				$("#newAccountNumberSpan").html('Account Number and Confirm Account Number values must be same');
 				$("#newConfirmAccountNumberGroup").addClass('form-group has-error has-feedback');                 
 				$("#newConfirmAccountNumberSpan").html('Account Number and Confirm Account Number values must be same');
+				break;
+				case 18:event.preventDefault();
+				$("#newIFSCGroup").addClass('form-group has-error has-feedback');                 
+				$("#newIFSCSpan").html('please Enter valid IFSC code');
 				break;
 			}
 		}

@@ -346,11 +346,11 @@ CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurcha
 	
 	"click #savePurchase":function()
 	{
-		Router.go('/purchaseDetailsLandingPage');
+		Router.go('purchaseDetailsLandingPage');
 	},
 	"click #confirmPurchase":function()
 	{
-		Router.go('/purchaseDetailsLandingPage');
+		Router.go('purchaseDetailsLandingPage');
 	},
 	"click #date":function()
 	{

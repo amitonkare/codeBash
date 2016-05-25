@@ -1,6 +1,7 @@
 CodeBashApp.buyerDetailsEditBuyerValidate=function(){
   var validate = 'false';
   var flagArray = [];
+  var regexIFSC = /^[^\s]{4}\d{7}$/;
   if(validate == 'false')
   {
 	if($("#buyerName").val()=='')
@@ -78,6 +79,11 @@ CodeBashApp.buyerDetailsEditBuyerValidate=function(){
 	if($("#accountNumber").val() != $("#confirmAccountNumber").val())
 	{
 		flagArray.push(17); 	
+	}
+	if (!regexIFSC.test($("#IFSC").val()))
+	{
+		 	console.log('regex evaluated');
+		 	flagArray.push(18);
 	}
 	if(flagArray.length == 0)
 	{
@@ -160,6 +166,10 @@ if(validate != 'true')
 		$("#confirmAccountNumberGroup").addClass('form-group has-error has-feedback');                 
 		$("#confirmAccountNumberSpan").html('bank account Number and confirm bank Account number must be same');
 		
+		break;
+		case 18:event.preventDefault();
+		$("#IFSCGroup").addClass('form-group has-error has-feedback');                 
+		$("#IFSCSpan").html('please enter valid IFSC Code');
 		break;
 			
 	}
