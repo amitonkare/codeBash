@@ -1,8 +1,8 @@
 CodeBashApp.buyerDetailsOnReady = function(){
 	$(document).ready(function () {
-         $('#list-buyers').DataTable();
-         $('[data-toggle="tooltip"]').tooltip();     
-    });
+       $('#list-buyers').DataTable();
+       $('[data-toggle="tooltip"]').tooltip();     
+   });
 
     $("#newBuyerPhoneNo,#buyerPhoneNo").keydown(function(event) {
 		    	// Allow only backspace and delete
@@ -12,8 +12,8 @@ CodeBashApp.buyerDetailsOnReady = function(){
 else {
     // Ensure that it is a number and stop the keypress
     if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-       event.preventDefault(); 
-   }   
+     event.preventDefault(); 
+ }   
 }
 });
 
@@ -76,54 +76,87 @@ else {
         $("#newAccountNumberGroup").removeClass('form-group has-error has-feedback');
         $("#newAccountNumberGroup").addClass('form-group');
         $("#newAccountNumberSpan").html('');
+        $("#newConfirmAccountNumberGroup").removeClass('form-group has-error has-feedback');
+        $("#newConfirmAccountNumberGroup").addClass('form-group');
+        $("#newConfirmAccountNumberSpan").html('');
+    });    
+
+    $("#newConfirmAccountNumber").keydown(function(event) {
+        $("#newConfirmAccountNumberGroup").removeClass('form-group has-error has-feedback');
+        $("#newConfirmAccountNumberGroup").addClass('form-group');
+        $("#newConfirmAccountNumberSpan").html('');
+        $("#newAccountNumberGroup").removeClass('form-group has-error has-feedback');
+        $("#newAccountNumberGroup").addClass('form-group');
+        $("#newAccountNumberSpan").html('');
+        
     });    
 
     $("#buyerName").keydown(function(event) {
         $("#buyerNameGroup").removeClass('form-group has-error has-feedback');
         $("#buyerNameGroup").addClass('form-group');
         $("#buyerNameSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#buyerAddress").keydown(function(event) {
         $("#buyerAddressGroup").removeClass('form-group has-error has-feedback');
         $("#buyerAddressGroup").addClass('form-group');
         $("#buyerAddressSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#buyerPhoneNo").keydown(function(event) {
         $("#buyerPhoneNoGroup").removeClass('form-group has-error has-feedback');
         $("#buyerPhoneNoGroup").addClass('form-group');
         $("#buyerPhoneNoSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#buyerEmailId").keydown(function(event) {
         $("#buyerEmailIdGroup").removeClass('form-group has-error has-feedback');
         $("#buyerEmailIdGroup").addClass('form-group');
         $("#buyerEmailIdSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#bankName").keydown(function(event) {
         $("#bankNameGroup").removeClass('form-group has-error has-feedback');
         $("#bankNameGroup").addClass('form-group');
         $("#bankNameSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#branchName").keydown(function(event) {
         $("#branchNameGroup").removeClass('form-group has-error has-feedback');
         $("#branchNameGroup").addClass('form-group');
         $("#branchNameSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#IFSC").keydown(function(event) {
         $("#IFSCGroup").removeClass('form-group has-error has-feedback');
         $("#IFSCGroup").addClass('form-group');
         $("#IFSCSpan").html('');
+        $("#editBuyerSpan").html('');
     });
 
     $("#accountNumber").keydown(function(event) {
         $("#accountNumberGroup").removeClass('form-group has-error has-feedback');
         $("#accountNumberGroup").addClass('form-group');
         $("#accountNumberSpan").html('');
+        $("#editBuyerSpan").html('');
+        $("#confirmAccountNumberGroup").removeClass('form-group has-error has-feedback');
+        $("#confirmAccountNumberGroup").addClass('form-group');
+        $("#confirmAccountNumberSpan").html('');
     });
 
+    $("#confirmAccountNumber").keydown(function(event) {
+        $("#confirmAccountNumberGroup").removeClass('form-group has-error has-feedback');
+        $("#confirmAccountNumberGroup").addClass('form-group');
+        $("#confirmAccountNumberSpan").html('');
+        $("#accountNumberGroup").removeClass('form-group has-error has-feedback');
+        $("#accountNumberGroup").addClass('form-group');
+        $("#accountNumberSpan").html('');
+        $("#editBuyerSpan").html('');
+    });
 };

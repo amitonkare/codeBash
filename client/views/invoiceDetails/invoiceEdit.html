@@ -79,6 +79,18 @@
 				</div>
 			</div>
 			<!--end of col-->
+			<div class="row">
+				<div class="col-md-4">     
+					<div id="taxGroup" class="form-group">
+						<label class="col-sm-2 control-label">Tax</label>
+						<div class="col-sm-5">
+							<input type="text" id="tax" class="form-control"
+							placeholder="Enter Tax in percent" value="{{invoiceEditObj.tax}}" /> <span id="taxSpan"
+							style="color: red"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<div class="table-responsive" id="items">
 				<table id="list-plants" class="table table-bordered">
@@ -100,111 +112,111 @@
 									<input type="text" id="quantity" class="form-control"
 									value="{{quantity}}" />
 									<span id="quantitySpan" style="color: red"></span>
-									</div>
-								</td>
-								<td>
-									<div id="quantityGroup" class="form-group">        
-										<input type="text" id="cost" class="form-control"
-										value="{{sellingCost}}"/>
-										<span id="costSpan" style="color: red"></span>
-										</div>
-										</td>
-										<td>{{individualTotal}}</td>
-										<td><a id="removeFromCart">Delete</a></td>
+								</div>
+							</td>
+							<td>
+								<div id="quantityGroup" class="form-group">        
+									<input type="text" id="cost" class="form-control"
+									value="{{sellingCost}}"/>
+									<span id="costSpan" style="color: red"></span>
+								</div>
+							</td>
+							<td>{{individualTotal}}</td>
+							<td><a id="removeFromCart">Delete</a></td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="panel panel-primary">
+						<!-- Default panel contents -->
+						<div class="panel-heading">Bill Details</div>
+						<div class="panel-body">    
+							<table class="table">
+								<thead></thead>
+								<tbody>
+									<tr>
+										<td><b>Net Total</b></td>
+										<td>{{netTotal}}</td>
 									</tr>
-									{{/each}}
+									<tr>
+										<td><b>Total Tax</b></td>
+										<td>{{totalTax}}</td>
+									</tr>
+									<tr>
+										<td><b>Grand Total</b></td>
+										<td>{{grandTotal}}</td>
+									</tr>
 								</tbody>
 							</table>
-						</div>
+
+						</div>  
+					</div>
+				</div>
+			</div>
 
 
-						<div class="row">
-							<div class="col-md-4">
-								<div class="panel panel-primary">
-									<!-- Default panel contents -->
-									<div class="panel-heading">Bill Details</div>
-									<div class="panel-body">    
-										<table class="table">
-											<thead></thead>
-											<tbody>
-												<tr>
-													<td><b>Net Total</b></td>
-													<td>{{netTotal}}</td>
-												</tr>
-												<tr>
-													<td><b>Total Tax</b></td>
-													<td>{{totalTax}}</td>
-												</tr>
-												<tr>
-													<td><b>Grand Total</b></td>
-													<td>{{grandTotal}}</td>
-												</tr>
-											</tbody>
-										</table>
 
-									</div>  
+			<div class="col-md-2">
+				<button type="button" class="btn btn-raised btn-success" id="finalInvoice">
+					Create final Invoice</button>
+				</div>
+
+				<div class="col-md-2">
+					<button type="button" id="invoiceSavedDraft" class="btn btn-raised btn-success">
+						Save Draft</button>
+					</div>
+
+					<div class="col-md-2">
+						<button type="button" id= "printSavedInvoice" class="btn btn-raised btn-success">Print</button>
+					</div>
+
+					<div id="saveModal" data-backdrop="false" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body">
+									<p>Your invoice is saved</p>
+								</div>
+								<div class="modal-footer">       
+									<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
 								</div>
 							</div>
 						</div>
+					</div>
 
 
+					<div id="confirmModal" data-backdrop="false" class="modal fade" role="dialog">
+						<div class="modal-dialog">
 
-						<div class="col-md-2">
-							<button type="button" class="btn btn-raised btn-success" id="finalInvoice">
-								Create final Invoice</button>
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body">
+									<p>Your invoice is confirmed</p>
+								</div>
+								<div class="modal-footer">       
+									<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
+								</div>
 							</div>
-
-							<div class="col-md-2">
-								<button type="button" id="invoiceSavedDraft" class="btn btn-raised btn-success">
-									Save Draft</button>
-								</div>
-
-								<div class="col-md-2">
-									<button type="button" id= "printSavedInvoice" class="btn btn-raised btn-success">Print</button>
-								</div>
-
-								<div id="saveModal" data-backdrop="false" class="modal fade" role="dialog">
-									<div class="modal-dialog">
-										<!-- Modal content-->
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal">&times;</button>
-												<h4 class="modal-title"></h4>
-											</div>
-											<div class="modal-body">
-												<p>Your invoice is saved</p>
-											</div>
-											<div class="modal-footer">       
-												<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="saveInvoice" value="Ok"> 
-											</div>
-										</div>
-									</div>
-								</div>
-
-
-								<div id="confirmModal" data-backdrop="false" class="modal fade" role="dialog">
-									<div class="modal-dialog">
-
-										<!-- Modal content-->
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal">&times;</button>
-												<h4 class="modal-title"></h4>
-											</div>
-											<div class="modal-body">
-												<p>Your invoice is confirmed</p>
-											</div>
-											<div class="modal-footer">       
-												<input type="submit" class="btn btn-raised btn-success" data-dismiss="modal" id="confirmInvoice" value="Ok"> 
-											</div>
-										</div>
-									</div>
-								</div>
+						</div>
+					</div>
 
 
 
 
-							</div>
+				</div>
 
 
-						</template>
+			</template>

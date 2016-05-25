@@ -136,6 +136,15 @@
                                 <span id="newAccountNumberSpan" style="color:red"></span>
                             </div>
                         </div>
+                        
+                        <div class="form-group" id = "newConfirmAccountNumberGroup">
+                            <label class="col-sm-2 control-label">Confirm Account Number<span style="color:red">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "newConfirmAccountNumber" class="form-control" placeholder="Enter Account Number" />
+                                <span id="newConfirmAccountNumberSpan" style="color:red"></span>
+                            </div>
+                        </div>
+                        
                         <button type="button" id ="newSellerCancel" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
                         <input type="submit" id="addSeller" value="Save" class="btn btn-raised btn-success" >
                         </form>
@@ -231,6 +240,20 @@
                                 <span id="accountNumberSpan" style="color:red"></span>
                             </div>
                         </div>
+                        
+
+                        <div class="form-group" id = "confirmAccountNumberGroup">
+                            <label class="col-sm-2 control-label">Confirm Account Number<span style="color:red">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" id = "confirmAccountNumber" class="form-control" value="{{updateObj.bankAccountDetails.accountNumber}}" />
+                                <span id="confirmAccountNumberSpan" style="color:red"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-control">
+                            <span id="editSellerSpan" style="color:red"></span>
+                        </div>
+                    
                         <button type="button" id="editSellerCancel" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
                         <input type="submit" id="addSeller" value="Save" class="btn btn-raised btn-success" >
                         </form>

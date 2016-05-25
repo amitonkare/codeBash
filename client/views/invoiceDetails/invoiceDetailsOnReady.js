@@ -5,7 +5,7 @@ CodeBashApp.invoiceDetailsOnReady=function(){
       Session.set('detailsSaved','');
       Session.set('total','');
       $("#plantName").val('');
-      $("#invoiceNo").val('');
+      //$("#invoiceNo").val('');
       $("#buyerId").val('');
       $("#date").val('');
       $("#items :text").each(function(){
@@ -102,10 +102,40 @@ CodeBashApp.invoiceDetailsOnReady=function(){
          $("#tableSpan").html('');  
      });
 
+     $("#tax").keydown(function(event) {
+         $("#taxGroup").removeClass('form-group has-error has-feedback');                 
+         $("#taxGroup").addClass('form-group');                 
+         $("#taxSpan").html('');
+     });
+     
+     $("#tax").click(function(event) {
+         $("#taxGroup").removeClass('form-group has-error has-feedback');                 
+         $("#taxGroup").addClass('form-group');                 
+         $("#taxSpan").html('');
+     });
+     $("#cost,#quantity,#tax").keydown(function(event) {
+          // Allow only backspace and delete
+                if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 190) {
+    // let it happen, don't do anything
+}
+else {
+    // Ensure that it is a number and stop the keypress
+    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+       event.preventDefault(); 
+   }   
+}
+});
 	/*$('#list-plants').DataTable();
     $(".tool-tip").tooltip();*/
 
 });
+
+ $("#buyerId").click(function(event) {
+         $("#buyerIdGroup").removeClass('form-group has-error has-feedback');                 
+         $("#buyerIdGroup").addClass('form-group');                 
+         $("#buyerIdSpan").html('');
+     });
+    
 
 
 };

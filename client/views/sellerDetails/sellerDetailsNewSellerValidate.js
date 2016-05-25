@@ -91,6 +91,10 @@ CodeBashApp.sellerDetailsNewSellerValidate=function(){
     {
         flagArray.push(15);
     }
+    if($("#newAccountNumber").val() != $("#newConfirmAccountNumber").val())
+    {
+        flagArray.push(15);
+    }
     if(flagArray.length == 0)
     {
         validate = 'true';    
@@ -161,6 +165,12 @@ if(validate != 'true')
             case 15:event.preventDefault();
             $("#newAccountNumberGroup").addClass('form-group has-error has-feedback');                 
             $("#newAccountNumberSpan").html('Account Number must be 15 digits');
+            break;
+            case 16:event.preventDefault();
+            $("#newAccountNumberGroup").addClass('form-group has-error has-feedback');                 
+            $("#newAccountNumberSpan").html('Account Number and Confirm Account Number values must be same');
+            $("#newConfirmAccountNumberGroup").addClass('form-group has-error has-feedback');                 
+            $("#newConfirmAccountNumberSpan").html('Account Number and Confirm Account Number values must be same');
             break;
         }
     }

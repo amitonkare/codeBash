@@ -1,4 +1,4 @@
-CodeBashApp.printSavedInvoiceDetails = function(){
+CodeBashApp.printSavedInvoiceDetails = function(taxPercent){
 	
 	var headstr = "<html><head><title></title></head><body>";
 	var footstr = "</body>";
@@ -19,8 +19,8 @@ CodeBashApp.printSavedInvoiceDetails = function(){
 		sum = sum+Number((tempObj[i].sellingCost*tempObj[i].quantity));
 	}
 	tableContent = tableContent + "<tr><td></td><td></td><td><b>Total Cost</b></td><td>"+sum+"</td></tr>";
-	var tax = ((14/100)* Number(sum));
-	tax = (tax + (0.5*Number(tax)));
+	var tax = ((taxPercent/100)* Number(sum));
+	tax = (tax + ((0.5/100)*Number(tax)));
 	tax = tax.toFixed(2);
 	tableContent = tableContent + "<tr><td></td><td></td><td><b>Total Tax</b></td><td>"+tax+"</td></tr>";
 	tableContent = tableContent + "<tr><td></td><td></td><td><b>Amount Payable</b></td><td>"+(Number(sum)+Number(tax))+"</td></tr>";
@@ -58,12 +58,12 @@ function checkDate() {
 	}
 }
 
-        Template.invoiceEdit.onRendered(function(){
-        	Meteor.typeahead.inject();
-        	this.$('.datetimepicker').datetimepicker();
-        	CodeBashApp.invoiceEditOnReady();
-        });
-        Template.invoiceEdit.helpers({
+Template.invoiceEdit.onRendered(function(){
+	Meteor.typeahead.inject();
+	this.$('.datetimepicker').datetimepicker();
+	CodeBashApp.invoiceEditOnReady();
+});
+Template.invoiceEdit.helpers({
 	plants:function() //auto-complete suggestions
 	{
 		console.log(CodeBashApp.plantDetailsService.getInstance().findPlants().map(function(it){ return it.name; }));
@@ -104,12 +104,12 @@ function checkDate() {
 		},
 		totalTax:function()
 		{
-			var tax;
+			var tax = $('#tax').val();
 			if(Session.get('total'))
 			{	
 
-				tax = ((14/100)* Number(Session.get('total')));
-				tax = (tax + (0.5*Number(tax)));
+				tax = ((tax/100)* Number(Session.get('total')));
+				tax = (tax + ((0.5/100)*Number(tax)));
 				tax = tax.toFixed(2);
 				Session.set('tax',tax);
 				return tax;
@@ -127,43 +127,57 @@ function checkDate() {
 
 	},
 });
- Template.invoiceEdit.events({
- 	'click #removeFromCart':function()
- 	{
- 		CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(this._id);
- 		CodeBashApp.invoiceTotal();
- 	},
- 	'submit #addToCart':function(event)
- 	{
- 		event.preventDefault();
- 		var name = $("#plantName").val();
- 		$("#plantName").val('');
- 		var validate = CodeBashApp.invoiceEditValidate(name);
- 		if(validate == true)
- 		{
- 			var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);	
- 			var tempObj = {};
- 			tempObj.invoiceId = Session.get('invoiceDetailsId');
- 			tempObj.plantId = plant[0]._id;
- 			tempObj.quantity ='1' ;
- 			tempObj.sellingCost = '0';
- 			tempObj.individualTotal = Number(tempObj.quantity * tempObj.sellingCost);  
- 			tempObj.profit = ''; 		
- 			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj);
- 		}
- 		CodeBashApp.invoiceTotal();
- 	},
- 	"click #invoiceSavedDraft":function()
- 	{
- 		var Contain='';
- 		$("#items :text").each(function(){
- 			Contain += $(this).val() + "+";
- 		});
- 		var array = Contain.split('+');
- 		console.log(array.length);
- 		var sellingCostArray=[];
- 		var quantityArray=[];
- 		var j=0,i,k=0;
+Template.invoiceEdit.events({
+	'click #removeFromCart':function()
+	{
+		CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(this._id);
+		CodeBashApp.invoiceTotal();
+	},
+	'submit #addToCart':function(event)
+	{
+		event.preventDefault();
+		var name = $("#plantName").val();
+		$("#plantName").val('');
+		var validate = CodeBashApp.invoiceEditValidate(name);
+		if($('#tax').val() == '')
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('please enter tax');          
+			validate = false;	
+		}
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			validate = false;
+		}
+
+		if(validate == true)
+		{
+			var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);	
+			var tempObj = {};
+			tempObj.invoiceId = Session.get('invoiceDetailsId');
+			tempObj.plantId = plant[0]._id;
+			tempObj.quantity ='1' ;
+			tempObj.sellingCost = '0';
+			tempObj.individualTotal = Number(tempObj.quantity * tempObj.sellingCost);  
+			tempObj.profit = ''; 		
+			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj);
+		}
+		CodeBashApp.invoiceTotal();
+	},
+	"click #invoiceSavedDraft":function()
+	{
+
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
 			//quantityArray[0]
 			for(i=0;i<array.length-1;i++)
 			{
@@ -201,6 +215,19 @@ function checkDate() {
 				} 
 			}); 
 			
+			if($('#tax').val() == '')
+			{
+				$("#taxGroup").addClass('form-group has-error has-feedback');                 
+				$("#taxSpan").html('please enter tax');          
+				flag = '1';	
+			}
+			if($('#tax').val() < 0 || $('#tax').val() > 100)
+			{
+				$("#taxGroup").addClass('form-group has-error has-feedback');                 
+				$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+				flag = '1';	
+			}
+
 			if(flag == '0')
 			{
 			//$("#invoiceSavedDraft").remove();
@@ -246,7 +273,7 @@ function checkDate() {
 				}
 				Session.set('totalProfit',totalProfit);
 				Session.set('totalSellingCost',totalSellingCost);
-				CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','','',totalProfit,totalSellingCost);
+				CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','','',totalProfit,totalSellingCost,$('#tax').val());
 				$("#saveModal").modal("show");    				
 				//alert('Saved');
 				//Router.go('/invoiceDetailsLandingPage');	
@@ -303,6 +330,19 @@ function checkDate() {
 				} 
 				
 			}); 
+			if($('#tax').val() == '')
+			{
+				$("#taxGroup").addClass('form-group has-error has-feedback');                 
+				$("#taxSpan").html('please enter tax');          
+				flag = '1';	
+			}
+			if($('#tax').val() < 0 || $('#tax').val() > 100)
+			{
+				$("#taxGroup").addClass('form-group has-error has-feedback');                 
+				$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+				flag = '1';	
+			}
+
 			if(flag == '0')
 			{
 				$("#invoiceSavedDraft").remove();
@@ -326,7 +366,7 @@ function checkDate() {
 						//alert('available quantity of '+plantName+'is '+stockQuantity);
 						$("#tableGroup").addClass('form-group has-error has-feedback');                 
 						$("#tableSpan").html('available quantity of '+plantName+'is '+stockQuantity);          	
-					
+
 						return false;
 					}	
 					stockQuantity = Number(stockQuantity) - Number(tempObj[i].quantity);
@@ -356,7 +396,7 @@ function checkDate() {
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
 					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
 				}
-				CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',totalProfit,totalSellingCost);
+				CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',totalProfit,totalSellingCost,$('#tax').val());
 				$("#plantName").attr("disabled",true);
 				$("#invoiceNo").attr("disabled",true);
 				$("#buyerId").attr("disabled",true);
@@ -389,16 +429,16 @@ function checkDate() {
 	$('#dateIcon').click();
 },
 'keyup #cost':function()
-	{
-		$("#costGroup").removeClass('form-group has-error has-feedback');                 
-		$("#costGroup").addClass('form-group');                 
-		$("#costSpan").html('');                	
-		CodeBashApp.invoiceTotal();
-		var Contain='';
-		$("#items :text").each(function(){
-			Contain += $(this).val() + "+";
-		});
-		var array = Contain.split('+');
+{
+	$("#costGroup").removeClass('form-group has-error has-feedback');                 
+	$("#costGroup").addClass('form-group');                 
+	$("#costSpan").html('');                	
+	CodeBashApp.invoiceTotal();
+	var Contain='';
+	$("#items :text").each(function(){
+		Contain += $(this).val() + "+";
+	});
+	var array = Contain.split('+');
 		//console.log(array.length);
 		var sellingCostArray=[];
 		var quantityArray=[];
@@ -440,7 +480,7 @@ function checkDate() {
 		{
 			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
 		}
-				
+
 	},
 	'keyup #quantity':function()
 	{
@@ -497,10 +537,75 @@ function checkDate() {
 	},
 	'click #printSavedInvoice':function()
 	{
-		CodeBashApp.printSavedInvoiceDetails();	
+		CodeBashApp.printSavedInvoiceDetails($('#tax').val());	
 		$('#rootDiv').remove();
 		Router.go('/invoiceDetailsLandingPage');
+	},
+	'keyup #tax':function()
+	{
+
+		var flag = 1;
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			flag = 0;	
+		}
+		if(flag == 1){
+			Session.set('total','');	
+			$("#costGroup").removeClass('form-group has-error has-feedback');                 
+			$("#costGroup").addClass('form-group');                 
+			$("#costSpan").html('');                	
+			CodeBashApp.invoiceTotal();
+			var Contain='';
+			$("#items :text").each(function(){
+				Contain += $(this).val() + "+";
+			});
+			var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(Session.get('invoiceDetailsId'));
+		for(var i=0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(tempObj[i]._id);	
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+		}
+		var stockObj;
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].individualTotal = Number(tempObj[i].sellingCost * tempObj[i].quantity);
+			stockObj = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(tempObj[i].plantId);
+			tempObj[i].profit = Number(tempObj[i].quantity * tempObj[i].sellingCost) - Number(tempObj[i].quantity *  stockObj[0].avgCost);
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			CodeBashApp.invoiceDetailsService.getInstance().addInvoiceDetails(tempObj[i]);
+		}
 	}
+}
+
 
 
 });

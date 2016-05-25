@@ -130,21 +130,34 @@ Template.plantDetailsTable.events({
 		var validate = CodeBashApp.plantDetailsEditPlantValidate();
 		if(validate=='true')
 		{
+			var flag = 1;
 			var name = event.target.plantName.value;
-			event.target.plantName.value = '';
 			var plantType = event.target.plantType.value;
-			event.target.plantType.value = '';
 			var plantScientificName = event.target.plantScientificName.value;
-			event.target.plantScientificName.value = '';
 			var plantCategory = event.target.plantCategory.value;
-			event.target.plantCategory.value = '';
 			var plantComments = event.target.plantComments.value;
-			event.target.plantComments.value = '';
 			//console.log("id -->" + Session.get('id'));
-			CodeBashApp.plantDetailsService.getInstance().updatePlant(Session.get('id'),name,plantScientificName,plantType,plantCategory,plantComments);
-			Session.set('update','');
-			Session.set('id','');
-			$("#edit-plant").modal("hide");
+			var obj = CodeBashApp.plantDetailsService.getInstance().findPlantById(Session.get('id'))[0];
+			if(obj.name == name && obj.type == plantType && obj.scientificName == plantScientificName && obj.category == plantCategory)
+			{
+				flag = 0;
+			}
+			if(flag == 1)
+			{
+				CodeBashApp.plantDetailsService.getInstance().updatePlant(Session.get('id'),name,plantScientificName,plantType,plantCategory,plantComments);
+				Session.set('update','');
+				Session.set('id','');
+				$("#edit-plant").modal("hide");
+				event.target.plantName.value = '';
+				event.target.plantType.value = '';
+				event.target.plantScientificName.value = '';
+				event.target.plantCategory.value = '';
+				event.target.plantComments.value = '';
+			}
+			else
+			{
+                $("#editPlantSpan").html('Plant already exists');                
+			}
 		}
 		return false;
 	},

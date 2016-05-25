@@ -2,6 +2,13 @@ CodeBashApp.invoiceDetailsValidate = function(){
  var validate = 'false';
  if(validate == 'false')
  {
+   if($("#buyerId").val()=='')
+   {
+       event.preventDefault();
+       $("#buyerIdGroup").addClass('form-group has-error has-feedback');                 
+       $("#buyerIdSpan").html('please select buyer Name');                
+   }
+
    if($("#invoiceNo").val()=='')
    {
        event.preventDefault();

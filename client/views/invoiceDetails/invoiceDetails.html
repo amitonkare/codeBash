@@ -8,8 +8,7 @@
           <div id="invoiceNoGroup" class="form-group">
             <label class="col-sm-2 control-label">Invoice Number</label>
             <div class="col-sm-10">
-              <input type="text" id="invoiceNo" class="form-control"
-              placeholder="Enter Invoice Number" /> <span id="invoiceNoSpan"
+              <input type="text" id="invoiceNo" class="form-control"  placeholder="Enter Invoice Number"  value="{{invoiceNumber}}"/> <span id="invoiceNoSpan"
               style="color: red"></span>
             </div>
           </div>
@@ -56,6 +55,7 @@
               <input class="form-control typeahead" id="plantName" type="text"
               placeholder="PlantName" autocomplete="off" spellcheck="off"
               data-source="plants" />
+              <span id="plantNameSpan" style="color:red"></span>                          
               <input type="submit" id="addToCart" class="btn btn-raised btn-success"
               value="add" style="margin-left: 50px;">
 
@@ -81,47 +81,62 @@
       </div>
     </div>
     <!--end of col-->
-<div class="form-group" id="tableGroup">
-    <div class="table-responsive" id="items">
-      <table id="list-plants" class="table table-bordered">
-        <thead>
-          <tr>
-            <th>PlantName</th>
-            <th>Quantity</th>
-            <th>Cost</th>
-            <th>Total    </th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each itemList}}
-          <tr>
-            <td>{{plantId}}</td>        
-            
-            <td>
-              <div id="quantityGroup" class="form-group">        
-                <input type="text" id="quantity" class="form-control"
-                value="{{quantity}}" />
-                <span id="quantitySpan" style="color: red"></span>            
-              </div>
-            </td>
-            <td>
-              <div id="costGroup" class="form-group">        
-                <input type="text" id="cost" class="form-control" value="{{sellingCost}}"/>
-                <span id="costSpan" style="color: red"></span>            
-              </div>
-            </td>
-            <td id="individualTotal">{{individualTotal}}              
-            </td>
-            <td><a id="removeFromCart">Delete</a></td>
-          </tr>
-          {{/each}}
-          
-        </tbody>
-      </table>
+<div class="row">
+<div class="col-md-4">     
+    <div id="taxGroup" class="form-group">
+      <label class="col-sm-2 control-label">Tax</label>
+      <div class="col-sm-5">
+        <input type="text" id="tax" class="form-control"
+        placeholder="Enter Tax in percent" /> <span id="taxSpan"
+        style="color: red"></span>
+      </div>
     </div>
-    <span id="tableSpan" style="color: red"></span>
-  </div>
+</div>
+</div>
+
+
+
+    <div class="form-group" id="tableGroup">
+      <div class="table-responsive" id="items">
+        <table id="list-plants" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>PlantName</th>
+              <th>Quantity</th>
+              <th>Cost</th>
+              <th>Total    </th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each itemList}}
+            <tr>
+              <td>{{plantId}}</td>        
+
+              <td>
+                <div id="quantityGroup" class="form-group">        
+                  <input type="text" id="quantity" class="form-control"
+                  value="{{quantity}}" />
+                  <span id="quantitySpan" style="color: red"></span>            
+                </div>
+              </td>
+              <td>
+                <div id="costGroup" class="form-group">        
+                  <input type="text" id="cost" class="form-control" value="{{sellingCost}}"/>
+                  <span id="costSpan" style="color: red"></span>            
+                </div>
+              </td>
+              <td id="individualTotal">{{individualTotal}}              
+              </td>
+              <td><a id="removeFromCart">Delete</a></td>
+            </tr>
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
+      <span id="tableSpan" style="color: red"></span>
+    </div>
     <div class="row">
       <div class="col-md-4">
         <div class="panel panel-primary">
@@ -215,6 +230,6 @@
           </div>
         </div>
 
-<div id="printDiv">
-</div>
+        <div id="printDiv">
+        </div>
       </template>

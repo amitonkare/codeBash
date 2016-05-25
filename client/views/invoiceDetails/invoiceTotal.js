@@ -3,8 +3,9 @@ CodeBashApp.invoiceTotal = function(){
 	$("#items :text").each(function(){
 		Contain += $(this).val() + "+";
 	});
+	console.log('contain array-->'+Contain);
 	var array = Contain.split('+');
-	console.log(array.length);
+	console.log('array-->'+array);
 	var sellingCostArray=[];
 	var quantityArray=[];
 	var j=0,i,k=0;

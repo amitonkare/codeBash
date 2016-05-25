@@ -75,6 +75,10 @@ CodeBashApp.buyerDetailsEditBuyerValidate=function(){
 	{
 		flagArray.push(16); 
 	}
+	if($("#accountNumber").val() != $("#confirmAccountNumber").val())
+	{
+		flagArray.push(17); 	
+	}
 	if(flagArray.length == 0)
 	{
 		validate = 'true';    
@@ -150,6 +154,14 @@ if(validate != 'true')
 		$("#accountNumberGroup").addClass('form-group has-error has-feedback');                 
 		$("#accountNumberSpan").html('bank account Number must be 15 characters');
 		break;
+		case 17:event.preventDefault();
+		$("#accountNumberGroup").addClass('form-group has-error has-feedback');                 
+		$("#accountNumberSpan").html('bank account Number and confirm bank Account number must be same');
+		$("#confirmAccountNumberGroup").addClass('form-group has-error has-feedback');                 
+		$("#confirmAccountNumberSpan").html('bank account Number and confirm bank Account number must be same');
+		
+		break;
+			
 	}
 }
 }   

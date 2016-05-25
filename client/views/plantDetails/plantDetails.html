@@ -1,23 +1,23 @@
 <template name="plantDetails">
     {{>plantDetailsTable}}
-    </template>
+</template>
 <template name="plantDetailsTable">
     <div class="container-fluid" id="rootDiv">
         {{>navbar}}
 
-     <div class="container-fluid">   
-        <div class="in-header row" style=" background-color:#f2f2f2">
-            <div class="col-md-6">
-                <span style="color:black">Plants</span>
-            </div>    
-            <div class="col-md-6 text-right">
+        <div class="container-fluid">   
+            <div class="in-header row" style=" background-color:#f2f2f2">
+                <div class="col-md-6">
+                    <span style="color:black">Plants</span>
+                </div>    
+                <div class="col-md-6 text-right">
 
                     <a href="javascript:void(0)" id="newPlant" data-toggle="tooltip" data-placement="bottom"
                     title="" data-original-title="Add New Plant"
                     class="tool-tip" data-target="#myModal"><i id="newplantmodal" style="color:black" class="material-icons">add</i></a>        
-            </div>               
+                </div>               
+            </div>
         </div>
-    </div>
 
         <form class="form-horizontal">
             <div class="table-responsive">
@@ -33,8 +33,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                            {{#each plantsList}}
-                          <tr>
+                        {{#each plantsList}}
+                        <tr>
                             <td>{{name}}</td>
                             <td>{{scientificName}}</td>
                             <td>{{type}}</td>
@@ -56,15 +56,15 @@
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <div>
-                            <i class="fa fa-dot-circle-o  fa-lg"></i>
-                            <span class="modal-title">New Plant</span>
-                        </div>
-
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div>
+                        <i class="fa fa-dot-circle-o  fa-lg"></i>
+                        <span class="modal-title">New Plant</span>
                     </div>
-                    <div class="modal-body">
+
+                </div>
+                <div class="modal-body">
 
                     <form class="form-horizontal" id="newPlantForm">
 
@@ -119,98 +119,100 @@
                         </div>                        
                         <button type="button" id="newPlantCancel" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
                         <input type="submit" id="addPlant" class="btn btn-raised btn-success" value="save">
-                      </form>
-                        
-
-                    </div>
-                    <div class="modal-footer">
-                      <span style="color:red">Note: Fields marked with * are mandatory</span>
-                          
-                    </div>
-                </div>
-
-        </div>
-    </div>
-
-
-
-    <!--Edit Modal -->
-    <div class="modal fade" data-backdrop="false" id="edit-plant" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                         <div>
-                            <i class="fa fa-dot-circle-o  fa-lg"></i>
-                            <span class="modal-title">Edit Plant</span>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-
-
-                    <form class="form-horizontal" id="editPlantForm">
-                        <div class="form-group" id = "plantNameGroup">
-                            <label class="col-sm-2 control-label">Name<span style="color:red">*</span></label>
-                            <div class="col-sm-10">
-                                <input type="text" id = "plantName" class="form-control" value="{{updateObject.name}}"/>
-                                <span id="plantNameSpan" style="color:red"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" id = "plantScientificNameGroup">
-                            <label class="col-sm-2 control-label">Scientific Name<span style="color:red">*</span></label>
-                            <div class="col-sm-10">
-                                <input type="text" id = "plantScientificName" class="form-control" value = "{{updateObject.scientificName}}"/>
-                                <span id="plantScientificNameSpan" style="color:red"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" id="plantCommentsGroup">
-                            <label class="col-sm-2 control-label">Comments</label>
-                            <div class="col-sm-10">
-                                <input type="text" id = "plantComments" class="form-control" value="{{updateObject.comments}}"/>
-                                <span id="plantCommentsSpan" style="color:red"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Type<span style="color:red">*</span></label>
-                            <div class="col-sm-10">
-                                <select class = "form-control" id= "plantType" value="{{updateObject.type}}" >
-                                    {{#each typeList}}
-                                    <option>{{type}}</option>
-                                    {{/each}}
-                                </select>
-                                <!--<input type="text" id = "plantType" class="form-control" placeholder="Enter type" />-->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Category<span style="color:red">*</span></label>
-                            <div class="col-sm-10">
-                                <!--<input type="text" id = "plantCategory" class="form-control" placeholder="Enter Category" />-->
-                                  <select class="form-control" id= "plantCategory" value="{{updateObject.category}}">
-                                    {{#each categoryList}}
-                                    <option>{{category}}</option>
-                                    {{/each}}
-                                </select>
- 
-                            </div>
-                        </div>                       
+                    </form>
                     
-                        <button type="button" id="editPlantCancel" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
-                        <input type="submit" id="updatePlant" class="btn btn-raised btn-success" value="Save">
+
+                </div>
+                <div class="modal-footer">
+                  <span style="color:red">Note: Fields marked with * are mandatory</span>
+                  
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+
+
+  <!--Edit Modal -->
+  <div class="modal fade" data-backdrop="false" id="edit-plant" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div>
+                    <i class="fa fa-dot-circle-o  fa-lg"></i>
+                    <span class="modal-title">Edit Plant</span>
+                </div>
+            </div>
+            <div class="modal-body">
+
+
+                <form class="form-horizontal" id="editPlantForm">
+                    <div class="form-group" id = "plantNameGroup">
+                        <label class="col-sm-2 control-label">Name<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" id = "plantName" class="form-control" value="{{updateObject.name}}"/>
+                            <span id="plantNameSpan" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id = "plantScientificNameGroup">
+                        <label class="col-sm-2 control-label">Scientific Name<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" id = "plantScientificName" class="form-control" value = "{{updateObject.scientificName}}"/>
+                            <span id="plantScientificNameSpan" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="plantCommentsGroup">
+                        <label class="col-sm-2 control-label">Comments</label>
+                        <div class="col-sm-10">
+                            <input type="text" id = "plantComments" class="form-control" value="{{updateObject.comments}}"/>
+                            <span id="plantCommentsSpan" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Type<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                            <select class = "form-control" id= "plantType" value="{{updateObject.type}}" >
+                                {{#each typeList}}
+                                <option>{{type}}</option>
+                                {{/each}}
+                            </select>
+                            <!--<input type="text" id = "plantType" class="form-control" placeholder="Enter type" />-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Category<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                            <!--<input type="text" id = "plantCategory" class="form-control" placeholder="Enter Category" />-->
+                            <select class="form-control" id= "plantCategory" value="{{updateObject.category}}">
+                                {{#each categoryList}}
+                                <option>{{category}}</option>
+                                {{/each}}
+                            </select>
+                            
+                        </div>
+                    </div>                  
+                    <div class="form-group">     
+                        <span id="editPlantSpan" style="color:red"></span>        
+                    </div>
+                    <button type="button" id="editPlantCancel" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" id="updatePlant" class="btn btn-raised btn-success" value="Save">
                     
                 </form>
 
 
 
-                    </div>
-                    <div class="modal-footer">
-                        <span style="color:red">Note: Fields marked with * are mandatory</span>
-                                    </div>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <span style="color:red">Note: Fields marked with * are mandatory</span>
+            </div>
         </div>
     </div>
+</div>
 
 
 
@@ -226,17 +228,17 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Confirm Delete</h4>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete this plant</p>
-      </div>
-      <div class="modal-footer">         
-            <button type="button" class="btn btn-raised btn-success" id="deletePlant" >Yes</button>
-            <button type="button" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
-      </div>
     </div>
+    <div class="modal-body">
+        <p>Are you sure you want to delete this plant</p>
+    </div>
+    <div class="modal-footer">         
+        <button type="button" class="btn btn-raised btn-success" id="deletePlant" >Yes</button>
+        <button type="button" class="btn btn-raised btn-danger" data-dismiss="modal">Close</button>
+    </div>
+</div>
 
-  </div>
+</div>
 </div>
 
 </template>

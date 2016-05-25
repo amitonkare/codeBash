@@ -1,4 +1,4 @@
-CodeBashApp.printInvoiceDetails = function(invoiceNo,date,paymentStatus,deliveryStatus,buyerName){
+CodeBashApp.printInvoiceDetails = function(invoiceNo,date,paymentStatus,deliveryStatus,buyerName,taxPercent){
 	
 	var headstr = "<html><head><title></title></head><body>";
 	var footstr = "</body>";
@@ -17,8 +17,8 @@ CodeBashApp.printInvoiceDetails = function(invoiceNo,date,paymentStatus,delivery
 		sum = sum+Number((tempObj[i].sellingCost*tempObj[i].quantity));
 	}
 	tableContent = tableContent + "<tr><td></td><td></td><td><b>Total Cost</b></td><td>"+sum+"</td></tr>";
-	var tax = ((14/100)* Number(sum));
-	tax = (tax + (0.5*Number(tax)));
+	var tax = ((taxPercent/100)* Number(sum));
+	tax = (tax + ((0.5/100)*Number(tax)));
 	tax = tax.toFixed(2);
 	tableContent = tableContent + "<tr><td></td><td></td><td><b>Total Tax</b></td><td>"+tax+"</td></tr>";
 	tableContent = tableContent + "<tr><td></td><td></td><td><b>Amount Payable</b></td><td>"+(Number(sum)+Number(tax))+"</td></tr>";

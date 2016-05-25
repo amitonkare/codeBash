@@ -116,6 +116,7 @@ function saveForPrint()
 				invoiceObj.paymentStatus = $("#paymentStatus").val();
 				invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
 				invoiceObj.status = 'saved';
+				invoiceObj.tax = $("#tax").val();	
 				CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
 				
 			}
@@ -206,12 +207,12 @@ Template.invoiceDetails.helpers({
 	},
 	totalTax:function()
 	{
-		var tax;
+		var tax = $('#tax').val();
 		if(Session.get('total'))
 		{	
 
-			tax = ((14/100)* Number(Session.get('total')));
-			tax = (tax + (0.5*Number(tax)));
+			tax = ((tax/100)* Number(Session.get('total')));
+			tax = (tax + ((0.5/100)*Number(tax)));
 			tax = tax.toFixed(2);
 			Session.set('tax',tax);
 			return tax;
@@ -239,22 +240,44 @@ Template.invoiceDetails.helpers({
 			return obj;
 		}
 	},
-	
+	invoiceNumber:function()
+	{
+		var no = (Math.random()*10000).toFixed(0);
+		console.log(no);
+		return no;
+	}
 
 });
 Template.invoiceDetails.events({
 	"submit #addToCart":function(event)
-	{
-		var name = $("#plantName").val();
-		$("#plantName").val('');
+	{	
+		$('#quantity').keydown();
+		if($("#plantName").val() == '')
+		{
+			$("#plantNameGroup").addClass('form-group has-error has-feedback');                 
+			$("#plantNameSpan").html('please enter Plant Name');          
+			flag = 0;
+		}
 		event.preventDefault();
 		Session.set('invoiceSaved','');
-		var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
 		//console.log(plant);	
 		var str = Session.get('plants');
 		//console.log(str.search(name));
 		var flag = 1;
-		if(Session.get('plants') != '')
+		if($('#tax').val() == '')
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('please enter tax');          
+			flag = 0;	
+		}
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			flag = 0;	
+		}
+		var name = $("#plantName").val();
+		if(Session.get('plants') != '' && name != '')
 		{
 			if(str.search(name) !== -1)
 			{
@@ -263,22 +286,23 @@ Template.invoiceDetails.events({
 				
 			}
 		}
-
 		if(flag == 1)
 		{
 			Session.set('plants',Session.get('plants')+'+'+name);	
+			var plant = CodeBashApp.plantDetailsService.getInstance().findPlantByName(name);
+			var sellingCost = CodeBashApp.stockDetailsService.getInstance().findStockByPlantId(plant[0]._id)[0].avgCost;
 			var tempObj = {};
 			tempObj.invoiceId = $("#invoiceNo").val();
 			Session.set("invoiceId",tempObj.invoiceId);
 			tempObj.plantId = plant[0]._id;
-			tempObj.quantity ='1' ;
-			tempObj.sellingCost = '0';
+			tempObj.quantity = '0' ;
+			tempObj.sellingCost = sellingCost;
 			tempObj.individualTotal = Number(tempObj.quantity * tempObj.sellingCost);  
 			tempObj.profit = ''; 		
 			temp.insert(tempObj);
 			flag = 1;
 		}
-		CodeBashApp.invoiceTotal();
+		$("#plantName").val('');
 	},
 	"click #removeFromCart":function(event)
 	{
@@ -350,6 +374,18 @@ Template.invoiceDetails.events({
 		if(checkDate()==false)
 		{			
 			flag = '1';
+		}
+		if($('#tax').val() == '')
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('please enter tax');          
+			flag = '1';	
+		}
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			flag = '1';	
 		}
 		if(flag == '0')
 		{		
@@ -469,6 +505,7 @@ Template.invoiceDetails.events({
 				invoiceObj.paymentStatus = $("#paymentStatus").val();
 				invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
 				invoiceObj.status = 'saved';
+				invoiceObj.tax = $("#tax").val();
 				CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
 				for(i = 0;i<tempObj.length;i++)
 				{
@@ -487,7 +524,7 @@ Template.invoiceDetails.events({
 {
 	if(Session.get('detailsSaved'))
 	{
-		CodeBashApp.invoiceService.getInstance().updateInvoice('','','','final',Session.get('invoiceId'),Session.get('invoiceTotalProfit'),Session.get('invoiceTotalCost'));
+		CodeBashApp.invoiceService.getInstance().updateInvoice('','','','final',Session.get('invoiceId'),Session.get('invoiceTotalProfit'),Session.get('invoiceTotalCost'),$('#tax').val());
 		$("#plantName").attr("disabled",true);
 		$("#invoiceNo").attr("disabled",true);
 		$("#buyerId").attr("disabled",true);
@@ -518,7 +555,18 @@ Template.invoiceDetails.events({
 			}
 
 		}); 
-		
+		if($('#tax').val() == '')
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('please enter tax');          
+			flag = '1';	
+		}
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			flag = '1';	
+		}
 		if($("#date").val()=='')
 		{	
 			$("#dateGroup").addClass('form-group has-error has-feedback');                 
@@ -587,7 +635,7 @@ Template.invoiceDetails.events({
 				if(stockQuantity<quantityArray[i])
 				{
 					name =  CodeBashApp.plantDetailsService.getInstance().findPlantById(tempObj[i].plantId)[0].name;
-					$("#tableSpan").html('available quantity of'+name+' is '+stockQuantity);          
+					$("#tableSpan").html('Available quantity of '+name+' is '+stockQuantity);          
 					flag2 = '0';
 					break; 
 				}
@@ -636,6 +684,7 @@ Template.invoiceDetails.events({
 				invoiceObj.paymentStatus = $("#paymentStatus").val();
 				invoiceObj.deliveryStatus = $("#deliveryStatus").val();	
 				invoiceObj.status = "final";
+				invoiceObj.tax = $("#tax").val();
 				CodeBashApp.invoiceService.getInstance().addInvoice(invoiceObj);
 				for(i = 0;i<tempObj.length;i++)
 				{
@@ -770,26 +819,24 @@ Template.invoiceDetails.events({
 	"click #printInvoice":function()
 	{
 		var flag = 0,dv;
-		$("#items :text").each(function(){
-			if( $(this).val() == '' || $(this).val() == '0')
-			{
-				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
-				$("#quantitySpan").html('please enter quantity');                
-				$("#costGroup").addClass('form-group has-error has-feedback');                 
-				$("#costSpan").html('please enter cost');                	
-				//alert('please enter cost and quantity');
-				flag = '1';
-			}
-			if( $(this).val() < 0)
-			{
-				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
-				$("#quantitySpan").html('quantity must be positive');                
-				$("#costGroup").addClass('form-group has-error has-feedback');                 
-				$("#costSpan").html('cost must be positive');                	
-				//alert('please enter cost and quantity');
-				flag = '1';
-			}  
-		});
+		if(Session.get('plants')=='')
+		{
+			$('#tableGroup').addClass('form-group has-error has-feedback');                 
+			$('#tableSpan').html('please add plants');
+			flag = 1;
+		}
+		if($('#tax').val() == '')
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('please enter tax');          
+			flag = 1;	
+		}
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			flag = 1;	
+		}
 		console.log("inside print invoice");
 		var validate = CodeBashApp.invoiceDetailsValidate();
 		console.log("validate--->"+validate);
@@ -801,14 +848,35 @@ Template.invoiceDetails.events({
 		console.log("date validate-->"+dv);
 		if(dv)
 		{
-			console.log("flag value-->"+flag)
+			//console.log("flag value-->"+flag)
 			flag = 0;
 		}
 		else
 		{
-			console.log("flag value-->"+flag)
+			//console.log("flag value-->"+flag)
 			flag = 1;
 		}
+		$("#items :text").each(function(){
+			if( $(this).val() == '' || $(this).val() =='0' || $(this).val() == 0 )
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+				$("#quantitySpan").html('please enter quantity');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+				$("#costSpan").html('please enter cost');                	
+				//alert('please enter cost and quantity');
+				flag = 1;
+			}
+			if( $(this).val() < 0)
+			{
+				$("#quantityGroup").addClass('form-group has-error has-feedback');                 
+				$("#quantitySpan").html('quantity must be positive');                
+				$("#costGroup").addClass('form-group has-error has-feedback');                 
+				$("#costSpan").html('cost must be positive');                	
+				//alert('please enter cost and quantity');
+				flag = 1;
+			}  
+		});
+
 		console.log("flag--->"+flag);
 		if(flag == 0)
 		{
@@ -818,9 +886,10 @@ Template.invoiceDetails.events({
 			var paymentStatus = $("#paymentStatus").val();
 			var deliveryStatus = $("#deliveryStatus").val();
 			var buyerName = $("#buyerId").val();
+			var tax = $("#tax").val();
 			buyerName = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(buyerName)[0].name;
 			console.log(buyerName);
-			CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName);		
+			CodeBashApp.printInvoiceDetails(invoiceNo,date,paymentStatus,deliveryStatus,buyerName,tax);		
 			$("#rootDiv").remove();
 			Router.go('/invoiceDetailsLandingPage');
 
@@ -834,7 +903,67 @@ Template.invoiceDetails.events({
 		$("#dateSpan").html('');   
 		console.log("inside date click");
 		$('#dateIcon').click();
-	}             			
+	},
+	"keyup #tax":function()
+	{
+		if($('#tax').val() < 0 || $('#tax').val() > 100)
+		{
+			$("#taxGroup").addClass('form-group has-error has-feedback');                 
+			$("#taxSpan").html('tax should be greater than 0 and less than 100');          
+			flag = 0;	
+		}
+		Session.set('total','');
+		CodeBashApp.invoiceTotal();
+		var Contain='';
+		$("#items :text").each(function(){
+			Contain += $(this).val() + "+";
+		});
+		var array = Contain.split('+');
+		//console.log(array.length);
+		var sellingCostArray=[];
+		var quantityArray=[];
+		var j=0,i,k=0;
+		//quantityArray[0]
+		for(i=0;i<array.length-1;i++)
+		{
+			if(i % 2==0)
+			{
+				quantityArray[j] = array[i];	
+				j++;
+			}
+			else{
+				sellingCostArray[k] = array[i];
+				k++;
+			}
+		}
+		var tempObj = temp.find().fetch();
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.remove(tempObj[i]._id);	
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].sellingCost = sellingCostArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].quantity = quantityArray[i];
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			tempObj[i].individualTotal = Number(tempObj[i].sellingCost * tempObj[i].quantity);
+		}
+		for(var i=0;i<tempObj.length;i++)
+		{
+			temp.insert(tempObj[i]);
+		}
+	},
+	"keyup #plantName":function()          			
+	{
+		$("#plantNameGroup").removeClass('form-group has-error has-feedback');                 
+		$("#plantNameGroup").addClass('form-group');                 
+		$("#plantNameSpan").html('');   
+	}
 	
 
 
