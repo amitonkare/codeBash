@@ -65,6 +65,11 @@ Router.route('/plantTypeDetails', {
 	template: 'plantTypeDetails'
 });
 
+Router.route('/plantCategoryDetails', {
+	name: 'plantCategoryDetails',
+	template: 'plantCategoryDetails'
+});
+
 Router.route('/transactionDetails', {
 	name: 'transactionDetails',
 	template: 'transactionDetails'

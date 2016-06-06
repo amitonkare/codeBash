@@ -6,6 +6,10 @@ Template.plantCategoryDetails.helpers({
 	categoryList : function()
     {
         return CodeBashApp.plantCategoryService.getInstance().findPlantCategory();
+    },
+    editObj:function()
+    {
+    	return CodeBashApp.plantCategoryService.getInstance().findPlantCategoryById(Session.get('editId'))[0];
     }
 
 });
@@ -40,9 +44,30 @@ Template.plantCategoryDetails.events({
 		event.preventDefault();
 		Category = event.target.PlantCategory.value;//$("#PlantCategory").val();
 		console.log(Category);
+		existingCategory = CodeBashApp.plantCategoryService.getInstance().findPlantCategoryById(Session.get('editId'))[0].category;
+		if(Category == '')
+		{
+	    	$("#PlantCategoryGroup").addClass('form-group has-error has-feedback');
+	   		$("#PlantCategorySpan").html('please Enter plant Category');
+		}
+		else
+		if(Category == existingCategory)
+		{
+	    	$("#PlantCategoryGroup").addClass('form-group has-error has-feedback');
+	   		$("#PlantCategorySpan").html('Category already exists');
+		}
+		else
+		if(Category.length < 4)
+		{
+			$("#PlantCategoryGroup").addClass('form-group has-error has-feedback');
+	   		$("#PlantCategorySpan").html('plant Category must be minimum 4 characters');	
+		}
+		else
+		{
 		CodeBashApp.plantCategoryService.getInstance().updatePlantCategory(Session.get('editId'),Category);
 		Session.set('editId','');	
 		$("#edit-plant-Category").modal('hide');
+		}
 	},
 	"click #deleteCategory":function(event)
 	{

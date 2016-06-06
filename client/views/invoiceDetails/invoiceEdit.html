@@ -5,7 +5,7 @@
 			<div class="col-md-6">
 
 				<form id="addToCart" class="form-horizontal">
-					<div id="invoiceNoGroup" class="form-group">
+					<div id="invoiceNoGroup" class="form-group" style=" margin:0px">
 						<label class="col-sm-2 control-label">Invoice Number</label>
 						<div class="col-sm-10">
 							<input type="text" id="invoiceNo" class="form-control"
@@ -14,7 +14,7 @@
 						</div>
 					</div>
 
-					<div id="buyerNameGroup" class="form-group">
+					<div id="buyerNameGroup" class="form-group" style=" margin:0px">
 						<label class="col-sm-2 control-label">Buyer Name</label>
 						<div class="col-sm-10">
 							<select class="form-control" id="buyerId"> 
@@ -24,7 +24,7 @@
 						</div>
 					</div>
 
-					<div id="paymentStatusGroup" class="form-group">
+					<div id="paymentStatusGroup" class="form-group" style=" margin:0px">
 						<label class="col-sm-2 control-label">Payment Status</label>
 						<div class="col-sm-10">
 							<select class="form-control" id="paymentStatus" selected ="{{invoiceEditObj.paymentStatus}}">
@@ -34,7 +34,7 @@
 						</div>
 					</div>
 
-					<div id="deliveryStatusGroup" class="form-group">
+					<div id="deliveryStatusGroup" class="form-group" style=" margin:0px">
 						<label class="col-sm-2 control-label">Delivery Status</label>
 						<div class="col-sm-10">
 							<select class="form-control" id="deliveryStatus" selected ="{{invoiceEditObj.deliveryStatus}}">
@@ -48,7 +48,7 @@
 					<div class="form-group">
 					</div>
 
-					<div id="plantNameGroup" class="form-group">
+					<div id="plantNameGroup" class="form-group" style=" margin:0px">
 						<label class="col-sm-2 control-label">Plant Name</label>
 						<div class="col-sm-10">
 							<input class="form-control typeahead" id="plantName" type="text"
@@ -68,7 +68,7 @@
 			</div>
 			<!--end of col-->
 			<div class="col-md-2">
-				<div class="form-group" id="dateGroup">  
+				<div class="form-group" id="dateGroup" style=" margin:0px">  
 					<div class="input-group datetimepicker" >
 						<span class="input-group-addon"><i
 							class="glyphicon glyphicon-calendar" id="dateIcon"></i></span> <input
@@ -81,7 +81,7 @@
 			<!--end of col-->
 			<div class="row">
 				<div class="col-md-4">     
-					<div id="taxGroup" class="form-group">
+					<div id="taxGroup" class="form-group" style=" margin:0px">
 						<label class="col-sm-2 control-label">Tax</label>
 						<div class="col-sm-5">
 							<input type="text" id="tax" class="form-control"
@@ -158,8 +158,6 @@
 					</div>
 				</div>
 			</div>
-
-
 
 			<div class="col-md-2">
 				<button type="button" class="btn btn-raised btn-success" id="finalInvoice">

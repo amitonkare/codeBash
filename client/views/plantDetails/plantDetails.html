@@ -2,10 +2,10 @@
     {{>plantDetailsTable}}
 </template>
 <template name="plantDetailsTable">
-    <div class="container-fluid" id="rootDiv">
+    <div class="container-fluid" id="rootDiv" style=" margin:0px">
         {{>navbar}}
 
-        <div class="container-fluid">   
+        <div class="container-fluid" >   
             <div class="in-header row" style=" background-color:#f2f2f2">
                 <div class="col-md-6">
                     <span style="color:black">Plants</span>
@@ -18,6 +18,9 @@
                 </div>               
             </div>
         </div>
+
+        <button type="button" class="btn btn-raised btn-success" id="addPlantType" >New Plant Type</button>
+        <button type="button" class="btn btn-raised btn-success" id="addPlantCategory" >New Plant Category</button>
 
         <form class="form-horizontal">
             <div class="table-responsive">

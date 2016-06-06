@@ -6,6 +6,10 @@ Template.plantTypeDetails.helpers({
 	typeList : function()
     {
         return CodeBashApp.plantTypeService.getInstance().findPlantType();
+    },
+    editObj:function()
+    {
+    	return CodeBashApp.plantTypeService.getInstance().findPlantTypeById(Session.get('editId'))[0];
     }
 
 });
@@ -37,12 +41,32 @@ Template.plantTypeDetails.events({
 	},
 	"submit #editPlantTypeForm":function(event)
 	{
-		event.preventDefault();
 		type = event.target.PlantType.value;//$("#PlantType").val();
 		console.log(type);
+		existingType = CodeBashApp.plantTypeService.getInstance().findPlantTypeById(Session.get('editId'))[0].type;
+		if(type == '')
+		{
+	    	$("#PlantTypeGroup").addClass('form-group has-error has-feedback');
+	   		$("#PlantTypeSpan").html('please Enter plant Type');
+		}
+		else
+		if(type.length < 4)
+		{
+			$("#PlantTypeGroup").addClass('form-group has-error has-feedback');
+	   		$("#PlantTypeSpan").html('plant Type must be minimum 4 characters');	
+		}
+		else
+		if(type == existingType)
+		{
+			$("#PlantTypeGroup").addClass('form-group has-error has-feedback');
+	   		$("#PlantTypeSpan").html('plant Type already exists');
+		}
+		else{
 		CodeBashApp.plantTypeService.getInstance().updatePlantType(Session.get('editId'),type);
 		Session.set('editId','');	
 		$("#edit-plant-type").modal('hide');
+		}
+		return false;
 	},
 	"click #deleteType":function(event)
 	{

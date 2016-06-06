@@ -23,13 +23,16 @@ Template.navbar.onRendered(
 			$('#reports').addClass('active');
 		}
 		
+
 	}
 );
 
 Template.plantDetailsTable.onRendered(
 	function () 
 	{
-		CodeBashApp.plantDetailsOnReady();		
+
+		CodeBashApp.plantDetailsOnReady();			
+		
 	}//end of function
 );//end of onRendered
 
@@ -44,7 +47,7 @@ Template.plantDetailsTable.helpers({
 					   
 		plants = CodeBashApp.plantDetailsService.getInstance().findPlants();
 		//console.log("plants id-- >" + plants);
-		return plants;
+		return plants;	
 	},
 	categoryList:function()
 	{
@@ -214,6 +217,14 @@ Template.plantDetailsTable.events({
 		$("#plantComments").val(obj.comments);
 		$("#plantType").val(obj.type);
 		$("#plantCategory").val(obj.category);
+	},
+	'click #addPlantCategory':function()
+	{
+		Router.go('plantCategoryDetails');
+	},
+	'click #addPlantType':function()
+	{
+		Router.go('plantTypeDetails');
 	}
 
 });

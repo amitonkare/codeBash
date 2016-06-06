@@ -3,7 +3,6 @@
     {{>navbar}}
     <div class="row">
       <div class="col-md-6">
-
         <form id="addToCart" class="form-horizontal">
           <div id="invoiceNoGroup" class="form-group">
             <label class="col-sm-2 control-label">Invoice Number</label>
@@ -13,7 +12,7 @@
             </div>
           </div>
 
-          <div id="buyerIdGroup" class="form-group">
+          <div id="buyerIdGroup" class="form-group" style=" margin:0px">
             <label class="col-sm-2 control-label">Buyer Name</label>
             <div class="col-sm-10">
               <select class="form-control" id="buyerId"> 
@@ -24,7 +23,7 @@
             </div>
           </div>
 
-          <div id="paymentStatusGroup" class="form-group">
+          <div id="paymentStatusGroup" class="form-group" style=" margin:0px">
             <label class="col-sm-2 control-label">Payment Status</label>
             <div class="col-sm-10">
               <select class="form-control" id="paymentStatus" >
@@ -34,7 +33,7 @@
             </div>
           </div>
 
-          <div id="deliveryStatusGroup" class="form-group">
+          <div id="deliveryStatusGroup" class="form-group" style=" margin:0px">
             <label class="col-sm-2 control-label">Delivery Status</label>
             <div class="col-sm-10">
               <select class="form-control" id="deliveryStatus">
@@ -43,13 +42,7 @@
               </select> <span id="deliveryStatusSpan" style="color: red"></span>
             </div>
           </div>
-          <div class="form-group">
-          </div>
-          <div class="form-group">
-          </div>
-
-
-          <div id="plantNameGroup" class="form-group">
+          <div id="plantNameGroup" class="form-group" style=" margin:0px">
             <label class="col-sm-2 control-label">Plant Name</label>
             <div class="col-sm-10">
               <input class="form-control typeahead" id="plantName" type="text"
@@ -70,7 +63,7 @@
       </div>
       <!--end of col-->
       <div class="col-md-2">
-       <div class="form-group" id="dateGroup">    
+       <div class="form-group" id="dateGroup" style=" margin:0px">    
          <div class="input-group datetimepicker" >
           <span class="input-group-addon"><i
             class="glyphicon glyphicon-calendar" id="dateIcon"></i></span> <input
@@ -81,22 +74,22 @@
       </div>
     </div>
     <!--end of col-->
-<div class="row">
-<div class="col-md-4">     
-    <div id="taxGroup" class="form-group">
-      <label class="col-sm-2 control-label">Tax</label>
-      <div class="col-sm-5">
-        <input type="text" id="tax" class="form-control"
-        placeholder="Enter Tax in percent" /> <span id="taxSpan"
-        style="color: red"></span>
+    <div class="row">
+      <div class="col-md-4">     
+        <div id="taxGroup" class="form-group" style=" margin:0px">
+          <label class="col-sm-2 control-label">Tax</label>
+          <div class="col-sm-5">
+            <input type="text" id="tax" class="form-control"
+            placeholder="Enter Tax in percent" /> <span id="taxSpan"
+            style="color: red"></span>
+          </div>
+        </div>
       </div>
     </div>
-</div>
-</div>
 
 
 
-    <div class="form-group" id="tableGroup">
+    <div class="form-group" id="tableGroup" style=" margin:0px">
       <div class="table-responsive" id="items">
         <table id="list-plants" class="table table-bordered">
           <thead>
