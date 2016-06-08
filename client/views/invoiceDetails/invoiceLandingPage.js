@@ -1,19 +1,3 @@
-/*Template.navbar.onRendered(
-	function()
-	{
-		var routeName = Router.current().route.getName();
-		console.log("route name--->"+routeName);
-		$("#nav li").each(function(){			
-			if($(this).text().search(routeName) !== -1)
-			{
-				console.log("inside if");
-				$(this).addClass('active');
-				console.log("list class changed");
-			}
-		});		
-	}
-);
-*/
 
 Template.invoiceDetailsLandingPageTable.onRendered( function(){
 	CodeBashApp.invoiceDetailsLandingPageOnReady();
@@ -22,7 +6,7 @@ Template.invoiceDetailsLandingPageTable.onRendered( function(){
 Template.invoiceDetailsLandingPageTable.helpers({
 	invoiceList:function()
 	{
-		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByStatus("saved");
+		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByDeliveryStatus(' Delivered ');
 		console.log(obj);
 		for(var i=0;i<obj.length;i++)
 		{			
@@ -44,13 +28,25 @@ Template.invoiceDetailsLandingPageTable.helpers({
 	updateObj:function()
 	{
 		return CodeBashApp.invoiceService.getInstance().findInvoiceById(Session.get('updateId'))[0];
+	},
+	undeliveredList:function()
+	{
+		var obj = CodeBashApp.invoiceService.getInstance().findInvoiceByDeliveryStatus(' Yet to Dispatch ');
+		console.log(obj);
+		for(var i=0;i<obj.length;i++)
+		{			
+			//console.log(CodeBashApp.buyerDetailsService.getInstance().findBuyerById(obj[i].buyerId)[0].name);
+			obj[i].buyerId = CodeBashApp.buyerDetailsService.getInstance().findBuyerNameById(obj[i].buyerId)[0].name;
+		}
+		console.log(obj);
+		return obj;	
 	}
 });
 
 Template.invoiceDetailsLandingPageTable.events({
 	"click #updateDetails":function()
 	{
-		//$("#editModal").modal("show");
+		//
 		Session.set('updateId',this._id);	
 		Session.set('editInvoiceId',Session.get('updateId'));
 		Router.go('/invoiceEdit');
@@ -69,6 +65,24 @@ Template.invoiceDetailsLandingPageTable.events({
 	{
 		Session.set('finalInvoiceId',this._id);
 		Router.go('/finalInvoicePreview');
+	},
+	"click #deleteDetails":function()
+	{
+		Session.set('deleteId',this._id);		
+		$("#deleteModal").modal("show");
+	},
+	"click #deleteInvoice":function()
+	{
+		var invoiceObj = CodeBashApp.invoiceService.getInstance().findInvoiceById(Session.get('deleteId'))[0];
+		var invoiceDetailsObj = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(invoiceObj.invoiceId);
+		for(var i = 0;i<invoiceDetailsObj.length;i++)
+		{
+				CodeBashApp.invoiceDetailsService.getInstance().deleteInvoiceDetails(invoiceDetailsObj[i]._id);
+		}
+		CodeBashApp.invoiceService.getInstance().deleteInvoice(invoiceObj._id);
+		$("#deleteModal").modal("hide");	
 	}
+
+
 
 });

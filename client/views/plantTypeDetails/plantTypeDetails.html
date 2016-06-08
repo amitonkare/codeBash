@@ -1,5 +1,8 @@
 <template name="plantTypeDetails">
-    <div class="container-fluid">
+  {{> plantTypeDetailsTable}}
+</template>
+<template name="plantTypeDetailsTable">
+    <div class="container-fluid" id="rootDiv">
         {{>navbar}}
    <div class="container-fluid">
         <div class="in-header row" style=" background-color:#f2f2f2">
@@ -33,7 +36,7 @@
                             {{#each typeList}}
                           <tr>
                             <td>{{type}}</td>
-                            <td><a data-toggle="modal" data-target="#edit-plant-type" id= "updateDetails">Edit</a> <a id="dType" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
+                            <td><a data-toggle="modal" data-target="#edit-plant-type" id= "updateDetails">Edit</a> <a id="dType">Delete</a></td>
                         </tr>
                         {{/each}}
                     </tbody>

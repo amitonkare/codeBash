@@ -1,3 +1,4 @@
+
 Template.navbar.onRendered(
 	function()
 	{
@@ -32,7 +33,7 @@ Template.plantDetailsTable.onRendered(
 	{
 
 		CodeBashApp.plantDetailsOnReady();			
-		
+		//CodeBashApp.seed();		
 	}//end of function
 );//end of onRendered
 

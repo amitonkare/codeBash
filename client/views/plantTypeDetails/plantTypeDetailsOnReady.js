@@ -1,4 +1,4 @@
-CodeBashApp.plantTypeDetailsOnReady = function(){
+CodeBashApp.plantTypeDetailsTableOnReady = function(){
 $(document).ready(function () {
     $('#list-types').DataTable();
     $(".tool-tip").tooltip();

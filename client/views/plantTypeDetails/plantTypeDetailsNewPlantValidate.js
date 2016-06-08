@@ -1,4 +1,4 @@
-CodeBashApp.plantTypeDetailsNewPlantTypeValidate = function(type){
+CodeBashApp.plantTypeDetailsTableNewPlantTypeValidate = function(type){
 	var validate = 'false';
 	if(type == '')
 	{
@@ -6,7 +6,7 @@ CodeBashApp.plantTypeDetailsNewPlantTypeValidate = function(type){
 	   	$("#newPlantTypeSpan").html('please Enter plant Type');
 	}
 	else
-	if(type < 4)
+	if(type.length < 4)
 	{
 		$("#newPlantTypeGroup").addClass('form-group has-error has-feedback');
 	   	$("#newPlantTypeSpan").html('plant Type must be minimum 4 characters');	
