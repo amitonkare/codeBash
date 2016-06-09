@@ -1,0 +1,3 @@
+ [{ "name" : "apple", "type" : "outdoor", "scientificName" : "safarchand", "category" : "fruiting", "comments" : "adadd" },
+ { "name" : "mango", "type" : "indoor", "scientificName" : "aamba", "category" : "fruiting", "comments" : "adad" },
+ { "name" : "guava", "type" : "outdoor", "scientificName" : "peru", "category" : "fruiting", "comments" : "adad" }]

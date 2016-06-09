@@ -1,0 +1,24 @@
+[{
+        "name" : "Ethan Hunt",
+        "address" : "new york usa",
+        "phoneNo" : "1234567890",
+        "emailId" : "",
+        "bankAccountDetails" : {
+                "bankName" : "GNB",
+                "branch" : "brooklyn",
+                "IFSCCode" : "MAHB1234567",
+                "accountNumber" : "123456789012345"
+        }
+},
+{
+        "name" : "Harry Potter",
+        "address" : "Boston USA",
+        "phoneNo" : "1234567891",
+        "emailId" : "abdabd@xyz.com",
+        "bankAccountDetails" : {
+                "bankName" : "BOI",
+                "branch" : "boston",
+                "IFSCCode" : "MAHB1234521",
+                "accountNumber" : "123456789012345"
+        }
+}]

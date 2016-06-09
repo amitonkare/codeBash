@@ -1,0 +1,36 @@
+[{
+        "name" : "Bhau Kadam",
+        "address" : "jammu kashmir",
+        "phoneNo" : "1234567890",
+        "emailId" : "bk@pi.com",
+        "bankAccountDetails" : {
+                "bankName" : "SBI",
+                "branch" : "mumbai",
+                "IFSCCode" : "ABCD1234567",
+                "accountNumber" : "123456789012345"
+        }
+},
+{
+        "name" : "Sagar Karande",
+        "address" : "Mumbai",
+        "phoneNo" : "1234567890",
+        "emailId" : "sk@chalahavayeudya.com",
+        "bankAccountDetails" : {
+                "bankName" : "BOM",
+                "branch" : "mumbai",
+                "IFSCCode" : "CHDB1234567",
+                "accountNumber" : "123456789012345"
+        }
+},
+{
+        "name" : "Ganesh Bharatpure",
+        "address" : "Vidarbha",
+        "phoneNo" : "1234567890",
+        "emailId" : "bg@hava.com",
+        "bankAccountDetails" : {
+                "bankName" : "BOO",
+                "branch" : "mumbai",
+                "IFSCCode" : "MAHB1234567",
+                "accountNumber" : "123456789012345"
+        }
+}]
