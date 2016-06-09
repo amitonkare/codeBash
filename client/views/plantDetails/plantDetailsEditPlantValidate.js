@@ -1,6 +1,7 @@
 CodeBashApp.plantDetailsEditPlantValidate = function(){
    	 var validate = 'false';
      var flagArray = [];
+     var regexWhitespace = /^\S{3,}$/;
         if(validate == 'false')
         {
             if($("#plantName").val()=='')
@@ -20,6 +21,16 @@ CodeBashApp.plantDetailsEditPlantValidate = function(){
             {
                 flagArray.push(4);
                 
+            }
+            if(!regexWhitespace.test($("#plantName").val()))
+            {
+                console.log('regex evaluated');
+                flagArray.push(5);
+            }
+            if(!regexWhitespace.test($("#plantScientificName").val()))
+            {
+                console.log('regex evaluated');
+                flagArray.push(6);
             }
             if(flagArray.length == 0)
             {
@@ -48,6 +59,13 @@ CodeBashApp.plantDetailsEditPlantValidate = function(){
                             $("#plantScientificNameGroup").addClass('form-group has-error has-feedback');                 
                             $("#plantScientificNameSpan").html('plant Scientific Name must be more than 4 characters');    
                             break;
+                    case 5: event.preventDefault();
+                            $("#plantNameGroup").addClass('form-group has-error has-feedback');                 
+                            $("#plantNameSpan").html('plant name cannot have whitespaces');                
+                            break;
+                    case 6: event.preventDefault();
+                            $("#plantScientificNameGroup").addClass('form-group has-error has-feedback');                 
+                            $("#plantScientificNameSpan").html('Scientific name cannot have whitespaces');  
                 }
             }
         }

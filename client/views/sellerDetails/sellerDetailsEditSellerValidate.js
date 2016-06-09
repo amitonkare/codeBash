@@ -2,6 +2,7 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
   var validate = 'false';
   var flagArray=[];
   var regexIFSC = /^[^\s]{4}\d{7}$/;
+  var regexWhitespace = /^\S{3,}$/;
   if(validate == 'false')
   {
     if($("#sellerName").val()=='')
@@ -95,6 +96,27 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
             console.log('regex evaluated');
             flagArray.push(18);
     }
+    if(!regexWhitespace.test($("#sellerName").val()))
+        {
+            console.log('regex evaluated');
+            flagArray.push(19);
+        }
+        if(!regexWhitespace.test($("#sellerAddress").val()))
+        {
+            console.log('regex evaluated');
+            flagArray.push(20);
+        }
+        if(!regexWhitespace.test($("#bankName").val()))
+        {
+            console.log('regex evaluated');
+            flagArray.push(21);
+        }
+        if(!regexWhitespace.test($("#branchName").val()))
+        {
+            console.log('regex evaluated');
+            flagArray.push(22);
+        }
+    
     if(flagArray.length == 0)
     {
         validate = 'true';    
@@ -181,6 +203,22 @@ if(validate != 'true')
             $("#IFSCGroup").addClass('form-group has-error has-feedback');                 
             $("#IFSCSpan").html('please enter valid IFSC code');
             break;
+            case 19: event.preventDefault();
+                $("#sellerNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#sellerNameSpan").html('name cannot have white space');
+                break;
+                case 20:event.preventDefault();
+                $("#sellerAddressGroup").addClass('form-group has-error has-feedback');                 
+                $("#sellerAddressSpan").html('Address cannot have white space');
+                break;
+                case 21:event.preventDefault();
+                $("#bankNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#bankNameSpan").html(' bank Name cannot have white space');
+                break;
+                case 22:event.preventDefault();
+                $("#branchNameGroup").addClass('form-group has-error has-feedback');                 
+                $("#branchNameSpan").html('BranchName cannot have white space');
+                break;
             
         }
     }
