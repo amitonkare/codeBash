@@ -3,6 +3,8 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
   var flagArray=[];
   var regexIFSC = /^[^\s]{4}\d{7}$/;
   var regexWhitespace = /^\S{3,}$/;
+  var specialCharRegex = /[^\w\s]/gi;
+  var str;
   if(validate == 'false')
   {
     if($("#sellerName").val()=='')
@@ -12,7 +14,12 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
     
     if($("#sellerName").val().length>30)
     {
-        flagArray.push(2); 
+        str = $.trim($("#sellerName").val());
+        var cleaned = str.replace(/\s+/g, "");
+        if(cleaned.length > 30)
+        {
+            flagArray.push(2); 
+        }
     }
     
     if($("#sellerAddress").val()=='')
@@ -22,7 +29,12 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
     
     if($("#sellerAddress").val().length>90)
     {
-        flagArray.push(4);  
+        str = $.trim($("#sellerAddress").val());
+        var cleaned = str.replace(/\s+/g, "");
+        if(cleaned.length > 30)
+        {
+            flagArray.push(4); 
+        }
     }
     
     if($("#sellerPhoneNo").val()=='')
@@ -51,7 +63,12 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
     
     if($("#bankName").val().length > 50)
     {
-        flagArray.push(9); 
+        str = $.trim($("#bankName").val());
+        var cleaned = str.replace(/\s+/g, "");
+        if(cleaned.length > 50)
+        {
+            flagArray.push(9); 
+        }   
     }
     
     
@@ -62,7 +79,12 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
     
     if($("#branchName").val().length > 50)
     {
-        flagArray.push(11); 
+        str = $.trim($("#branchName").val());
+        var cleaned = str.replace(/\s+/g, "");
+        if(cleaned.length > 50)
+        {
+            flagArray.push(11); 
+        }   
     }
     
     if($("#IFSC").val()=='')
@@ -93,30 +115,49 @@ CodeBashApp.sellerDetailsEditSellerValidate=function(){
     }
     if (!regexIFSC.test($("#IFSC").val()))
     {
-            console.log('regex evaluated');
-            flagArray.push(18);
+        console.log('regex evaluated');
+        flagArray.push(18);
     }
     if(!regexWhitespace.test($("#sellerName").val()))
+    {
+        if($.trim($("#sellerName").val()).length == 0)
         {
-            console.log('regex evaluated');
             flagArray.push(19);
         }
-        if(!regexWhitespace.test($("#sellerAddress").val()))
+    }
+    if(!regexWhitespace.test($("#sellerAddress").val()))
+    {
+        if($.trim($("#sellerAddress").val()).length == 0)
         {
-            console.log('regex evaluated');
             flagArray.push(20);
         }
-        if(!regexWhitespace.test($("#bankName").val()))
+    }
+    if(!regexWhitespace.test($("#bankName").val()))
+    {
+        if($.trim($("#bankName").val()).length == 0)
         {
-            console.log('regex evaluated');
             flagArray.push(21);
         }
-        if(!regexWhitespace.test($("#branchName").val()))
+    }
+    if(!regexWhitespace.test($("#branchName").val()))
+    {
+        if($.trim($("#branchName").val()).length == 0)
         {
-            console.log('regex evaluated');
             flagArray.push(22);
         }
-    
+    }
+    if(specialCharRegex.test($("#bankName").val()))
+    {
+        flagArray.push(23);
+    }
+    if(specialCharRegex.test($("#branchName").val()))
+    {
+        flagArray.push(24);
+    }
+    if(specialCharRegex.test($("#sellerName").val()))
+    {
+        flagArray.push(25);
+    }    
     if(flagArray.length == 0)
     {
         validate = 'true';    
@@ -204,22 +245,33 @@ if(validate != 'true')
             $("#IFSCSpan").html('please enter valid IFSC code');
             break;
             case 19: event.preventDefault();
-                $("#sellerNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#sellerNameSpan").html('name cannot have white space');
-                break;
-                case 20:event.preventDefault();
-                $("#sellerAddressGroup").addClass('form-group has-error has-feedback');                 
-                $("#sellerAddressSpan").html('Address cannot have white space');
-                break;
-                case 21:event.preventDefault();
-                $("#bankNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#bankNameSpan").html(' bank Name cannot have white space');
-                break;
-                case 22:event.preventDefault();
-                $("#branchNameGroup").addClass('form-group has-error has-feedback');                 
-                $("#branchNameSpan").html('BranchName cannot have white space');
-                break;
-            
+            $("#sellerNameGroup").addClass('form-group has-error has-feedback');                 
+            $("#sellerNameSpan").html('name cannot have white space');
+            break;
+            case 20:event.preventDefault();
+            $("#sellerAddressGroup").addClass('form-group has-error has-feedback');                 
+            $("#sellerAddressSpan").html('Address cannot have white space');
+            break;
+            case 21:event.preventDefault();
+            $("#bankNameGroup").addClass('form-group has-error has-feedback');                 
+            $("#bankNameSpan").html(' bank Name cannot have white space');
+            break;
+            case 22:event.preventDefault();
+            $("#branchNameGroup").addClass('form-group has-error has-feedback');                 
+            $("#branchNameSpan").html('BranchName cannot have white space');
+            break;
+            case 23:event.preventDefault();
+            $("#bankNameGroup").addClass('form-group has-error has-feedback');                 
+            $("#bankNameSpan").html(' bank Name cannot have special symbols');
+            break;
+            case 24:event.preventDefault();
+            $("#branchNameGroup").addClass('form-group has-error has-feedback');                 
+            $("#branchNameSpan").html('BranchName cannot have special symbols');
+            break;
+            case 25: event.preventDefault();
+            $("#sellerNameGroup").addClass('form-group has-error has-feedback');                 
+            $("#sellerNameSpan").html('name cannot have special symbols');
+            break;
         }
     }
 }

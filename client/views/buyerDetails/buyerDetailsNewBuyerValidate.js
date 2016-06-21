@@ -4,7 +4,7 @@ function validateEmail(x) {
 	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
 		return false;
 	}
-	
+	else
 	{
 		return true;
 	}
@@ -14,6 +14,8 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 	var flagArray = [];
 	var regexIFSC = /^[^\s]{4}\d{7}$/;
     var regexWhitespace = /^\S{3,}$/;
+    var specialCharRegex = /[^\w\s]/gi;
+    var str;
 	if(validate == 'false')
 	{
 		if($("#newBuyerName").val()=='')
@@ -22,6 +24,12 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 		}
 		if($("#newBuyerName").val().length>30)
 		{
+			str = $.trim($("#newBuyerName").val());
+        	var cleaned = str.replace(/\s+/g, "");
+        	if(cleaned.length > 30)
+        	{
+            	flagArray.push(2); 
+        	}
 			flagArray.push(2);		
 		}
 		
@@ -32,7 +40,13 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 		
 		if($("#newBuyerAddress").val().length>90)
 		{
-			flagArray.push(4);    
+			str = $.trim($("#newBuyerAddress").val());
+        	var cleaned = str.replace(/\s+/g, "");
+        	if(cleaned.length > 90)
+        	{
+            	flagArray.push(4); 
+        	}
+			  
 		}
 		
 		if($("#newBuyerPhoneNo").val()=='')
@@ -60,7 +74,12 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 		
 		if($("#newBankName").val().length > 50)
 		{
-			flagArray.push(9);	
+			str = $.trim($("#newBankName").val());
+        	var cleaned = str.replace(/\s+/g, "");
+        	if(cleaned.length > 50)
+        	{
+            	flagArray.push(9); 
+        	}
 		}
 		
 		if($("#newBranchName").val()=='')
@@ -70,7 +89,12 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 		
 		if($("#newBranchName").val().length > 50)
 		{
-			flagArray.push(11);
+			str = $.trim($("#newBranchName").val());
+        	var cleaned = str.replace(/\s+/g, "");
+        	if(cleaned.length > 50)
+        	{
+            	flagArray.push(11); 
+        	}
 		}
 		
 		if($("#newIFSC").val()=='')
@@ -108,25 +132,43 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 		 }
         if(!regexWhitespace.test($("#newBuyerName").val()))
         {
-            console.log('regex evaluated');
+        	if($.trim($("#newBuyerName").val()).length == 0){
             flagArray.push(19);
+            }
         }
 		if(!regexWhitespace.test($("#newBuyerAddress").val()))
         {
-            console.log('regex evaluated');
-            flagArray.push(20);
+            if($.trim($("#newBuyerAddress").val()).length == 0)
+            {
+            	flagArray.push(20);
+            }
         }
         if(!regexWhitespace.test($("#newBankName").val()))
         {
-            console.log('regex evaluated');
-            flagArray.push(21);
+            if($.trim($("#newBankName").val()).length == 0)
+            {
+            	flagArray.push(21);
+            }
         }
         if(!regexWhitespace.test($("#newBranchName").val()))
         {
-            console.log('regex evaluated');
-            flagArray.push(22);
+         	if($.trim($("#newBranchName").val()).length == 0)
+         	{   
+            	flagArray.push(22);
+            }
         }
-        
+        if(specialCharRegex.test($("#newBankName").val()))
+        {
+         	flagArray.push(23);
+        }
+        if(specialCharRegex.test($("#newBranchName").val()))
+        {
+         	flagArray.push(24);
+        }
+        if(specialCharRegex.test($("#newBuyerName").val()))
+        {
+         	flagArray.push(25);
+        }
 		if(flagArray.length == 0)
 		{
 			validate = 'true';    
@@ -228,7 +270,18 @@ CodeBashApp.buyerDetailsNewBuyerValidate=function(){
 				$("#newBranchNameGroup").addClass('form-group has-error has-feedback');                 
 				$("#newBranchNameSpan").html('BranchName cannot have white space');
 				break;
-				
+				case 23:event.preventDefault();
+				$("#newBankNameGroup").addClass('form-group has-error has-feedback');                 
+				$("#newBankNameSpan").html(' bank Name cannot have special symbols');
+				break;
+				case 24:event.preventDefault();
+				$("#newBranchNameGroup").addClass('form-group has-error has-feedback');                 
+				$("#newBranchNameSpan").html('BranchName cannot have special symbols');
+				break;
+				case 25: event.preventDefault();
+				$("#newBuyerNameGroup").addClass('form-group has-error has-feedback');                 
+				$("#newBuyerNameSpan").html('name cannot have special symbols');
+				break;
 
 				
 			}
