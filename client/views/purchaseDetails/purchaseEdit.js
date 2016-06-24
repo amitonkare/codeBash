@@ -223,7 +223,7 @@ var totalProfit = 0;
 var totalCost = 0;
 for(var i = 0; i<purchaseDetailsObj.length;i++)
 {
-	totalCost = Number(totalCost)+Number(purchaseDetailsObj[i].cost);
+	totalCost = Number(totalCost)+Number(purchaseDetailsObj[i].individualTotal);
 }
 Session.set('totalProfit',totalProfit);
 Session.set('totalCost',totalCost);
@@ -334,7 +334,7 @@ CodeBashApp.purchaseService.getInstance().updatePurchase(Session.get('editPurcha
 				var totalCost = 0;
 				for(var i = 0; i<purchaseDetailsObj.length;i++)
 				{
-					totalCost = Number(totalCost)+Number(purchaseDetailsObj[i].cost);
+					totalCost = Number(totalCost)+Number(purchaseDetailsObj[i].individualTotal);
 				}
 				Session.set('totalProfit',totalProfit);
 				Session.set('totalCost',totalCost);

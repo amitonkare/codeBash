@@ -2,14 +2,14 @@
 	<div class="container-fluid" id="maindiv">
 		{{>navbar}}
 
-	<div class="container-fluid">   
-        <div class="in-header row" style=" background-color:#f2f2f2">
-            <div class="col-md-6">
-                <span style="color:black">Buyer Reports</span>
-            </div>                         
-        </div>
-    </div>
-	
+		<div class="container-fluid">   
+			<div class="in-header row" style=" background-color:#f2f2f2">
+				<div class="col-md-6">
+					<span style="color:black">Buyer Reports</span>
+				</div>                         
+			</div>
+		</div>
+		
 		<!--{{>buyerReportsTable}}-->
 		<div class="table" id="buyerReports">
 			<table id="list-buyers" class="table table-bordered">
@@ -28,7 +28,7 @@
 				<tbody>
 					{{#each buyerList}}
 					<tr>
-						<td>{{name}}</td>
+						<td><a id="buyerReportId">{{name}}</a></td>
 						<td>{{address}}</td>
 						<td>{{phoneNo}}</td>
 						<td>{{emailId}}</td>
@@ -42,7 +42,7 @@
 			</table>
 		</div>
 
-	
+		
 		<div class="col-md-2">
 			<button type="button" class="btn btn-raised btn-success" id="printBuyerReports">Print as PDF
 			</button>
@@ -58,6 +58,110 @@
 			<button type="button" class="btn btn-raised btn-success" id="saveBuyerReports">Save as PDF
 			</button>
 		</div>
+
+		<div id="reportModal" data-backdrop="false" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">{{reportTitle}}&nbsp;Reports</h4>
+					</div>
+
+					<div class="modal-body">
+						<form class="form-inline">
+							<div class="form-group">
+								<label for="Date">Date</label>
+    <!--<input type="text" class="form-control" id="fromDate" placeholder="MM/DD/YYYY"> to
+    <input type="text" class="form-control" id="toDate" placeholder="MM/DD/YYYY">-->
+    <div class="form-group" id="fromDateGroup">    
+    	<div class="input-group datetimepicker" >
+    		<span class="input-group-addon"><i
+    			class="glyphicon glyphicon-calendar" id="fromDateIcon"></i></span> <input
+    			class="set-due-date form-control" type="text" id="fromDate" />
+    		</div>
+    		<span id="fromDateSpan" style="color:red"></span>                      
+    	</div>
+    	to
+    	<div class="form-group" id="toDateGroup">    
+    		<div class="input-group datetimepicker" >
+    			<span class="input-group-addon"><i
+    				class="glyphicon glyphicon-calendar" id="toDateIcon"></i></span> <input
+    				class="set-due-date form-control" type="text" id="toDate" />
+    			</div>
+    			<span id="toDateSpan" style="color:red"></span>                      
+    		</div>
+    	</div>  
+    	
+    	
+    	<div class="form-group">
+    		<label> Type </label>&nbsp;&nbsp;&nbsp;
+    		<select class = "form-control" id= "plantType">
+    			<option></option>
+    			{{#each typeList}}
+    			<option>{{type}}</option>
+    			{{/each}}
+    		</select>
+    	</div>
+    	<div id="plantNameGroup" class="form-group">
+    		<label>Plant Name</label>
+    		<input class="form-control typeahead" id="plantName" type="text"
+    		placeholder="PlantName" autocomplete="off" spellcheck="off"
+    		data-source="plants" />    
+    	</div>
+    	<button type="button" class="btn btn-raised btn-success" id="search" > Search </button>
+    </form>
+
+
+    
+
+
+
+    <div class="table-responsive">
+    	<table id="list-invoice" class="table table-bordered">
+    		<thead>
+    			<tr>                            
+    				<th>Invoice Number</th>
+    				<th>Date</th>
+    				<th>Payment Status</th>
+    				<th>Delivery Status</th>
+    				<th>Total Cost</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			{{#each invoiceList}}
+    			<tr>
+    				<td>{{invoiceId}}</td>
+    				<td>{{date}}</td>
+    				<td>{{paymentStatus}}</td>
+    				<td>{{deliveryStatus}}</td>
+    				<td>{{totalCost}}</td>
+    			</tr>
+    			{{/each}}
+    		</tbody>
+    	</table>
+    </div>
+{{#if  grandTotal}}
+<p align="right">Total Cost of All Sales : {{grandTotal}}</p>
+{{/if}}
+
+
+
+
+
+
+</div>
+<div class="modal-footer">         
+	<button type="button" class="btn btn-raised btn-danger" id="closeReports" data-dismiss="modal">Close</button>
+</div>
+</div>
+
+</div>
+</div>
+
+
+
 
 </div><!--end of container-fluid-->
 

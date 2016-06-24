@@ -97,7 +97,7 @@ function saveForPrint()
 			var totalcost = 0;
 			for(var i = 0; i<purchaseDetailsObj.length;i++)
 			{
-				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].cost);
+				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].individualTotal);
 			}
 			var purchaseObj = {};
 			purchaseObj.purchaseId = purchaseDetailsObj[0].purchaseId;
@@ -400,7 +400,7 @@ Template.purchaseDetails.events({
 			var totalcost = 0;
 			for(var i = 0; i<purchaseDetailsObj.length;i++)
 			{
-				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].cost);
+				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].individualTotal);
 			}
 			var purchaseObj = {};
 			purchaseObj.purchaseId = purchaseDetailsObj[0].purchaseId;
@@ -552,7 +552,7 @@ Template.purchaseDetails.events({
 			var totalcost = 0;
 			for(var i = 0; i<purchaseDetailsObj.length;i++)
 			{
-				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].cost);
+				totalcost = Number(totalcost)+Number(purchaseDetailsObj[i].individualTotal);
 			}
 			var purchaseObj = {};
 			purchaseObj.purchaseId = purchaseDetailsObj[0].purchaseId;

@@ -1,6 +1,9 @@
 CodeBashApp.buyerReportsOnReady = function(){
 	$(document).ready(function () {
-       // $('#list-buyers').DataTable();
-       $('[data-toggle="tooltip"]').tooltip();     
+       $('#list-buyers').DataTable();
+       $('[data-toggle="tooltip"]').tooltip();    
+       Session.set('filterDate','');
+       Session.set('filtertype','');  
+       Session.set('filterName',''); 
    });
 };

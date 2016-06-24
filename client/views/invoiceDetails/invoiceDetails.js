@@ -103,7 +103,7 @@ function saveForPrint()
 				for(var i = 0; i<invoiceDetailsObj.length;i++)
 				{
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].individualTotal);
 				}
 				Session.set('invoiceTotalProfit',totalProfit);
 				Session.set('invoiceTotalCost',totalSellingCost);
@@ -492,7 +492,7 @@ Template.invoiceDetails.events({
 				for(var i = 0; i<invoiceDetailsObj.length;i++)
 				{
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].individualTotal);
 				}
 				Session.set('invoiceTotalProfit',totalProfit);
 				Session.set('invoiceTotalCost',totalSellingCost);
@@ -671,7 +671,7 @@ Template.invoiceDetails.events({
 				for(var i = 0; i<invoiceDetailsObj.length;i++)
 				{
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].individualTotal);
 				}
 				Session.set('invoiceTotalProfit',totalProfit);
 				Session.set('invoiceTotalCost',totalSellingCost);

@@ -269,7 +269,7 @@ Template.invoiceEdit.events({
 				for(var i = 0; i<invoiceDetailsObj.length;i++)
 				{
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].individualTotal);
 				}
 				Session.set('totalProfit',totalProfit);
 				Session.set('totalSellingCost',totalSellingCost);
@@ -394,7 +394,7 @@ Template.invoiceEdit.events({
 				for(var i = 0; i<invoiceDetailsObj.length;i++)
 				{
 					totalProfit = Number(totalProfit) + Number(invoiceDetailsObj[i].profit);
-					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].sellingCost);
+					totalSellingCost = Number(totalSellingCost)+Number(invoiceDetailsObj[i].individualTotal);
 				}
 				CodeBashApp.invoiceService.getInstance().updateInvoice(Session.get('editInvoiceId'),'','','final','',totalProfit,totalSellingCost,$('#tax').val());
 				$("#plantName").attr("disabled",true);
