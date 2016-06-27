@@ -1,0 +1,51 @@
+<template name="plantReports">
+	<div class="container-fluid" id="mainDiv">
+		{{>navbar}}
+		<div class="container-fluid">   
+			<div class="in-header row" style=" background-color:#f2f2f2">
+				<div class="col-md-6">
+					<span style="color:black">Plant Reports</span>
+				</div>                         
+			</div>
+		</div>
+
+		<form class="form-inline">
+
+
+					<div class="form-group">
+						<label> Month </label>&nbsp;&nbsp;&nbsp;
+						<select class = "form-control" id= "month">
+							<option value="1">January</option>
+							<option value="2">February</option>
+							<option value="3">March</option>
+							<option value="4">April</option>
+							<option value="5">May</option>
+							<option value="6">June</option>
+							<option value="7">July</option>
+							<option value="8">August</option>
+							<option value="9">September</option>
+							<option value="10">October</option>
+							<option value="11">November</option>
+							<option value="12">December</option>
+						</select>
+					</div>
+
+					
+					<div class="form-group" style="margin-left: 50px;">
+						<label> Plant Name </label>&nbsp;&nbsp;&nbsp;
+						<select class = "form-control" id= "plantName">
+							<option></option>
+							{{#each plantList}}
+
+							<option>{{name}}</option>
+							{{/each}}
+						</select>
+					</div>
+					<button type="button" class="btn btn-raised btn-success" id="search" style="margin-left: 50px;" > Search </button>
+				</form>
+
+				<div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto">
+				</div>
+
+			</div>
+		</template>

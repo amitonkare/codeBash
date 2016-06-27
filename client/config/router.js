@@ -5,6 +5,11 @@ Router.route('/', {
 	template: 'plantDetails'
 });
 
+Router.route('/plantReports', {
+	name: 'plantReports',
+	template: 'plantReports'
+});
+
 Router.route('/finalInvoicePreview', {
 	name: 'finalInvoicePreview',
 	template: 'finalInvoicePreview'

@@ -83,22 +83,25 @@ Template.purchaseReports.helpers({
     					array[k] =  obj[i];
     					k++;
     				}
-    				for(var j=0;j<array.length;j++)			
-    				{
-    					obj2 = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(array[j].purchaseId);
-    					for(m = 0;m<obj2.length;m++)
-    					{
-    						if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
-    						{
-    							array2[l] = array[j];
-    							l++;
-    						}
-    					}
-    				}			
     			}
+
+    			for(var j=0;j<array.length;j++)			
+    			{
+    				obj2 = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(array[j].purchaseId);
+    				for(m = 0;m<obj2.length;m++)
+    				{
+    					if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
+    					{
+    						array2[l] = array[j];
+    						l++;
+    					}
+    				}
+    			}			
+
     			return array2;
     		}
     	}
+
     	if(Session.get('filtertype'))
     	{
     		console.log('inside filtertype');
@@ -375,19 +378,20 @@ Template.purchaseReports.events({
 						array[k] =  obj[i];
 						k++;
 					}
-					for(var j=0;j<array.length;j++)			
-					{
-						obj2 = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(array[j].purchaseId);
-						for(m = 0;m<obj2.length;m++)
-						{
-							if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
-							{
-								array2[l] = array[j];
-								l++;
-							}
-						}
-					}			
 				}
+				for(var j=0;j<array.length;j++)			
+				{
+					obj2 = CodeBashApp.purchaseDetailsService.getInstance().findPurchaseByPurchaseDetailsId(array[j].purchaseId);
+					for(m = 0;m<obj2.length;m++)
+					{
+						if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
+						{
+							array2[l] = array[j];
+							l++;
+						}
+					}
+				}			
+
 //		return array2;
 var dataArray = [];
 var stringArray = [];

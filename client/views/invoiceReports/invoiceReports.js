@@ -82,16 +82,17 @@ Template.invoiceReports.helpers({
     				k++;
     			}
     			flag = 0;
-    			for(var j=0;j<array.length;j++)			
+    			
+    		}
+    		for(var j=0;j<array.length;j++)			
+    		{
+    			obj2 = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(array[j].invoiceId);
+    			for(m = 0;m<obj2.length;m++)
     			{
-    				obj2 = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(array[j].invoiceId);
-    				for(m = 0;m<obj2.length;m++)
+    				if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
     				{
-    					if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
-    					{
-    						array2[l] = array[j];
-    						l++;
-    					}
+    					array2[l] = array[j];
+    					l++;
     				}
     			}
     		}
@@ -331,16 +332,17 @@ Template.invoiceReports.events({
 					k++;
 				}
 				flag = 0;
-				for(var j=0;j<array.length;j++)			
+				
+			}
+			for(var j=0;j<array.length;j++)			
+			{
+				obj2 = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(array[j].invoiceId);
+				for(m = 0;m<obj2.length;m++)
 				{
-					obj2 = CodeBashApp.invoiceDetailsService.getInstance().findInvoiceByInvoiceDetailsId(array[j].invoiceId);
-					for(m = 0;m<obj2.length;m++)
+					if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
 					{
-						if(CodeBashApp.plantDetailsService.getInstance().findPlantById(obj2[m].plantId)[0].type == type)
-						{
-							array2[l] = array[j];
-							l++;
-						}
+						array2[l] = array[j];
+						l++;
 					}
 				}
 			}
